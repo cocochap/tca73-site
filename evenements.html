@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Événements — TCA73 | Agenda du Trial Club Albertvillois 73</title>
-  <meta name="description" content="Retrouvez le calendrier des événements du TCA73 : championnats, journées découverte, journées partenaires et démonstrations à Albertville.">
+  <meta name="description" content="Retrouvez le calendrier des événements du TCA73 : championnats, journées découverte, journées partenaires et démonstrations à Albertville en Savoie.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
@@ -13,19 +13,15 @@
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header id="header">
   <div class="header-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-badge">TCA</div>
-      <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
-    </a>
+    <a href="index.html" class="logo"><div class="logo-badge">TCA</div><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a>
     <nav class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="club.html">Le Club</a>
-      <a href="adhesion.html">Adhésion</a>
-      <a href="evenements.html" class="active">Événements</a>
-      <a href="galerie.html">Galerie</a>
-      <a href="partenaires.html">Partenaires</a>
+      <a href="index.html">Accueil</a><a href="club.html">Le Club</a>
+      <a href="adhesion.html">Adhésion</a><a href="evenements.html" class="active">Événements</a>
+      <a href="galerie.html">Galerie</a><a href="partenaires.html">Partenaires</a>
+      <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
       <a href="contact.html" class="nav-cta">Contact</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -38,9 +34,11 @@
   <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
   <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
   <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
-  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
 </nav>
 
+<!-- ===== PAGE HERO ===== -->
 <section class="page-hero">
   <div style="position:absolute;inset:0;overflow:hidden;z-index:0;">
     <svg style="position:absolute;bottom:0;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">
@@ -50,13 +48,57 @@
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Accueil</a><span>Événements</span></div>
     <h1>Agenda TCA73</h1>
-    <p>Championnats, journées découverte, partenaires et démonstrations</p>
+    <p>Championnats, découverte, partenaires et démonstrations</p>
   </div>
 </section>
 
-<!-- ===== FILTRES + ÉVÉNEMENTS ===== -->
+<!-- ===== CALENDRIER ===== -->
+<section class="section section--light">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Calendrier</div>
+      <h2>Vue mensuelle</h2>
+      <p>Naviguez mois par mois pour visualiser les dates des événements</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="calendar-wrap fade-up">
+      <div class="cal-header">
+        <button class="cal-nav-btn" id="cal-prev"><i class="fa-solid fa-chevron-left"></i></button>
+        <h3 id="cal-month">Juin 2025</h3>
+        <button class="cal-nav-btn" id="cal-next"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+      <div class="cal-grid" id="cal-grid">
+        <!-- Rempli par main.js initCalendar() -->
+      </div>
+    </div>
+    <!-- Légende -->
+    <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; margin-top:20px;" class="fade-up">
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+        <span style="width:12px; height:12px; border-radius:50%; background:var(--tca-red); display:inline-block;"></span> Championnat
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+        <span style="width:12px; height:12px; border-radius:50%; background:var(--glacier); display:inline-block;"></span> Découverte
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+        <span style="width:12px; height:12px; border-radius:50%; background:#f0a500; display:inline-block;"></span> Partenaire
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:var(--text-muted);">
+        <span style="width:12px; height:12px; border-radius:50%; background:#9b59b6; display:inline-block;"></span> Démonstration
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FILTRES + 9 ÉVÉNEMENTS ===== -->
 <section class="section">
   <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Événements 2025</div>
+      <h2>Toutes nos dates</h2>
+      <p>Filtrez par type d'événement pour affiner votre recherche</p>
+      <div class="section-line"></div>
+    </div>
+
     <div data-filter-group>
       <div class="event-filters fade-up">
         <button class="filter-btn active" data-filter="all">Tous les événements</button>
@@ -68,7 +110,7 @@
 
       <div class="grid-3" id="events-grid">
 
-        <!-- Événement 1 -->
+        <!-- Événement 1 — Championnat Savoie Manche 4 -->
         <div class="event-card fade-up" data-category="championnat">
           <div class="event-card-header">
             <div class="event-date-badge type-championnat">
@@ -81,21 +123,21 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>4ème manche du championnat de Savoie de trial. Catégories Honneur, Expert, Junior, Dame, Cadet et Minime. Organisation par le TCA73.</p>
+            <p>4ème manche du championnat de Savoie de trial. Catégories Honneur, Expert, Junior, Dame, Cadet et Minime. Organisation assurée par le TCA73 sur notre terrain.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Terrain TCA73, Albertville (73)</div>
-              <div class="event-info-item"><i class="fa-regular fa-clock"></i> Départ pilotes à 9h00 — Remise des prix 17h00</div>
+              <div class="event-info-item"><i class="fa-regular fa-clock"></i> Départ pilotes 9h00 — Remise des prix 17h00</div>
               <div class="event-info-item"><i class="fa-solid fa-users"></i> Toutes catégories</div>
-              <div class="event-info-item"><i class="fa-solid fa-info-circle"></i> Licence FFM obligatoire</div>
+              <div class="event-info-item"><i class="fa-solid fa-circle-info"></i> Licence FFM compétition obligatoire</div>
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:var(--color-red); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-fire"></i> Inscriptions ouvertes</span>
+            <span style="color:var(--tca-red); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-fire"></i> Inscriptions ouvertes</span>
             <a href="contact.html" class="btn btn--primary btn--sm">S'inscrire</a>
           </div>
         </div>
 
-        <!-- Événement 2 -->
+        <!-- Événement 2 — Journée Portes Ouvertes -->
         <div class="event-card fade-up" data-category="decouverte">
           <div class="event-card-header">
             <div class="event-date-badge type-decouverte">
@@ -108,21 +150,21 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>Venez découvrir le trial moto en famille ! Essais libres encadrés, démonstrations et baptêmes gratuits sur notre terrain. Motos et équipements fournis.</p>
+            <p>Venez découvrir le trial moto en famille ! Essais libres encadrés, démonstrations par nos pilotes et baptêmes gratuits sur notre terrain. Motos et équipements fournis.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Terrain TCA73, Albertville (73)</div>
               <div class="event-info-item"><i class="fa-regular fa-clock"></i> 10h00 – 17h00</div>
               <div class="event-info-item"><i class="fa-solid fa-users"></i> Tout public — Accès libre et gratuit</div>
-              <div class="event-info-item"><i class="fa-solid fa-child"></i> Dès 5 ans</div>
+              <div class="event-info-item"><i class="fa-solid fa-child"></i> Dès 5 ans, avec accompagnant</div>
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:#27ae60; font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-circle-check"></i> Gratuit</span>
+            <span style="color:#27ae60; font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-circle-check"></i> Entrée gratuite</span>
             <a href="contact.html" class="btn btn--primary btn--sm">Plus d'infos</a>
           </div>
         </div>
 
-        <!-- Événement 3 -->
+        <!-- Événement 3 — Journée Partenaires Alpes Motos -->
         <div class="event-card fade-up" data-category="partenaire">
           <div class="event-card-header">
             <div class="event-date-badge type-partenaire">
@@ -135,21 +177,21 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>Journée exclusive dédiée à nos partenaires. Démonstrations, essais commentés et rencontres avec nos pilotes dans une ambiance conviviale.</p>
+            <p>Journée exclusive dédiée à nos partenaires. Démonstrations commentées, essais libres et rencontres avec nos pilotes dans une ambiance conviviale. Repas partagé à midi.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Terrain TCA73, Albertville (73)</div>
               <div class="event-info-item"><i class="fa-regular fa-clock"></i> 9h00 – 16h00</div>
               <div class="event-info-item"><i class="fa-solid fa-users"></i> Sur invitation partenaires</div>
-              <div class="event-info-item"><i class="fa-solid fa-utensils"></i> Repas offert</div>
+              <div class="event-info-item"><i class="fa-solid fa-utensils"></i> Repas offert par le club</div>
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:var(--color-gold); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-star"></i> Partenaires</span>
+            <span style="color:#f0a500; font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-star"></i> Partenaires</span>
             <a href="partenaires.html" class="btn btn--primary btn--sm">Devenir partenaire</a>
           </div>
         </div>
 
-        <!-- Événement 4 -->
+        <!-- Événement 4 — Démonstration Fête Nationale -->
         <div class="event-card fade-up" data-category="demonstration">
           <div class="event-card-header">
             <div class="event-date-badge type-demonstration">
@@ -157,12 +199,12 @@
               <span class="month">Juil</span>
             </div>
             <div style="flex:1;">
-              <span class="event-type-badge type-demonstration"><i class="fa-solid fa-star"></i> Démo</span>
+              <span class="event-type-badge type-demonstration"><i class="fa-solid fa-star"></i> Démonstration</span>
               <h3 style="margin-top:6px; font-size:1.05rem;">Démonstration Fête Nationale — Albertville</h3>
             </div>
           </div>
           <div class="event-card-body">
-            <p>Dans le cadre des festivités du 14 juillet, le TCA73 réalise une démonstration de trial devant le grand public sur la place de l'Hôtel de Ville d'Albertville.</p>
+            <p>Dans le cadre des festivités du 14 juillet, le TCA73 réalise une démonstration de trial devant le grand public sur la place de l'Hôtel de Ville d'Albertville. Figures et passages spectaculaires garantis.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Place de l'Hôtel de Ville, Albertville</div>
               <div class="event-info-item"><i class="fa-regular fa-clock"></i> 18h00 – 19h30</div>
@@ -175,7 +217,7 @@
           </div>
         </div>
 
-        <!-- Événement 5 -->
+        <!-- Événement 5 — Inter-régional Rhône-Alpes -->
         <div class="event-card fade-up" data-category="championnat">
           <div class="event-card-header">
             <div class="event-date-badge type-championnat">
@@ -188,21 +230,21 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>Manche de l'inter-régional Auvergne-Rhône-Alpes de trial. Nos pilotes compétition représentent le TCA73 dans les différentes catégories.</p>
+            <p>Manche de l'inter-régional Auvergne-Rhône-Alpes de trial. Nos pilotes compétition représentent fièrement le TCA73 dans les différentes catégories face à la région entière.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Annecy (74) — Lieu précis à confirmer</div>
-              <div class="event-info-item"><i class="fa-regular fa-clock"></i> Départ à 9h30</div>
+              <div class="event-info-item"><i class="fa-regular fa-clock"></i> Départ pilotes 9h30</div>
               <div class="event-info-item"><i class="fa-solid fa-users"></i> Pilotes compétition TCA73</div>
-              <div class="event-info-item"><i class="fa-solid fa-info-circle"></i> Licence FFM compétition requise</div>
+              <div class="event-info-item"><i class="fa-solid fa-circle-info"></i> Licence FFM compétition requise</div>
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:var(--color-text-muted); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-regular fa-clock"></i> À venir</span>
+            <span style="color:var(--text-muted); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-regular fa-clock"></i> À venir</span>
             <a href="contact.html" class="btn btn--primary btn--sm">Infos équipe</a>
           </div>
         </div>
 
-        <!-- Événement 6 -->
+        <!-- Événement 6 — Stage rentrée École Trial -->
         <div class="event-card fade-up" data-category="decouverte">
           <div class="event-card-header">
             <div class="event-date-badge type-decouverte">
@@ -215,21 +257,21 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>Stage de rentrée de l'école de trial pour les jeunes pilotes. Week-end intensif de 2 jours avec bilan de saison et objectifs pour la prochaine année.</p>
+            <p>Stage de rentrée de l'école de trial pour les jeunes pilotes. Week-end intensif avec bilan de saison, travail technique et objectifs pour l'année à venir. Animé par nos moniteurs FFM.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Terrain TCA73, Albertville (73)</div>
-              <div class="event-info-item"><i class="fa-regular fa-clock"></i> Sam–Dim 9h00 – 17h00</div>
+              <div class="event-info-item"><i class="fa-regular fa-clock"></i> Samedi – Dimanche 9h00 – 17h00</div>
               <div class="event-info-item"><i class="fa-solid fa-child"></i> 8 – 16 ans</div>
               <div class="event-info-item"><i class="fa-solid fa-certificate"></i> Moniteurs diplômés FFM</div>
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:var(--color-accent); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-calendar-check"></i> Inscriptions juillet</span>
+            <span style="color:var(--mountain); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-calendar-check"></i> Inscriptions dès juillet</span>
             <a href="contact.html" class="btn btn--primary btn--sm">Pré-inscrire</a>
           </div>
         </div>
 
-        <!-- Événement 7 -->
+        <!-- Événement 7 — Journée Mécanique -->
         <div class="event-card fade-up" data-category="partenaire">
           <div class="event-card-header">
             <div class="event-date-badge type-partenaire">
@@ -237,25 +279,26 @@
               <span class="month">Oct</span>
             </div>
             <div style="flex:1;">
-              <span class="event-type-badge type-partenaire"><i class="fa-solid fa-handshake"></i> Partenaire</span>
+              <span class="event-type-badge type-partenaire"><i class="fa-solid fa-wrench"></i> Partenaire</span>
               <h3 style="margin-top:6px; font-size:1.05rem;">Journée Mécanique & Entretien</h3>
             </div>
           </div>
           <div class="event-card-body">
-            <p>En partenariat avec Alpes Motos, journée consacrée à l'entretien des motos. Atelier pratique animé par les techniciens partenaires, conseil sur le matériel.</p>
+            <p>En partenariat avec Alpes Motos, journée consacrée à l'entretien des motos de trial. Atelier pratique animé par des techniciens partenaires, conseils sur le matériel et les réglages.</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Terrain TCA73, Albertville (73)</div>
               <div class="event-info-item"><i class="fa-regular fa-clock"></i> 10h00 – 16h00</div>
               <div class="event-info-item"><i class="fa-solid fa-users"></i> Membres TCA73</div>
+              <div class="event-info-item"><i class="fa-solid fa-toolbox"></i> Amenez votre moto !</div>
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:var(--color-text-muted); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-regular fa-clock"></i> À venir</span>
+            <span style="color:var(--text-muted); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-regular fa-clock"></i> À venir</span>
             <a href="contact.html" class="btn btn--primary btn--sm">Plus d'infos</a>
           </div>
         </div>
 
-        <!-- Événement 8 -->
+        <!-- Événement 8 — Championnat Savoie Finale -->
         <div class="event-card fade-up" data-category="championnat">
           <div class="event-card-header">
             <div class="event-date-badge type-championnat">
@@ -268,7 +311,7 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>Grande finale du championnat de Savoie 2025. Remise des titres et des trophées en fin de journée. Ambiance festive assurée !</p>
+            <p>Grande finale du championnat de Savoie 2025. Remise des titres, trophées et récompenses en fin de journée. Ambiance festive assurée — la grande fête du trial savoyard !</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Lieu à confirmer — Savoie (73)</div>
               <div class="event-info-item"><i class="fa-regular fa-clock"></i> Départ 9h00 — Podiums 17h30</div>
@@ -276,12 +319,12 @@
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:var(--color-text-muted); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-regular fa-clock"></i> À venir</span>
+            <span style="color:var(--text-muted); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-regular fa-clock"></i> À venir</span>
             <a href="contact.html" class="btn btn--primary btn--sm">Infos</a>
           </div>
         </div>
 
-        <!-- Événement 9 -->
+        <!-- Événement 9 — Journée Découverte Hiver -->
         <div class="event-card fade-up" data-category="decouverte">
           <div class="event-card-header">
             <div class="event-date-badge type-decouverte">
@@ -294,7 +337,7 @@
             </div>
           </div>
           <div class="event-card-body">
-            <p>Spéciale édition hivernale de notre journée portes ouvertes. Une expérience unique pour découvrir le trial dans les conditions alpines de l'hiver savoyard.</p>
+            <p>Edition hivernale de notre journée portes ouvertes. Une expérience unique pour découvrir le trial dans les conditions alpines de l'hiver savoyard. Vin chaud et croziflette au programme !</p>
             <div class="event-info">
               <div class="event-info-item"><i class="fa-solid fa-location-dot"></i> Terrain TCA73, Albertville (73)</div>
               <div class="event-info-item"><i class="fa-regular fa-clock"></i> 10h00 – 16h00</div>
@@ -303,7 +346,7 @@
             </div>
           </div>
           <div class="event-card-footer">
-            <span style="color:#27ae60; font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-circle-check"></i> Gratuit</span>
+            <span style="color:#27ae60; font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em;"><i class="fa-solid fa-circle-check"></i> Entrée gratuite</span>
             <a href="contact.html" class="btn btn--primary btn--sm">Plus d'infos</a>
           </div>
         </div>
@@ -311,12 +354,27 @@
       </div><!-- /events-grid -->
     </div><!-- /data-filter-group -->
 
-    <!-- Encart ajouter un événement -->
-    <div style="background:var(--color-off-white); border:2px dashed var(--color-border); border-radius:var(--radius-md); padding:40px; text-align:center; margin-top:48px;" class="fade-up">
-      <div style="font-size:2.5rem; margin-bottom:12px;">📅</div>
-      <h3 style="margin-bottom:8px;">Vous organisez un événement trial en Savoie ?</h3>
-      <p style="color:var(--color-text-muted); max-width:480px; margin:0 auto 20px;">Le TCA73 est partenaire des événements locaux de trial. Contactez-nous pour que nous relayions votre événement ou pour organiser quelque chose ensemble.</p>
-      <a href="contact.html" class="btn btn--outline-dark">Nous contacter <i class="fa-solid fa-arrow-right"></i></a>
+    <!-- Encart "Organisez un événement" -->
+    <div style="background:var(--off-white); border:2px dashed var(--border); border-radius:12px; padding:48px 40px; text-align:center; margin-top:56px;" class="fade-up">
+      <div style="width:56px; height:56px; background:var(--deep); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+        <i class="fa-solid fa-calendar-plus" style="color:white; font-size:1.3rem;"></i>
+      </div>
+      <h3 style="margin-bottom:10px; font-family:var(--font-heading); font-size:1.4rem; text-transform:uppercase; letter-spacing:0.03em;">Vous organisez un événement trial en Savoie ?</h3>
+      <p style="color:var(--text-muted); max-width:520px; margin:0 auto 24px; line-height:1.7;">Le TCA73 est partenaire des événements locaux de trial. Contactez-nous pour que nous relayions votre événement auprès de nos membres, ou pour co-organiser quelque chose ensemble.</p>
+      <a href="contact.html" class="btn btn--outline-dark">Nous contacter <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section section--dark">
+  <div class="container text-center fade-up">
+    <h2 style="color:white; margin-bottom:12px;">Inscrivez-vous à nos événements</h2>
+    <p style="color:rgba(255,255,255,0.72); max-width:500px; margin:0 auto 32px;">Ne manquez aucune date de la saison TCA73. Rejoignez le club et restez informé(e) de tous nos événements en avant-première.</p>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <a href="adhesion.html" class="btn btn--primary btn--lg"><i class="fa-solid fa-id-card" style="margin-right:8px;"></i>Rejoindre le club</a>
+      <a href="contact.html" class="btn btn--outline btn--lg"><i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Nous contacter</a>
     </div>
   </div>
 </section>
@@ -325,45 +383,14 @@
 <footer id="footer">
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <div class="logo-badge">TCA</div>
-          <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
-        </a>
-        <p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        </div>
-      </div>
-      <div class="footer-col"><h4>Navigation</h4><ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="club.html">Le Club</a></li>
-        <li><a href="adhesion.html">Adhésion</a></li>
-        <li><a href="evenements.html">Événements</a></li>
-        <li><a href="galerie.html">Galerie</a></li>
-        <li><a href="partenaires.html">Partenaires</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Événements</h4><ul>
-        <li><a href="#">Championnats</a></li>
-        <li><a href="#">Journées découverte</a></li>
-        <li><a href="#">Partenaires</a></li>
-        <li><a href="#">Démonstrations</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="contact.html">Formulaire de contact</a></li>
-        <li><a href="#">contact@tca73.fr</a></li>
-        <li><a href="#">Albertville, Savoie (73)</a></li>
-      </ul></div>
+      <div class="footer-brand"><a href="index.html" class="logo"><div class="logo-badge">TCA</div><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a><p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie.</p><div class="footer-social"><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="club.html">Le Club</a></li><li><a href="adhesion.html">Adhésion</a></li><li><a href="evenements.html">Événements</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="partenaires.html">Partenaires</a></li></ul></div>
+      <div class="footer-col"><h4>Liens</h4><ul><li><a href="espace-membre.html">Espace Membre</a></li><li><a href="#">HelloAsso</a></li><li><a href="#">Licence FFM</a></li><li><a href="partenaires.html">Devenir partenaire</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">Nous contacter</a></li><li><a href="#">contact@tca73.fr</a></li><li><a href="#">Albertville (73)</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span>
-      <span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span>
-    </div>
+    <div class="footer-bottom"><span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span><span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span></div>
   </div>
 </footer>
-
 <button class="back-to-top" title="Retour en haut"><i class="fa-solid fa-chevron-up"></i></button>
 <script src="js/main.js"></script>
 </body>

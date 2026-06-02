@@ -4,12 +4,103 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Le Club — TCA73 | Trial Club Albertvillois 73</title>
-  <meta name="description" content="Découvrez l'histoire, les valeurs et les sections du Trial Club Albertvillois 73 (TCA73). École de trial, loisir et compétition à Albertville en Savoie.">
+  <meta name="description" content="Découvrez le Trial Club Albertvillois 73 : son histoire, ses valeurs, son bureau, son terrain et ses partenaires. Fondé en 2019 à Albertville en Savoie.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Timeline ---- */
+    .timeline { position:relative; max-width:820px; margin:0 auto; }
+    .timeline::before {
+      content:''; position:absolute; left:50%; top:0; bottom:0;
+      width:2px; background:var(--border); transform:translateX(-50%);
+    }
+    .timeline-item {
+      display:flex; gap:40px; align-items:flex-start;
+      margin-bottom:56px; position:relative;
+    }
+    .timeline-item:nth-child(even) { flex-direction:row-reverse; }
+    .timeline-item:last-child { margin-bottom:0; }
+    .timeline-year {
+      flex:1; text-align:right;
+      font-family:var(--font-heading); font-size:3rem; font-weight:700;
+      color:var(--mountain); line-height:1; padding-top:6px;
+    }
+    .timeline-item:nth-child(even) .timeline-year { text-align:left; }
+    .timeline-dot {
+      width:20px; height:20px; background:var(--tca-red); border-radius:50%;
+      border:3px solid var(--off-white); box-shadow:0 0 0 2px var(--tca-red);
+      flex-shrink:0; margin-top:10px; position:relative; z-index:1;
+    }
+    .timeline-content {
+      flex:1; background:var(--white); border-radius:var(--radius-md);
+      padding:24px; box-shadow:var(--shadow-sm); border:1px solid var(--border);
+      transition:box-shadow var(--transition);
+    }
+    .timeline-content:hover { box-shadow:var(--shadow-md); }
+    .timeline-content h3 { margin-bottom:8px; font-size:1.15rem; }
+    .timeline-content p { color:var(--text-muted); font-size:0.93rem; margin:0; }
+
+    /* ---- Team cards ---- */
+    .team-card {
+      background:var(--white); border-radius:var(--radius-md);
+      box-shadow:var(--shadow-sm); border:1px solid var(--border);
+      padding:36px 28px; text-align:center; transition:all var(--transition);
+    }
+    .team-card:hover { box-shadow:var(--shadow-md); transform:translateY(-5px); border-color:var(--glacier); }
+    .photo-placeholder {
+      width:80px; height:80px; border-radius:50%;
+      background:linear-gradient(135deg,var(--mountain),var(--glacier));
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 20px;
+      font-family:var(--font-heading); font-size:1.5rem; font-weight:700;
+      color:var(--white); box-shadow:0 6px 20px rgba(26,107,200,0.3);
+      letter-spacing:0.05em;
+    }
+    .team-card h3 { margin-bottom:4px; font-size:1.15rem; }
+    .team-role {
+      font-family:var(--font-heading); font-size:0.82rem;
+      text-transform:uppercase; letter-spacing:0.1em;
+      color:var(--tca-red); margin-bottom:14px; display:block;
+    }
+    .team-card p { color:var(--text-muted); font-size:0.92rem; margin:0; }
+
+    /* ---- Terrain info card ---- */
+    .terrain-card {
+      background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.16);
+      border-radius:var(--radius-lg); padding:40px 48px;
+      max-width:820px; margin:0 auto; backdrop-filter:blur(14px);
+    }
+    .terrain-card h3 { color:var(--white); margin-bottom:24px; font-size:1.4rem; }
+    .terrain-list { display:flex; flex-direction:column; gap:14px; margin-bottom:28px; }
+    .terrain-list-item {
+      display:flex; align-items:flex-start; gap:14px;
+      color:rgba(255,255,255,0.82); font-size:0.95rem;
+    }
+    .terrain-list-item i {
+      color:var(--glacier); width:20px; text-align:center;
+      margin-top:3px; flex-shrink:0;
+    }
+    .terrain-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(255,165,0,0.18); border:1px solid rgba(255,165,0,0.4);
+      color:#FFA500; padding:8px 18px; border-radius:100px;
+      font-family:var(--font-heading); font-size:0.82rem;
+      letter-spacing:0.08em; text-transform:uppercase;
+    }
+
+    @media (max-width:768px) {
+      .timeline::before { left:18px; }
+      .timeline-item,
+      .timeline-item:nth-child(even) { flex-direction:column; padding-left:44px; }
+      .timeline-year,
+      .timeline-item:nth-child(even) .timeline-year { text-align:left; font-size:2.2rem; }
+      .timeline-dot { position:absolute; left:8px; top:6px; }
+      .terrain-card { padding:28px 24px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -27,7 +118,8 @@
       <a href="evenements.html">Événements</a>
       <a href="galerie.html">Galerie</a>
       <a href="partenaires.html">Partenaires</a>
-      <a href="contact.html" class="nav-cta">Contact</a>
+      <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+      <a href="adhesion.html" class="btn nav-cta">S'inscrire</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
@@ -39,358 +131,252 @@
   <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
   <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
   <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
-  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
 </nav>
 
 <!-- ===== PAGE HERO ===== -->
-<section class="page-hero">
-  <div style="position:absolute;inset:0;overflow:hidden;z-index:0;">
+<section class="page-hero" style="position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;z-index:0;overflow:hidden;">
+    <video autoplay muted loop playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.22;">
+      <source src="assets/videos/hero.mp4" type="video/mp4">
+    </video>
+    <div style="position:absolute;inset:0;background:linear-gradient(160deg,var(--deep) 0%,var(--mountain) 100%);opacity:0.88;"></div>
     <svg style="position:absolute;bottom:0;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">
       <path fill="rgba(255,255,255,0.04)" d="M0,180 L0,100 C200,60 400,120 600,70 C800,20 1000,90 1200,50 C1300,30 1380,60 1440,45 L1440,180 Z"/>
     </svg>
   </div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Accueil</a><span>Le Club</span></div>
+    <div class="tag" style="margin-top:14px;margin-bottom:12px;">Notre club</div>
     <h1>Le Club</h1>
-    <p>Histoire, valeurs et activités du TCA73</p>
   </div>
 </section>
 
-<!-- ===== HISTOIRE ===== -->
-<section class="section">
+<!-- ===== HISTOIRE — TIMELINE ===== -->
+<section class="section section--light" id="histoire">
   <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;">
-      <div class="fade-up">
-        <div class="tag">Notre histoire</div>
-        <h2>Nés d'une passion commune</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px; font-size:1.05rem;">Le Trial Club Albertvillois 73 est né en 2019 de la rencontre de plusieurs passionnés de trial en Savoie. Constatant le manque de structure dédiée au trial dans le bassin albertvillois, un groupe de pilotes décida de fonder le club pour partager cette passion et développer la pratique dans la région.</p>
-        <p style="color:var(--color-text-muted);">Dès la première saison, le club connut un engouement rapide. Le bouche-à-oreille fit son effet et les adhésions affluèrent, portées par l'envie de pratiquer une discipline technique au cœur d'un environnement naturel exceptionnel : les Alpes savoyardes.</p>
-        <p style="color:var(--color-text-muted);">Aujourd'hui, avec plus de 100 adhérents, le TCA73 est devenu un acteur reconnu du trial en Auvergne-Rhône-Alpes, affilié à la Fédération Française de Motocyclisme (FFM).</p>
-      </div>
-      <div class="fade-up">
-        <div style="display:flex; flex-direction:column; gap:0;">
-          <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:28px; border-bottom:1px solid var(--color-border); margin-bottom:28px;">
-            <div style="width:52px;height:52px;background:var(--color-primary);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-heading);color:white;font-size:1rem;">2019</div>
-            <div>
-              <h4 style="margin-bottom:4px;">Fondation du club</h4>
-              <p style="color:var(--color-text-muted);font-size:0.92rem;margin:0;">Création de l'association par un groupe de passionnés, affiliation FFM, premières licences délivrées.</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:28px; border-bottom:1px solid var(--color-border); margin-bottom:28px;">
-            <div style="width:52px;height:52px;background:var(--color-secondary);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-heading);color:white;font-size:1rem;">2020</div>
-            <div>
-              <h4 style="margin-bottom:4px;">Aménagement du terrain</h4>
-              <p style="color:var(--color-text-muted);font-size:0.92rem;margin:0;">Première zones de franchissement permanentes, création de l'école de trial avec moniteurs diplômés.</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:20px; align-items:flex-start; padding-bottom:28px; border-bottom:1px solid var(--color-border); margin-bottom:28px;">
-            <div style="width:52px;height:52px;background:var(--color-accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-heading);color:white;font-size:1rem;">2022</div>
-            <div>
-              <h4 style="margin-bottom:4px;">Premiers podiums régionaux</h4>
-              <p style="color:var(--color-text-muted);font-size:0.92rem;margin:0;">Nos pilotes compétition montent sur les podiums du championnat de Savoie. Création de la section loisir.</p>
-            </div>
-          </div>
-          <div style="display:flex; gap:20px; align-items:flex-start;">
-            <div style="width:52px;height:52px;background:var(--color-red);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-heading);color:white;font-size:1rem;">2025</div>
-            <div>
-              <h4 style="margin-bottom:4px;">+100 adhérents</h4>
-              <p style="color:var(--color-text-muted);font-size:0.92rem;margin:0;">Le club franchit le cap des 100 adhérents et étend son terrain avec de nouvelles zones techniques.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="section-header fade-up">
+      <div class="tag">Nos débuts</div>
+      <h2>Notre histoire</h2>
+      <p>De quelques passionnés à une communauté de plus de 100 adhérents — six ans de passion pour le trial en Savoie.</p>
+      <div class="section-line"></div>
     </div>
-  </div>
-</section>
 
-<!-- ===== LE TERRAIN ===== -->
-<section class="section section--light">
-  <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
-      <div class="fade-up" style="background:var(--gradient-card); border-radius:var(--radius-lg); padding:48px 40px; color:white;">
-        <h3 style="color:white; margin-bottom:20px; font-size:1.6rem;">Notre terrain à Albertville</h3>
-        <p style="color:rgba(255,255,255,0.8); margin-bottom:20px;">Situé aux portes d'Albertville, à quelques kilomètres du centre-ville, notre terrain de trial dispose d'une surface aménagée de plusieurs hectares avec des zones variées pour tous les niveaux.</p>
-        <div style="display:flex; flex-direction:column; gap:14px;">
-          <div style="display:flex;align-items:center;gap:12px; color:rgba(255,255,255,0.9); font-size:0.95rem;">
-            <i class="fa-solid fa-circle-check" style="color:var(--color-sky); width:20px;"></i>
-            Zones naturelles (rochers, bois, terrain varié)
-          </div>
-          <div style="display:flex;align-items:center;gap:12px; color:rgba(255,255,255,0.9); font-size:0.95rem;">
-            <i class="fa-solid fa-circle-check" style="color:var(--color-sky); width:20px;"></i>
-            Zones artificielles (palettes, bûches, steps)
-          </div>
-          <div style="display:flex;align-items:center;gap:12px; color:rgba(255,255,255,0.9); font-size:0.95rem;">
-            <i class="fa-solid fa-circle-check" style="color:var(--color-sky); width:20px;"></i>
-            Espace débutants sécurisé
-          </div>
-          <div style="display:flex;align-items:center;gap:12px; color:rgba(255,255,255,0.9); font-size:0.95rem;">
-            <i class="fa-solid fa-circle-check" style="color:var(--color-sky); width:20px;"></i>
-            Parking et accès facilités
-          </div>
-          <div style="display:flex;align-items:center;gap:12px; color:rgba(255,255,255,0.9); font-size:0.95rem;">
-            <i class="fa-solid fa-circle-check" style="color:var(--color-sky); width:20px;"></i>
-            Zone de convivialité et barbecue
-          </div>
-          <div style="display:flex;align-items:center;gap:12px; color:rgba(255,255,255,0.9); font-size:0.95rem;">
-            <i class="fa-solid fa-circle-check" style="color:var(--color-sky); width:20px;"></i>
-            Ouvert toute l'année (conditions météo)
-          </div>
-        </div>
-        <a href="contact.html" class="btn btn--primary" style="margin-top:28px;"><i class="fa-solid fa-location-dot"></i> Accéder au terrain</a>
-      </div>
-      <div class="fade-up">
-        <div class="tag">Le terrain</div>
-        <h2>Un cadre alpin unique</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px;">Le terrain du TCA73 bénéficie d'un environnement naturel exceptionnel. Dominé par les sommets savoyards, il offre des conditions de pratique variées et techniques tout au long de l'année.</p>
-        <p style="color:var(--color-text-muted);">L'aménagement progressif du site a été réalisé par les membres bénévoles du club, en respectant scrupuleusement le milieu naturel environnant. Plusieurs sections de difficulté croissante permettent à chacun de trouver des challenges adaptés à son niveau.</p>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px;">
-          <div style="background:white; border:1px solid var(--color-border); border-radius:var(--radius-sm); padding:20px; text-align:center;">
-            <div style="font-size:2rem; margin-bottom:6px;">🗺️</div>
-            <strong style="display:block; font-size:1.1rem; color:var(--color-primary);">5 ha</strong>
-            <span style="color:var(--color-text-muted); font-size:0.85rem;">Surface aménagée</span>
-          </div>
-          <div style="background:white; border:1px solid var(--color-border); border-radius:var(--radius-sm); padding:20px; text-align:center;">
-            <div style="font-size:2rem; margin-bottom:6px;">🎯</div>
-            <strong style="display:block; font-size:1.1rem; color:var(--color-primary);">12 zones</strong>
-            <span style="color:var(--color-text-muted); font-size:0.85rem;">De franchissement</span>
-          </div>
-          <div style="background:white; border:1px solid var(--color-border); border-radius:var(--radius-sm); padding:20px; text-align:center;">
-            <div style="font-size:2rem; margin-bottom:6px;">📏</div>
-            <strong style="display:block; font-size:1.1rem; color:var(--color-primary);">5 niveaux</strong>
-            <span style="color:var(--color-text-muted); font-size:0.85rem;">Du débutant à l'expert</span>
-          </div>
-          <div style="background:white; border:1px solid var(--color-border); border-radius:var(--radius-sm); padding:20px; text-align:center;">
-            <div style="font-size:2rem; margin-bottom:6px;">📍</div>
-            <strong style="display:block; font-size:1.1rem; color:var(--color-primary);">Albertville</strong>
-            <span style="color:var(--color-text-muted); font-size:0.85rem;">Savoie (73)</span>
-          </div>
+    <div class="timeline">
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2019</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Fondation du TCA73</h3>
+          <p>Un groupe de passionnés de trial se réunit à Albertville pour fonder officiellement le Trial Club Albertvillois 73. L'association dépose ses statuts et rejoint la Fédération Française de Motocyclisme. Dès les premiers mois, une vingtaine de membres rejoignent l'aventure.</p>
         </div>
       </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2020</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Premier terrain permanent</h3>
+          <p>Le club obtient l'accès à son premier terrain permanent à Albertville (73200). Les membres se mobilisent pour aménager les premières sections et obstacles. Le terrain devient le point de ralliement de la communauté chaque week-end.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2022</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>Première équipe compétition</h3>
+          <p>Le TCA73 aligne ses premières couleurs en championnat de Savoie. L'équipe compétition se structure avec des entraînements dédiés et un coaching individualisé. Plusieurs pilotes terminent sur le podium dès leur première saison.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>50 membres et école de trial</h3>
+          <p>Le club franchit le cap des 50 adhérents et lance officiellement l'école de trial pour les jeunes à partir de 6 ans. L'encadrement se professionnalise avec des moniteurs brevetés FFM. La première journée portes ouvertes attire plus de 80 personnes.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <h3>102 adhérents — une vraie famille</h3>
+          <p>Le TCA73 entre dans sa sixième saison avec 102 adhérents, répartis entre loisir et compétition, jeunes et adultes. Le club est devenu l'une des associations motos les plus dynamiques de Savoie, reconnue au niveau régional Auvergne-Rhône-Alpes.</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
 
 <!-- ===== VALEURS ===== -->
-<section class="section section--dark">
+<section class="section" id="valeurs">
   <div class="container">
     <div class="section-header fade-up">
-      <div class="tag" style="background:rgba(255,255,255,0.1);color:var(--color-sky);">Nos engagements</div>
-      <h2>Les valeurs du TCA73</h2>
-      <p>Ce qui nous unit au-delà du sport</p>
+      <div class="tag">Ce qui nous anime</div>
+      <h2>Nos valeurs</h2>
+      <p>Le trial, c'est bien plus qu'un sport — c'est un état d'esprit que nous cultivons chaque week-end sur le terrain.</p>
       <div class="section-line"></div>
     </div>
     <div class="grid-3">
-      <div class="value-card fade-up" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">
+
+      <div class="value-card fade-up">
         <div class="value-icon">⚙️</div>
-        <h3 style="color:white;">Maîtrise technique</h3>
-        <p style="color:rgba(255,255,255,0.7);">Le trial est avant tout une discipline de précision. Nous cultivons la patience et la répétition pour atteindre l'excellence technique, à tous les niveaux.</p>
+        <h3>Technique &amp; Précision</h3>
+        <p>Le trial développe une maîtrise technique incomparable. Chaque obstacle est une équation à résoudre, un défi de précision et d'équilibre qui pousse chaque pilote à se surpasser, quel que soit son niveau. La progression est constante et mesurable.</p>
       </div>
-      <div class="value-card fade-up" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">
-        <div class="value-icon">🌿</div>
-        <h3 style="color:white;">Respect de la nature</h3>
-        <p style="color:rgba(255,255,255,0.7);">Pratiquant dans les Alpes, nous sommes gardiens de notre environnement. Zéro déchet, zones protégées respectées, pratique éco-responsable.</p>
+
+      <div class="value-card fade-up">
+        <div class="value-icon">🏔️</div>
+        <h3>Nature &amp; Montagne</h3>
+        <p>Au cœur des Alpes, nos sessions allient sport et immersion dans des paysages exceptionnels. Le respect des espaces naturels est une valeur fondamentale — nous pratiquons le trial de manière responsable et écologique.</p>
       </div>
-      <div class="value-card fade-up" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">
+
+      <div class="value-card fade-up">
         <div class="value-icon">🤝</div>
-        <h3 style="color:white;">Convivialité</h3>
-        <p style="color:rgba(255,255,255,0.7);">Le trial se vit ensemble. Nos sessions sont des moments de partage où l'entraide prime sur la compétition, même pour les compétiteurs.</p>
+        <h3>Esprit de Club</h3>
+        <p>Une famille soudée autour de la même passion, tous niveaux confondus. Chez le TCA73, les débutants apprennent aux côtés des compétiteurs et l'entraide est le moteur quotidien de notre communauté.</p>
       </div>
-      <div class="value-card fade-up" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">
-        <div class="value-icon">👨‍👩‍👧</div>
-        <h3 style="color:white;">Esprit familial</h3>
-        <p style="color:rgba(255,255,255,0.7);">Enfants, parents, grands-parents : le club accueille toutes les générations. Le trial est un sport de famille que nous cultivons avec bonheur.</p>
-      </div>
-      <div class="value-card fade-up" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">
-        <div class="value-icon">📈</div>
-        <h3 style="color:white;">Progression des jeunes</h3>
-        <p style="color:rgba(255,255,255,0.7);">L'avenir du club passe par ses jeunes pilotes. Notre école de trial forme la relève avec des encadrants qualifiés et une pédagogie bienveillante.</p>
-      </div>
-      <div class="value-card fade-up" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1);">
-        <div class="value-icon">🏆</div>
-        <h3 style="color:white;">Excellence sportive</h3>
-        <p style="color:rgba(255,255,255,0.7);">Pour ceux qui le souhaitent, nous offrons un cadre structuré pour se dépasser et viser les podiums dans les championnats régionaux et nationaux.</p>
-      </div>
+
     </div>
   </div>
 </section>
 
-<!-- ===== SECTIONS DU CLUB ===== -->
-<section class="section" id="ecole">
+<!-- ===== BUREAU ===== -->
+<section class="section section--light" id="bureau">
   <div class="container">
     <div class="section-header fade-up">
-      <div class="tag">Nos activités</div>
-      <h2>Trois sections pour tous les pilotes</h2>
-      <p>Du premier tour de roue au podium national, nous avons votre place</p>
+      <div class="tag">L'équipe dirigeante</div>
+      <h2>Le Bureau</h2>
+      <p>Trois bénévoles passionnés pilotent l'association au quotidien pour que chaque membre puisse profiter pleinement du club.</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="grid-3">
+
+      <div class="team-card fade-up">
+        <div class="photo-placeholder">JF</div>
+        <h3>Jean-Marc Favre</h3>
+        <span class="team-role">Président</span>
+        <p>Fondateur du TCA73, pilote de trial depuis 2003. Jean-Marc impulse la vision du club et coordonne les relations avec la FFM et les institutions locales. Il est également formateur moniteur au niveau régional.</p>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="photo-placeholder">SG</div>
+        <h3>Sophie Girard</h3>
+        <span class="team-role">Secrétaire</span>
+        <p>Garante de l'organisation administrative du club, Sophie gère les adhésions, les communications et les relations avec les partenaires. Membre active depuis 2020, elle est le lien central de la communauté TCA73.</p>
+      </div>
+
+      <div class="team-card fade-up">
+        <div class="photo-placeholder">PD</div>
+        <h3>Paul Dumont</h3>
+        <span class="team-role">Trésorier</span>
+        <p>Paul assure la santé financière de l'association avec rigueur et transparence. Il coordonne également les partenariats qui permettent au club de proposer des tarifs accessibles à tous les membres.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== TERRAIN ===== -->
+<section class="section section--dark" id="terrain">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Notre lieu de pratique</div>
+      <h2>Le Terrain</h2>
+      <p style="color:rgba(255,255,255,0.72);">Un espace dédié au trial, aménagé par les membres, accessible tout au long de l'année.</p>
       <div class="section-line"></div>
     </div>
 
-    <!-- École de Trial -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; margin-bottom:64px;">
-      <div class="fade-up">
-        <div style="background:#27ae60; width:64px; height:64px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:20px;">🧒</div>
-        <span class="tag" style="background:rgba(39,174,96,0.1); color:#27ae60;">Section 1</span>
-        <h2 style="margin-top:8px;" id="ecole-detail">École de Trial</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px;">L'école de trial du TCA73 est le cœur battant du club. Encadrée par des moniteurs diplômés FFM, elle accueille les jeunes pilotes dès 5 ans dans un environnement sécurisé et ludique.</p>
-        <p style="color:var(--color-text-muted);">Progressant par étapes, les enfants apprennent l'équilibre, la coordination et les bases du franchissement. Les séances se déroulent dans une atmosphère bienveillante où chaque progrès est célébré.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;">
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-child"></i> Dès 5 ans</span>
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-certificate"></i> Moniteurs FFM</span>
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-calendar-days"></i> Week-ends</span>
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-helmet-safety"></i> Équipement fourni</span>
+    <div class="terrain-card fade-up">
+      <h3><i class="fa-solid fa-map-location-dot" style="color:var(--glacier);margin-right:12px;"></i>Notre terrain d'entraînement</h3>
+      <div class="terrain-list">
+        <div class="terrain-list-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span><strong style="color:var(--white);">Localisation :</strong> Albertville, 73200 — Coordonnées GPS remises après validation de l'adhésion.</span>
         </div>
-        <a href="adhesion.html" class="btn btn--primary" style="margin-top:24px;">Inscrire mon enfant</a>
-      </div>
-      <div class="fade-up" style="background:linear-gradient(135deg,rgba(39,174,96,0.08),rgba(41,128,185,0.08)); border:2px solid rgba(39,174,96,0.2); border-radius:var(--radius-lg); padding:36px;">
-        <h4 style="margin-bottom:20px; color:var(--color-primary);">Programme de l'école</h4>
-        <div style="display:flex; flex-direction:column; gap:16px;">
-          <div style="display:flex; gap:16px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:#27ae60; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:0.9rem; flex-shrink:0;">1</div>
-            <div><strong>Initiation (5-7 ans)</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:4px 0 0;">Équilibre, coordination, premiers franchissements sur des zones très simples avec des mini-motos.</p></div>
-          </div>
-          <div style="display:flex; gap:16px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:#27ae60; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:0.9rem; flex-shrink:0;">2</div>
-            <div><strong>Débutant (8-12 ans)</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:4px 0 0;">Techniques de base, franchissement d'obstacles simples, introduction aux sections de trial.</p></div>
-          </div>
-          <div style="display:flex; gap:16px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:#27ae60; color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:0.9rem; flex-shrink:0;">3</div>
-            <div><strong>Intermédiaire (12-16 ans)</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:4px 0 0;">Perfectionnement technique, franchissements complexes, préparation aux premières compétitions.</p></div>
-          </div>
-          <div style="display:flex; gap:16px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:var(--color-red); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:var(--font-heading); font-size:0.9rem; flex-shrink:0;">★</div>
-            <div><strong>Passerelle compétition</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:4px 0 0;">Pour les plus motivés, intégration progressive dans la section compétition avec suivi personnalisé.</p></div>
-          </div>
+        <div class="terrain-list-item">
+          <i class="fa-solid fa-maximize"></i>
+          <span><strong style="color:var(--white);">Superficie :</strong> Plusieurs hectares aménagés, avec des zones progressives adaptées à tous les niveaux, du débutant au compétiteur confirmé.</span>
+        </div>
+        <div class="terrain-list-item">
+          <i class="fa-solid fa-mountain"></i>
+          <span><strong style="color:var(--white);">Obstacles naturels :</strong> Rochers, pentes, bosses, passages en dévers — le terrain tire parti du relief alpin pour offrir des sections variées et techniques.</span>
+        </div>
+        <div class="terrain-list-item">
+          <i class="fa-solid fa-gear"></i>
+          <span><strong style="color:var(--white);">Obstacles artificiels :</strong> Billes en bois, palettes, passerelles, tremplins — installés et entretenus par les membres bénévoles du club.</span>
+        </div>
+        <div class="terrain-list-item">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span><strong style="color:var(--white);">Ouverture :</strong> Accessible toute l'année, 7j/7, sous réserve des conditions météo. Sessions encadrées chaque week-end par les moniteurs du club.</span>
+        </div>
+        <div class="terrain-list-item">
+          <i class="fa-solid fa-users"></i>
+          <span><strong style="color:var(--white);">Espace convivial :</strong> Tables et bancs pour les familles, espace de détente et rangement du matériel. Les accompagnants sont toujours les bienvenus.</span>
         </div>
       </div>
-    </div>
-
-    <!-- Loisir -->
-    <div id="loisir" style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; margin-bottom:64px; direction:rtl;">
-      <div class="fade-up" style="direction:ltr;">
-        <div style="background:var(--color-accent); width:64px; height:64px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:20px;">🏔️</div>
-        <span class="tag">Section 2</span>
-        <h2 style="margin-top:8px;">Section Loisir</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px;">La section loisir s'adresse à tous les pilotes adultes qui souhaitent pratiquer le trial pour le plaisir, sans pression de résultats ni obligations de compétition. C'est l'essence même du trial : se faire plaisir sur la machine.</p>
-        <p style="color:var(--color-text-muted);">Sessions hebdomadaires du week-end, sorties découverte en terrain naturel, journées thématiques et conviviales. Nous accueillons aussi bien les débutants complets que les pilotes confirmés.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;">
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-users"></i> Tous niveaux adultes</span>
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-calendar-days"></i> Week-ends toute l'année</span>
-          <span style="background:var(--color-bg-section); color:var(--color-accent); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-tree"></i> Terrains variés</span>
-        </div>
-        <a href="adhesion.html" class="btn btn--primary" style="margin-top:24px;">Rejoindre la section loisir</a>
-      </div>
-      <div class="fade-up" style="direction:ltr; background:var(--color-off-white); border-radius:var(--radius-lg); padding:36px;">
-        <h4 style="margin-bottom:20px;">Calendrier type des sessions</h4>
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <span style="font-weight:500;">Session libre terrain</span>
-            <span style="color:var(--color-text-muted); font-size:0.88rem;">Samedi matin</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <span style="font-weight:500;">Entraînement guidé</span>
-            <span style="color:var(--color-text-muted); font-size:0.88rem;">Dimanche matin</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <span style="font-weight:500;">Sortie en nature (mensuelle)</span>
-            <span style="color:var(--color-text-muted); font-size:0.88rem;">1 dimanche/mois</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <span style="font-weight:500;">Journée conviviale</span>
-            <span style="color:var(--color-text-muted); font-size:0.88rem;">Trimestrielle</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <span style="font-weight:500;">Repas de saison (barbecue)</span>
-            <span style="color:var(--color-text-muted); font-size:0.88rem;">Été / Hiver</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Compétition -->
-    <div id="competition" style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;">
-      <div class="fade-up">
-        <div style="background:var(--color-red); width:64px; height:64px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:20px;">🏆</div>
-        <span class="tag" style="background:rgba(192,57,43,0.1); color:var(--color-red);">Section 3</span>
-        <h2 style="margin-top:8px;">Section Compétition</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px;">Pour les pilotes qui souhaitent se mesurer aux meilleurs et viser les podiums, notre section compétition propose un encadrement sportif de qualité. Nos pilotes participent aux championnats régionaux et nationaux sous les couleurs du TCA73.</p>
-        <p style="color:var(--color-text-muted);">Programme d'entraînements structurés, coaching individuel, analyse vidéo et participation organisée aux compétitions. La licence FFM compétition est requise.</p>
-        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;">
-          <span style="background:rgba(192,57,43,0.1); color:var(--color-red); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-trophy"></i> Championnats régionaux</span>
-          <span style="background:rgba(192,57,43,0.1); color:var(--color-red); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-id-card"></i> Licence FFM compétition</span>
-          <span style="background:rgba(192,57,43,0.1); color:var(--color-red); padding:6px 14px; border-radius:100px; font-size:0.85rem;"><i class="fa-solid fa-dumbbell"></i> Coaching individualisé</span>
-        </div>
-        <a href="adhesion.html" class="btn btn--primary" style="margin-top:24px;">Rejoindre la compétition</a>
-      </div>
-      <div class="fade-up" style="background:linear-gradient(135deg,rgba(192,57,43,0.05),rgba(13,33,55,0.05)); border:2px solid rgba(192,57,43,0.15); border-radius:var(--radius-lg); padding:36px;">
-        <h4 style="margin-bottom:20px;">Palmarès récent</h4>
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <div style="display:flex; align-items:center; gap:16px; padding:14px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <div style="font-size:1.5rem;">🥇</div>
-            <div><strong style="display:block; font-size:0.95rem;">Thomas B. — Cat. Honneur</strong><span style="color:var(--color-text-muted); font-size:0.85rem;">1er — Champ. de Savoie 2024, Manche 2</span></div>
-          </div>
-          <div style="display:flex; align-items:center; gap:16px; padding:14px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <div style="font-size:1.5rem;">🥈</div>
-            <div><strong style="display:block; font-size:0.95rem;">Léa M. — Cat. Dames</strong><span style="color:var(--color-text-muted); font-size:0.85rem;">2ème — Inter-régional Rhône-Alpes 2024</span></div>
-          </div>
-          <div style="display:flex; align-items:center; gap:16px; padding:14px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <div style="font-size:1.5rem;">🥉</div>
-            <div><strong style="display:block; font-size:0.95rem;">Hugo P. — Cat. Junior</strong><span style="color:var(--color-text-muted); font-size:0.85rem;">3ème — Champ. de Savoie 2024 général</span></div>
-          </div>
-          <div style="display:flex; align-items:center; gap:16px; padding:14px 16px; background:white; border-radius:var(--radius-sm); border:1px solid var(--color-border);">
-            <div style="font-size:1.5rem;">🏅</div>
-            <div><strong style="display:block; font-size:0.95rem;">Équipe TCA73 — Jeunes</strong><span style="color:var(--color-text-muted); font-size:0.85rem;">Meilleur club jeunes — Savoie 2023</span></div>
-          </div>
-        </div>
-      </div>
+      <span class="terrain-badge"><i class="fa-solid fa-lock"></i> Accès membres uniquement</span>
     </div>
   </div>
 </section>
 
-<!-- ===== L'ÉQUIPE ===== -->
-<section class="section section--light">
+<!-- ===== PARTENAIRES TICKER ===== -->
+<section class="section" id="partenaires-apercu">
   <div class="container">
     <div class="section-header fade-up">
-      <div class="tag">L'équipe</div>
-      <h2>Le bureau du TCA73</h2>
-      <p>Bénévoles passionnés qui font vivre le club au quotidien</p>
+      <div class="tag">Ils nous soutiennent</div>
+      <h2>Nos partenaires</h2>
+      <p>Des acteurs locaux et régionaux qui font confiance au TCA73 et contribuent au développement du trial en Savoie.</p>
       <div class="section-line"></div>
     </div>
-    <div class="grid-4">
-      <div style="text-align:center;" class="fade-up">
-        <div style="width:80px; height:80px; background:var(--gradient-card); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:2rem;">👨</div>
-        <h4 style="margin-bottom:4px;">Marc D.</h4>
-        <span style="color:var(--color-red); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em;">Président</span>
-        <p style="color:var(--color-text-muted); font-size:0.88rem; margin-top:8px;">Pilote depuis 20 ans, fondateur et âme du TCA73.</p>
-      </div>
-      <div style="text-align:center;" class="fade-up">
-        <div style="width:80px; height:80px; background:var(--gradient-card); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:2rem;">👩</div>
-        <h4 style="margin-bottom:4px;">Sophie L.</h4>
-        <span style="color:var(--color-red); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em;">Secrétaire</span>
-        <p style="color:var(--color-text-muted); font-size:0.88rem; margin-top:8px;">Gestion administrative et coordination des adhésions.</p>
-      </div>
-      <div style="text-align:center;" class="fade-up">
-        <div style="width:80px; height:80px; background:var(--gradient-card); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:2rem;">👨</div>
-        <h4 style="margin-bottom:4px;">Pierre R.</h4>
-        <span style="color:var(--color-red); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em;">Trésorier</span>
-        <p style="color:var(--color-text-muted); font-size:0.88rem; margin-top:8px;">Gestion financière et relations partenaires.</p>
-      </div>
-      <div style="text-align:center;" class="fade-up">
-        <div style="width:80px; height:80px; background:var(--gradient-card); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:2rem;">👩</div>
-        <h4 style="margin-bottom:4px;">Julie B.</h4>
-        <span style="color:var(--color-red); font-family:var(--font-heading); font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em;">Responsable École</span>
-        <p style="color:var(--color-text-muted); font-size:0.88rem; margin-top:8px;">Monitrice diplômée FFM, responsable de l'école de trial.</p>
-      </div>
+  </div>
+
+  <div class="ticker-section fade-up">
+    <div class="ticker-track">
+      <!-- Série 1 -->
+      <div class="ticker-item"><span class="ticker-dot"></span>Sport2000 Albertville</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Moto Service 73</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Garage des Alpes</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Station Crest-Voland</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Hôtel Ibis Albertville</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Quechua Decathlon</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>FFM Savoie</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Mairie d'Albertville</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Clinique du Sport</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Alpes Karting</div>
+      <!-- Série 2 (dupliquée pour l'effet infini) -->
+      <div class="ticker-item"><span class="ticker-dot"></span>Sport2000 Albertville</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Moto Service 73</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Garage des Alpes</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Station Crest-Voland</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Hôtel Ibis Albertville</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Quechua Decathlon</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>FFM Savoie</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Mairie d'Albertville</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Clinique du Sport</div>
+      <div class="ticker-item"><span class="ticker-dot"></span>Alpes Karting</div>
     </div>
+  </div>
+
+  <div class="container" style="margin-top:36px;text-align:center;">
+    <a href="partenaires.html" class="btn btn--outline-dark">Voir tous nos partenaires <i class="fa-solid fa-arrow-right" style="margin-left:6px;"></i></a>
   </div>
 </section>
 
-<!-- ===== CTA ===== -->
+<!-- ===== CTA REJOINDRE ===== -->
 <section class="section section--dark">
   <div class="container text-center fade-up">
-    <h2 style="color:white; max-width:600px; margin:0 auto 16px;">Rejoignez la famille TCA73</h2>
-    <p style="color:rgba(255,255,255,0.7); max-width:500px; margin:0 auto 32px;">Que vous soyez débutant ou expérimenté, jeune ou moins jeune, il y a une place pour vous dans notre club.</p>
-    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
-      <a href="adhesion.html" class="btn btn--primary btn--lg"><i class="fa-solid fa-id-card"></i> Adhérer au club</a>
-      <a href="contact.html" class="btn btn--outline btn--lg"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+    <h2 style="color:var(--white);margin-bottom:12px;">Rejoindre le TCA73</h2>
+    <p style="color:rgba(255,255,255,0.72);max-width:520px;margin:0 auto 32px;">Une communauté de passionnés vous attend sur le terrain. Adhérez en quelques minutes et découvrez le trial moto au cœur des Alpes.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="adhesion.html" class="btn btn--primary btn--lg"><i class="fa-solid fa-id-card" style="margin-right:8px;"></i>S'inscrire</a>
+      <a href="contact.html" class="btn btn--outline btn--lg"><i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Nous contacter</a>
     </div>
   </div>
 </section>
@@ -411,26 +397,34 @@
           <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Navigation</h4><ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="club.html">Le Club</a></li>
-        <li><a href="adhesion.html">Adhésion</a></li>
-        <li><a href="evenements.html">Événements</a></li>
-        <li><a href="galerie.html">Galerie</a></li>
-        <li><a href="partenaires.html">Partenaires</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Sections</h4><ul>
-        <li><a href="#ecole">École de Trial</a></li>
-        <li><a href="#loisir">Section Loisir</a></li>
-        <li><a href="#competition">Compétition</a></li>
-        <li><a href="adhesion.html">Tarifs & Licences</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="contact.html">Formulaire de contact</a></li>
-        <li><a href="#">contact@tca73.fr</a></li>
-        <li><a href="#">Albertville, Savoie (73)</a></li>
-        <li><a href="partenaires.html">Devenir partenaire</a></li>
-      </ul></div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="club.html">Le Club</a></li>
+          <li><a href="adhesion.html">Adhésion</a></li>
+          <li><a href="evenements.html">Événements</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
+          <li><a href="partenaires.html">Partenaires</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Liens</h4>
+        <ul>
+          <li><a href="espace-membre.html">Espace Membre</a></li>
+          <li><a href="#">HelloAsso</a></li>
+          <li><a href="#">Licence FFM</a></li>
+          <li><a href="partenaires.html">Devenir partenaire</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">Nous contacter</a></li>
+          <li><a href="#">contact@tca73.fr</a></li>
+          <li><a href="#">Albertville (73)</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span>
@@ -438,7 +432,6 @@
     </div>
   </div>
 </footer>
-
 <button class="back-to-top" title="Retour en haut"><i class="fa-solid fa-chevron-up"></i></button>
 <script src="js/main.js"></script>
 </body>

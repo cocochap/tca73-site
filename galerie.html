@@ -3,73 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galerie — TCA73 | Photos Trial Club Albertvillois 73</title>
-  <meta name="description" content="Galerie photos du Trial Club Albertvillois 73. Compétitions, entraînements, jeunes pilotes et événements du TCA73 en Savoie.">
+  <title>Galerie — TCA73 | Trial Club Albertvillois 73</title>
+  <meta name="description" content="Galerie photos et vidéos du Trial Club Albertvillois 73 : compétitions, sessions terrain, événements et école trial en Savoie.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Galerie items avec dégradés thématiques (en l'absence de vraies photos) */
-    .gi-competition { background: linear-gradient(135deg, #7b0000, #c0392b, #e74c3c); }
-    .gi-entrainement { background: linear-gradient(135deg, #0d2137, #1a5276, #2980b9); }
-    .gi-jeunes      { background: linear-gradient(135deg, #145a32, #27ae60, #58d68d); }
-    .gi-evenements  { background: linear-gradient(135deg, #784212, #d4ac0d, #f7dc6f); }
-
+    /* ---- Gallery grid masonry-like ---- */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
     .gallery-item {
+      position: relative; overflow: hidden;
+      border-radius: var(--radius-sm); cursor: pointer;
+      aspect-ratio: 4/3; transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .gallery-item:hover { transform: scale(1.02); box-shadow: var(--shadow-lg); z-index: 2; }
+    .gallery-item.span-2 { grid-column: span 2; aspect-ratio: 16/7; }
+    .gi-inner {
+      width: 100%; height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
       position: relative;
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      cursor: pointer;
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: flex-end;
     }
-    .gallery-item .gi-inner {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      transition: transform 0.4s ease;
+    .gi-emoji { font-size: 3rem; line-height: 1; }
+    .gi-label {
+      font-family: var(--font-heading); font-size: 0.82rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: rgba(255,255,255,0.72); text-align: center; padding: 0 12px;
     }
-    .gallery-item:hover .gi-inner { transform: scale(1.05); }
-    .gallery-item.large { grid-column: span 2; aspect-ratio: 16/7; }
-    .gallery-overlay {
+    /* Overlay on hover */
+    .gallery-item .gallery-overlay {
       position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(13,33,55,0.85) 0%, transparent 55%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      display: flex;
-      align-items: flex-end;
-      padding: 20px;
+      background: linear-gradient(to top, rgba(14,61,145,0.85) 0%, transparent 55%);
+      opacity: 0; transition: opacity var(--transition);
+      display: flex; align-items: flex-end; padding: 16px;
     }
     .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-    /* Zoom icon */
-    .gallery-zoom {
-      position: absolute;
-      top: 12px; right: 12px;
-      width: 36px; height: 36px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(4px);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 0.85rem;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+    .gallery-overlay-text {
+      color: var(--white); font-family: var(--font-heading);
+      font-size: 0.9rem; letter-spacing: 0.04em; line-height: 1.3;
     }
-    .gallery-item:hover .gallery-zoom { opacity: 1; }
+
+    /* Gradient backgrounds for items */
+    .gb-1  { background: linear-gradient(135deg, var(--mountain), var(--glacier)); }
+    .gb-2  { background: linear-gradient(135deg, var(--deep), var(--mountain)); }
+    .gb-3  { background: linear-gradient(135deg, #0a2a5e, var(--glacier)); }
+    .gb-4  { background: linear-gradient(135deg, var(--tca-red), #e67e22); }
+    .gb-5  { background: linear-gradient(135deg, #1a3a6b, #2ecc71); }
+    .gb-6  { background: linear-gradient(135deg, #2c3e50, var(--mountain)); }
+    .gb-7  { background: linear-gradient(135deg, var(--deep), #8e44ad); }
+    .gb-8  { background: linear-gradient(135deg, #16a085, var(--glacier)); }
+    .gb-9  { background: linear-gradient(135deg, var(--tca-red), var(--deep)); }
+    .gb-10 { background: linear-gradient(135deg, #2d3436, #636e72); }
+
+    /* ---- Lightbox ---- */
+    #lightbox {
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: rgba(4,14,42,0.96); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox-inner { max-width: 900px; width: 100%; position: relative; }
+    #lb-close {
+      position: absolute; top: -44px; right: 0;
+      background: none; border: none; color: var(--white);
+      font-size: 1.8rem; opacity: .7; cursor: pointer;
+      transition: opacity var(--transition);
+    }
+    #lb-close:hover { opacity: 1; }
+    #lb-placeholder {
+      width: 100%; aspect-ratio: 16/9; border-radius: var(--radius-md);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 16px;
+    }
+    #lb-placeholder .lb-emoji { font-size: 5rem; }
+    #lb-placeholder .lb-title {
+      font-family: var(--font-heading); font-size: 1.1rem;
+      color: rgba(255,255,255,0.75); letter-spacing: 0.06em;
+    }
+    #lb-caption {
+      text-align: center; color: rgba(255,255,255,0.75);
+      margin-top: 12px; font-size: 0.95rem;
+    }
+    #lb-prev, #lb-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(255,255,255,0.12); border: none; color: var(--white);
+      width: 44px; height: 44px; border-radius: 50%; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background var(--transition);
+      backdrop-filter: blur(8px);
+    }
+    #lb-prev:hover, #lb-next:hover { background: rgba(255,255,255,0.25); }
+    #lb-prev { right: calc(100% + 16px); }
+    #lb-next { left: calc(100% + 16px); }
+
+    /* ---- Video placeholder ---- */
+    .video-placeholder {
+      background: linear-gradient(135deg, var(--deep), var(--mountain));
+      border-radius: var(--radius-md); cursor: pointer;
+      transition: all var(--transition); position: relative;
+      aspect-ratio: 16/9; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      overflow: hidden;
+    }
+    .video-placeholder:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+    .vp-play {
+      width: 68px; height: 68px;
+      background: rgba(255,255,255,0.14); border: 2px solid rgba(255,255,255,0.35);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: var(--white);
+      transition: all var(--transition);
+    }
+    .video-placeholder:hover .vp-play { background: var(--tca-red); border-color: var(--tca-red); }
+    .vp-title {
+      font-family: var(--font-heading); font-size: 1.05rem;
+      letter-spacing: 0.04em; color: var(--white); text-align: center;
+      padding: 0 24px;
+    }
+    .vp-duration { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-item.span-2 { grid-column: span 1; aspect-ratio: 4/3; }
+    }
+    @media (max-width: 560px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item.span-2 { grid-column: span 1; }
+      #lb-prev { right: auto; left: 8px; top: auto; bottom: -52px; transform: none; }
+      #lb-next { left: auto; right: 8px; top: auto; bottom: -52px; transform: none; }
+    }
   </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header id="header">
   <div class="header-inner">
     <a href="index.html" class="logo">
@@ -83,7 +154,8 @@
       <a href="evenements.html">Événements</a>
       <a href="galerie.html" class="active">Galerie</a>
       <a href="partenaires.html">Partenaires</a>
-      <a href="contact.html" class="nav-cta">Contact</a>
+      <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+      <a href="adhesion.html" class="btn nav-cta">S'inscrire</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
@@ -95,9 +167,11 @@
   <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
   <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
   <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
-  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
 </nav>
 
+<!-- ===== PAGE HERO ===== -->
 <section class="page-hero">
   <div style="position:absolute;inset:0;overflow:hidden;z-index:0;">
     <svg style="position:absolute;bottom:0;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">
@@ -106,150 +180,299 @@
   </div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Accueil</a><span>Galerie</span></div>
-    <h1>Galerie Photos</h1>
-    <p>Les meilleurs moments de la vie du TCA73 en images</p>
+    <h1>Galerie</h1>
+    <p>Les meilleurs moments du TCA73 en images</p>
   </div>
 </section>
 
-<!-- ===== GALERIE ===== -->
-<section class="section">
+<!-- ===== FILTRES + GALERIE ===== -->
+<section class="section section--light">
   <div class="container">
-    <div data-filter-group>
-      <div class="event-filters fade-up">
-        <button class="filter-btn active" data-filter="all">Toutes les photos</button>
-        <button class="filter-btn" data-filter="competition">🏆 Compétition</button>
-        <button class="filter-btn" data-filter="entrainement">⚙️ Entraînement</button>
-        <button class="filter-btn" data-filter="jeunes">🧒 Jeunes</button>
-        <button class="filter-btn" data-filter="evenements">📅 Événements</button>
+
+    <!-- Barre de filtres -->
+    <div class="event-filters fade-up" data-filter-group>
+      <button class="filter-btn active" data-filter="all">Tout</button>
+      <button class="filter-btn" data-filter="competition">Compétition</button>
+      <button class="filter-btn" data-filter="terrain">Sessions terrain</button>
+      <button class="filter-btn" data-filter="evenement">Événements</button>
+      <button class="filter-btn" data-filter="ecole">École trial</button>
+    </div>
+
+    <!-- Grille galerie -->
+    <div class="gallery-grid">
+
+      <!-- 1 — compétition, span-2 -->
+      <div class="gallery-item span-2 fade-up" data-category="competition" data-caption="Championnat Savoie — Manche 3">
+        <div class="gi-inner gb-1">
+          <span class="gi-emoji">🏆</span>
+          <span class="gi-label">Championnat Savoie</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Championnat Savoie — Manche 3</span></div>
       </div>
 
-      <div class="gallery-grid fade-up" id="gallery-grid">
-
-        <!-- Compétition -->
-        <div class="gallery-item large gi-competition" data-category="competition" data-src="" data-caption="Championnat de Savoie 2024 — Thomas B. en action">
-          <div class="gi-inner">🏆<br><span style="font-family:var(--font-heading);font-size:0.9rem;color:white;margin-top:6px;text-transform:uppercase;letter-spacing:0.06em;">Franchissement Expert</span></div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Championnat de Savoie 2024 · Thomas B.</span></div>
+      <!-- 2 — terrain -->
+      <div class="gallery-item fade-up" data-category="terrain" data-caption="Section pierre — Terrain TCA73">
+        <div class="gi-inner gb-2">
+          <span class="gi-emoji">🪨</span>
+          <span class="gi-label">Section pierre</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Section pierre — Terrain TCA73</span></div>
+      </div>
 
-        <div class="gallery-item gi-competition" data-category="competition" data-src="" data-caption="Finale régionale — Podium TCA73">
-          <div class="gi-inner">🥇</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Podium régional 2024</span></div>
+      <!-- 3 — evenement -->
+      <div class="gallery-item fade-up" data-category="evenement" data-caption="Journée Portes Ouvertes 2025">
+        <div class="gi-inner gb-4">
+          <span class="gi-emoji">🎉</span>
+          <span class="gi-label">Portes Ouvertes 2025</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Journée Portes Ouvertes 2025</span></div>
+      </div>
 
-        <div class="gallery-item gi-competition" data-category="competition" data-src="" data-caption="Léa M. — Section Dames, Inter-régional">
-          <div class="gi-inner">🏅</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Léa M. · Inter-régional</span></div>
+      <!-- 4 — ecole -->
+      <div class="gallery-item fade-up" data-category="ecole" data-caption="École trial — Jeunes pilotes">
+        <div class="gi-inner gb-5">
+          <span class="gi-emoji">👶</span>
+          <span class="gi-label">École trial — Jeunes</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">École trial — Jeunes pilotes</span></div>
+      </div>
 
-        <!-- Entraînement -->
-        <div class="gallery-item gi-entrainement" data-category="entrainement" data-src="" data-caption="Session entraînement — Zone rochers">
-          <div class="gi-inner">🏔️</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Session terrain · Zone naturelle</span></div>
+      <!-- 5 — competition -->
+      <div class="gallery-item fade-up" data-category="competition" data-caption="Podium Championnat Régional AURA 2024">
+        <div class="gi-inner gb-9">
+          <span class="gi-emoji">🥇</span>
+          <span class="gi-label">Podium régional AURA</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Podium Championnat Régional AURA 2024</span></div>
+      </div>
 
-        <div class="gallery-item large gi-entrainement" data-category="entrainement" data-src="" data-caption="Entraînement collectif du dimanche matin">
-          <div class="gi-inner">⚙️<br><span style="font-family:var(--font-heading);font-size:0.9rem;color:white;margin-top:6px;text-transform:uppercase;letter-spacing:0.06em;">Session collective</span></div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Entraînement dominical · Section loisir</span></div>
+      <!-- 6 — terrain, span-2 -->
+      <div class="gallery-item span-2 fade-up" data-category="terrain" data-caption="Session billes en bois — dimanche matin">
+        <div class="gi-inner gb-6">
+          <span class="gi-emoji">🌲</span>
+          <span class="gi-label">Session billes en bois</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Session billes en bois — dimanche matin</span></div>
+      </div>
 
-        <div class="gallery-item gi-entrainement" data-category="entrainement" data-src="" data-caption="Franchissement log — zone intermédiaire">
-          <div class="gi-inner">🪵</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Zone intermédiaire · Log</span></div>
+      <!-- 7 — evenement -->
+      <div class="gallery-item fade-up" data-category="evenement" data-caption="Repas de fin de saison 2024">
+        <div class="gi-inner gb-7">
+          <span class="gi-emoji">🍖</span>
+          <span class="gi-label">Repas fin de saison</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Repas de fin de saison 2024</span></div>
+      </div>
 
-        <div class="gallery-item gi-entrainement" data-category="entrainement" data-src="" data-caption="Équilibre statique — technique avancée">
-          <div class="gi-inner">⚖️</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Équilibre statique · Technique</span></div>
+      <!-- 8 — ecole -->
+      <div class="gallery-item fade-up" data-category="ecole" data-caption="Moniteur et élève — première section">
+        <div class="gi-inner gb-3">
+          <span class="gi-emoji">🎓</span>
+          <span class="gi-label">Moniteur & élève</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Moniteur et élève — première section</span></div>
+      </div>
 
-        <!-- Jeunes -->
-        <div class="gallery-item large gi-jeunes" data-category="jeunes" data-src="" data-caption="École de trial — Initiation benjamins">
-          <div class="gi-inner">🧒<br><span style="font-family:var(--font-heading);font-size:0.9rem;color:white;margin-top:6px;text-transform:uppercase;letter-spacing:0.06em;">École de Trial</span></div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">École de trial · Benjamins</span></div>
+      <!-- 9 — terrain -->
+      <div class="gallery-item fade-up" data-category="terrain" data-caption="Passage de rocher — zone expert">
+        <div class="gi-inner gb-8">
+          <span class="gi-emoji">⛰️</span>
+          <span class="gi-label">Zone expert</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Passage de rocher — zone expert</span></div>
+      </div>
 
-        <div class="gallery-item gi-jeunes" data-category="jeunes" data-src="" data-caption="Hugo P. — Champion Junior Savoie 2024">
-          <div class="gi-inner">🥉</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Hugo P. · Champion Junior</span></div>
+      <!-- 10 — competition, span-2 -->
+      <div class="gallery-item span-2 fade-up" data-category="competition" data-caption="Manche de Savoie — Secteur eau vive">
+        <div class="gi-inner gb-1">
+          <span class="gi-emoji">💧</span>
+          <span class="gi-label">Secteur eau vive</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Manche de Savoie — Secteur eau vive</span></div>
+      </div>
 
-        <div class="gallery-item gi-jeunes" data-category="jeunes" data-src="" data-caption="Mini trial — première section">
-          <div class="gi-inner">🎮</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Mini trial · 8 ans</span></div>
+      <!-- 11 — ecole -->
+      <div class="gallery-item fade-up" data-category="ecole" data-caption="Mini-trial — catégorie Minime">
+        <div class="gi-inner gb-4">
+          <span class="gi-emoji">🏍️</span>
+          <span class="gi-label">Mini-trial Minime</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Mini-trial — catégorie Minime</span></div>
+      </div>
 
-        <!-- Événements -->
-        <div class="gallery-item gi-evenements" data-category="evenements" data-src="" data-caption="Journée portes ouvertes 2024">
-          <div class="gi-inner">🎪</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Journée portes ouvertes 2024</span></div>
+      <!-- 12 — evenement -->
+      <div class="gallery-item fade-up" data-category="evenement" data-caption="Démonstration publique — Fête du Sport Albertville">
+        <div class="gi-inner gb-2">
+          <span class="gi-emoji">🎪</span>
+          <span class="gi-label">Fête du Sport</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Démonstration — Fête du Sport Albertville</span></div>
+      </div>
 
-        <div class="gallery-item large gi-evenements" data-category="evenements" data-src="" data-caption="Repas de fin de saison — convivialité TCA73">
-          <div class="gi-inner">🤝<br><span style="font-family:var(--font-heading);font-size:0.9rem;color:white;margin-top:6px;text-transform:uppercase;letter-spacing:0.06em;">Fin de saison</span></div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Repas de fin de saison · TCA73</span></div>
+      <!-- 13 — terrain -->
+      <div class="gallery-item fade-up" data-category="terrain" data-caption="Aménagement du terrain — corvée bénévoles">
+        <div class="gi-inner gb-10">
+          <span class="gi-emoji">🔧</span>
+          <span class="gi-label">Corvée bénévoles</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Aménagement du terrain — corvée bénévoles</span></div>
+      </div>
 
-        <div class="gallery-item gi-evenements" data-category="evenements" data-src="" data-caption="Démonstration ville d'Albertville">
-          <div class="gi-inner">🏙️</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Démo · Ville d'Albertville</span></div>
+      <!-- 14 — competition -->
+      <div class="gallery-item fade-up" data-category="competition" data-caption="Interrégional AURA — section buttes">
+        <div class="gi-inner gb-9">
+          <span class="gi-emoji">🏅</span>
+          <span class="gi-label">Interrégional AURA</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Interrégional AURA — section buttes</span></div>
+      </div>
 
-        <!-- Compétition suite -->
-        <div class="gallery-item gi-competition" data-category="competition" data-src="" data-caption="Départ d'une section — Manche 3">
-          <div class="gi-inner">🚦</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Départ section · Manche 3</span></div>
+      <!-- 15 — ecole, span-2 -->
+      <div class="gallery-item span-2 fade-up" data-category="ecole" data-caption="Stage vacances — École trial été 2024">
+        <div class="gi-inner gb-5">
+          <span class="gi-emoji">☀️</span>
+          <span class="gi-label">Stage vacances été 2024</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Stage vacances — École trial été 2024</span></div>
+      </div>
 
-        <div class="gallery-item gi-entrainement" data-category="entrainement" data-src="" data-caption="Sortie nature — vallée de la Tarentaise">
-          <div class="gi-inner">🌿</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Sortie nature · Tarentaise</span></div>
+      <!-- 16 — terrain -->
+      <div class="gallery-item fade-up" data-category="terrain" data-caption="Session palettes — zone intermédiaire">
+        <div class="gi-inner gb-3">
+          <span class="gi-emoji">🪵</span>
+          <span class="gi-label">Zone intermédiaire</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Session palettes — zone intermédiaire</span></div>
+      </div>
 
-        <div class="gallery-item gi-jeunes" data-category="jeunes" data-src="" data-caption="Stage été école de trial 2024">
-          <div class="gi-inner">☀️</div>
-          <div class="gallery-zoom"><i class="fa-solid fa-magnifying-glass"></i></div>
-          <div class="gallery-overlay"><span class="gallery-overlay-text">Stage été · École de trial</span></div>
+      <!-- 17 — evenement -->
+      <div class="gallery-item fade-up" data-category="evenement" data-caption="Sortie montagne — Groupe loisir juin 2024">
+        <div class="gi-inner gb-8">
+          <span class="gi-emoji">🗻</span>
+          <span class="gi-label">Sortie montagne</span>
         </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Sortie montagne — Groupe loisir juin 2024</span></div>
+      </div>
 
-      </div><!-- /gallery-grid -->
-    </div><!-- /filter-group -->
+      <!-- 18 — competition -->
+      <div class="gallery-item fade-up" data-category="competition" data-caption="Championnat Savoie — Remise des prix">
+        <div class="gi-inner gb-4">
+          <span class="gi-emoji">🎖️</span>
+          <span class="gi-label">Remise des prix</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Championnat Savoie — Remise des prix</span></div>
+      </div>
 
-    <!-- Note -->
-    <div style="text-align:center; margin-top:40px; padding:28px; background:var(--color-off-white); border-radius:var(--radius-md);" class="fade-up">
-      <p style="color:var(--color-text-muted); font-size:0.95rem; margin:0;">
-        <i class="fa-solid fa-camera" style="color:var(--color-accent); margin-right:8px;"></i>
-        <strong>Des photos à partager ?</strong> Vous avez pris des clichés lors d'un événement TCA73 ?
-        <a href="contact.html" style="color:var(--color-accent);">Envoyez-les nous</a> pour enrichir la galerie !
-      </p>
-    </div>
+      <!-- 19 — ecole -->
+      <div class="gallery-item fade-up" data-category="ecole" data-caption="Passage de passerelle — section débutant">
+        <div class="gi-inner gb-1">
+          <span class="gi-emoji">🚸</span>
+          <span class="gi-label">Section débutant</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Passage de passerelle — section débutant</span></div>
+      </div>
+
+      <!-- 20 — terrain, span-2 -->
+      <div class="gallery-item span-2 fade-up" data-category="terrain" data-caption="Vue panoramique — Terrain TCA73 en hiver">
+        <div class="gi-inner gb-7">
+          <span class="gi-emoji">❄️</span>
+          <span class="gi-label">Terrain en hiver</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Vue panoramique — Terrain TCA73 en hiver</span></div>
+      </div>
+
+      <!-- 21 — evenement -->
+      <div class="gallery-item fade-up" data-category="evenement" data-caption="Journée famille — barbecue du club">
+        <div class="gi-inner gb-6">
+          <span class="gi-emoji">🔥</span>
+          <span class="gi-label">Barbecue du club</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Journée famille — barbecue du club</span></div>
+      </div>
+
+      <!-- 22 — competition -->
+      <div class="gallery-item fade-up" data-category="competition" data-caption="Entraînement compétition — samedi matin">
+        <div class="gi-inner gb-2">
+          <span class="gi-emoji">⚡</span>
+          <span class="gi-label">Entraînement compétition</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Entraînement compétition — samedi matin</span></div>
+      </div>
+
+      <!-- 23 — terrain -->
+      <div class="gallery-item fade-up" data-category="terrain" data-caption="Obstacle tremplin — zone avancée">
+        <div class="gi-inner gb-10">
+          <span class="gi-emoji">🎿</span>
+          <span class="gi-label">Zone avancée — tremplin</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Obstacle tremplin — zone avancée</span></div>
+      </div>
+
+      <!-- 24 — ecole -->
+      <div class="gallery-item fade-up" data-category="ecole" data-caption="Équilibre statique — atelier débutant">
+        <div class="gi-inner gb-5">
+          <span class="gi-emoji">⚖️</span>
+          <span class="gi-label">Atelier équilibre</span>
+        </div>
+        <div class="gallery-overlay"><span class="gallery-overlay-text">Équilibre statique — atelier débutant</span></div>
+      </div>
+
+    </div><!-- /.gallery-grid -->
   </div>
 </section>
 
 <!-- ===== LIGHTBOX ===== -->
-<div class="lightbox" id="lightbox">
-  <div class="lightbox-inner">
-    <button class="lightbox-close" id="lb-close" aria-label="Fermer">✕</button>
-    <button class="lightbox-nav lightbox-prev" id="lb-prev" aria-label="Précédent"><i class="fa-solid fa-chevron-left"></i></button>
-    <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Suivant"><i class="fa-solid fa-chevron-right"></i></button>
-    <div id="lb-placeholder" style="width:100%; aspect-ratio:16/9; display:flex; align-items:center; justify-content:center; background:var(--color-primary); border-radius:var(--radius-sm); font-size:5rem;">📷</div>
-    <p class="lightbox-caption" id="lb-caption"></p>
+<div id="lightbox">
+  <div id="lightbox-inner">
+    <button id="lb-close" aria-label="Fermer">&times;</button>
+    <div id="lb-placeholder">
+      <span class="lb-emoji">📷</span>
+      <span class="lb-title">Photo TCA73</span>
+    </div>
+    <button id="lb-prev" class="lightbox-nav" aria-label="Précédent"><i class="fa-solid fa-chevron-left"></i></button>
+    <button id="lb-next" class="lightbox-nav" aria-label="Suivant"><i class="fa-solid fa-chevron-right"></i></button>
+    <div id="lb-caption"></div>
   </div>
 </div>
+
+<!-- ===== SECTION VIDÉOS ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">En mouvement</div>
+      <h2>Vidéos du club</h2>
+      <p>Revivez les meilleurs moments du TCA73 en vidéo — compétitions, sessions et événements.</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="grid-2">
+
+      <div class="video-placeholder fade-up">
+        <div class="vp-play"><i class="fa-solid fa-play"></i></div>
+        <div class="vp-title">Championnat de Savoie 2024 — Manche finale</div>
+        <div class="vp-duration"><i class="fa-solid fa-clock" style="margin-right:5px;"></i>4 min 32 s</div>
+      </div>
+
+      <div class="video-placeholder fade-up" style="background:linear-gradient(135deg,var(--deep),#8e44ad);">
+        <div class="vp-play"><i class="fa-solid fa-play"></i></div>
+        <div class="vp-title">École trial — Stage été 2024, les jeunes à l'œuvre</div>
+        <div class="vp-duration"><i class="fa-solid fa-clock" style="margin-right:5px;"></i>3 min 07 s</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="section section--dark">
+  <div class="container text-center fade-up">
+    <h2 style="color:var(--white);margin-bottom:12px;">Venez vivre l'expérience !</h2>
+    <p style="color:rgba(255,255,255,0.72);max-width:500px;margin:0 auto 32px;">Ces photos ne sont qu'un aperçu. Rejoignez le TCA73 et créez vos propres souvenirs sur le terrain.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="adhesion.html" class="btn btn--primary btn--lg"><i class="fa-solid fa-id-card" style="margin-right:8px;"></i>S'inscrire</a>
+      <a href="evenements.html" class="btn btn--outline btn--lg"><i class="fa-solid fa-calendar-days" style="margin-right:8px;"></i>Voir les événements</a>
+    </div>
+  </div>
+</section>
 
 <!-- ===== FOOTER ===== -->
 <footer id="footer">
@@ -267,25 +490,34 @@
           <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
         </div>
       </div>
-      <div class="footer-col"><h4>Navigation</h4><ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="club.html">Le Club</a></li>
-        <li><a href="adhesion.html">Adhésion</a></li>
-        <li><a href="evenements.html">Événements</a></li>
-        <li><a href="galerie.html">Galerie</a></li>
-        <li><a href="partenaires.html">Partenaires</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Galerie</h4><ul>
-        <li><a href="#">Compétition</a></li>
-        <li><a href="#">Entraînement</a></li>
-        <li><a href="#">Jeunes pilotes</a></li>
-        <li><a href="#">Événements</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="contact.html">Formulaire de contact</a></li>
-        <li><a href="#">contact@tca73.fr</a></li>
-        <li><a href="#">Albertville, Savoie (73)</a></li>
-      </ul></div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="club.html">Le Club</a></li>
+          <li><a href="adhesion.html">Adhésion</a></li>
+          <li><a href="evenements.html">Événements</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
+          <li><a href="partenaires.html">Partenaires</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Liens</h4>
+        <ul>
+          <li><a href="espace-membre.html">Espace Membre</a></li>
+          <li><a href="#">HelloAsso</a></li>
+          <li><a href="#">Licence FFM</a></li>
+          <li><a href="partenaires.html">Devenir partenaire</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">Nous contacter</a></li>
+          <li><a href="#">contact@tca73.fr</a></li>
+          <li><a href="#">Albertville (73)</a></li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
       <span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span>
@@ -293,43 +525,7 @@
     </div>
   </div>
 </footer>
-
 <button class="back-to-top" title="Retour en haut"><i class="fa-solid fa-chevron-up"></i></button>
-
 <script src="js/main.js"></script>
-<script>
-  /* Adaptation du lightbox pour galerie sans vraies images */
-  document.querySelectorAll('.gallery-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const caption = item.dataset.caption || '';
-      const lb = document.getElementById('lightbox');
-      const lbCaption = document.getElementById('lb-caption');
-      const lbPlaceholder = document.getElementById('lb-placeholder');
-      if (lbCaption) lbCaption.textContent = caption;
-      if (lbPlaceholder) {
-        const emoji = item.querySelector('.gi-inner')?.textContent?.trim().slice(0,2) || '📷';
-        lbPlaceholder.innerHTML = emoji;
-        lbPlaceholder.style.background = getComputedStyle(item).background;
-      }
-      if (lb) { lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
-    });
-  });
-  document.getElementById('lb-close')?.addEventListener('click', () => {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
-  });
-  document.getElementById('lightbox')?.addEventListener('click', e => {
-    if (e.target === document.getElementById('lightbox')) {
-      document.getElementById('lightbox').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      document.getElementById('lightbox').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  });
-</script>
 </body>
 </html>

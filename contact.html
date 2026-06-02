@@ -3,30 +3,281 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — TCA73 | Contacter le Trial Club Albertvillois 73</title>
-  <meta name="description" content="Contactez le Trial Club Albertvillois 73 pour toute question sur l'adhésion, le terrain, les événements ou les partenariats. Albertville, Savoie.">
+  <title>Contact — TCA73 | Trial Club Albertvillois 73</title>
+  <meta name="description" content="Contactez le Trial Club Albertvillois 73. Formulaire de contact, adresse, horaires, réseaux sociaux et localisation du terrain d'Albertville.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Contact info blocks ---- */
+    .contact-info-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px 20px;
+      background: var(--off-white);
+      border-radius: var(--radius-sm);
+      border-left: 4px solid var(--mountain);
+      transition: border-color var(--transition);
+    }
+    .contact-info-block:hover { border-color: var(--tca-red); }
+    .contact-info-block .ci-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gradient-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .contact-info-block .ci-content h4 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--deep);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 4px;
+    }
+    .contact-info-block .ci-content p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .contact-info-block .ci-content a {
+      color: var(--mountain);
+      font-weight: 500;
+      transition: color var(--transition);
+    }
+    .contact-info-block .ci-content a:hover { color: var(--tca-red); }
+
+    /* ---- Social buttons ---- */
+    .social-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .btn-social {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: all var(--transition);
+      border: 2px solid transparent;
+      color: white;
+    }
+    .btn-social.facebook  { background: #1877F2; border-color: #1877F2; }
+    .btn-social.instagram { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); border-color: #dc2743; }
+    .btn-social.youtube   { background: #FF0000; border-color: #FF0000; }
+    .btn-social:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* ---- Form ---- */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+    .form-group .required-mark { color: var(--tca-red); margin-left: 2px; }
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      outline: none;
+    }
+    .form-control:focus {
+      border-color: var(--mountain);
+      box-shadow: 0 0 0 3px rgba(26,107,200,0.12);
+    }
+    textarea.form-control { resize: vertical; min-height: 120px; }
+    select.form-control { cursor: pointer; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 560px) { .form-row { grid-template-columns: 1fr; } }
+    .form-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .form-success {
+      display: none;
+      padding: 20px 24px;
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: var(--radius-sm);
+      color: #155724;
+      font-weight: 500;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .form-success i { margin-right: 8px; font-size: 1.1rem; }
+
+    /* ---- FAQ ---- */
+    .faq-list { max-width: 800px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--deep);
+      text-align: left;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: color var(--transition);
+    }
+    .faq-question:hover { color: var(--mountain); }
+    .faq-icon {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--light-bg);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--mountain);
+      transition: all var(--transition);
+    }
+    .faq-item.open .faq-icon {
+      background: var(--mountain);
+      border-color: var(--mountain);
+      color: white;
+      transform: rotate(45deg);
+    }
+    .faq-answer {
+      display: none;
+      padding: 0 0 20px;
+    }
+    .faq-answer p {
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* ---- Chatbot ---- */
+    .chatbot-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--gradient-card);
+      color: white;
+    }
+    .chat-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .chat-header div strong {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+    }
+    .chat-header div span {
+      font-size: 0.82rem;
+      opacity: 0.8;
+    }
+    .chat-messages {
+      min-height: 220px;
+      max-height: 340px;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--off-white);
+    }
+    .chat-input-wrap {
+      display: flex;
+      gap: 10px;
+      padding: 16px 20px;
+      background: var(--white);
+      border-top: 1px solid var(--border);
+    }
+    .chat-input-wrap input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      color: var(--text);
+      transition: border-color var(--transition);
+    }
+    .chat-input-wrap input:focus { border-color: var(--mountain); }
+  </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header id="header">
   <div class="header-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-badge">TCA</div>
-      <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
-    </a>
+    <a href="index.html" class="logo"><div class="logo-badge">TCA</div><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a>
     <nav class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="club.html">Le Club</a>
-      <a href="adhesion.html">Adhésion</a>
-      <a href="evenements.html">Événements</a>
-      <a href="galerie.html">Galerie</a>
-      <a href="partenaires.html">Partenaires</a>
-      <a href="contact.html" class="active nav-cta">Contact</a>
+      <a href="index.html">Accueil</a><a href="club.html">Le Club</a>
+      <a href="adhesion.html">Adhésion</a><a href="evenements.html">Événements</a>
+      <a href="galerie.html">Galerie</a><a href="partenaires.html">Partenaires</a>
+      <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+      <a href="contact.html" class="nav-cta active">Contact</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
@@ -38,9 +289,11 @@
   <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
   <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
   <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
-  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
 </nav>
 
+<!-- ===== PAGE HERO ===== -->
 <section class="page-hero">
   <div style="position:absolute;inset:0;overflow:hidden;z-index:0;">
     <svg style="position:absolute;bottom:0;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">
@@ -49,174 +302,139 @@
   </div>
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Accueil</a><span>Contact</span></div>
-    <h1>Nous Contacter</h1>
-    <p>Une question ? Un projet ? Écrivez-nous, nous répondons dans les 48h</p>
+    <h1>Nous contacter</h1>
+    <p>Une question, une demande d'adhésion, un partenariat ? Écrivez-nous.</p>
+    <div class="tag" style="margin-top:16px; display:inline-block;">Contact</div>
   </div>
 </section>
 
-<!-- ===== CONTACT PRINCIPAL ===== -->
-<section class="section">
+<!-- ===== SECTION PRINCIPALE ===== -->
+<section class="section section--light">
   <div class="container">
-    <div class="contact-wrapper">
-      <!-- Infos -->
+    <div class="grid-2" style="gap:48px; align-items:start;">
+
+      <!-- ===== COLONNE GAUCHE : INFOS CONTACT ===== -->
       <div class="fade-up">
-        <div class="tag">Coordonnées</div>
-        <h2>Restons en contact</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px;">Vous avez une question sur le club, l'adhésion, le terrain ou les événements ? N'hésitez pas à nous écrire ou à nous retrouver sur les réseaux sociaux.</p>
+        <div class="card" style="padding:32px; border-radius:var(--radius-md); box-shadow:var(--shadow-md); background:var(--white); display:flex; flex-direction:column; gap:16px;">
+          <h2 style="font-size:1.5rem; margin-bottom:8px;">Nos coordonnées</h2>
 
-        <div class="contact-items">
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-location-dot"></i></div>
-            <div class="contact-item-body">
-              <strong>Adresse</strong>
-              <span>Terrain TCA73 — Albertville, Savoie (73200)</span>
+          <div class="contact-info-block">
+            <div class="ci-icon"><i class="fa-solid fa-location-dot"></i></div>
+            <div class="ci-content">
+              <h4>Adresse</h4>
+              <p>Albertville, Savoie (73200)<br>Terrain accessible aux membres</p>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-envelope"></i></div>
-            <div class="contact-item-body">
-              <strong>Email</strong>
-              <span>contact@tca73.fr</span>
+
+          <div class="contact-info-block">
+            <div class="ci-icon"><i class="fa-solid fa-envelope"></i></div>
+            <div class="ci-content">
+              <h4>Email</h4>
+              <p><a href="mailto:contact@tca73.fr">contact@tca73.fr</a></p>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-phone"></i></div>
-            <div class="contact-item-body">
-              <strong>Téléphone (Président)</strong>
-              <span>06 XX XX XX XX</span>
+
+          <div class="contact-info-block">
+            <div class="ci-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+            <div class="ci-content">
+              <h4>Téléphone</h4>
+              <p>Nous contacter par email de préférence.<br>Réponse garantie sous 48h.</p>
             </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fa-regular fa-clock"></i></div>
-            <div class="contact-item-body">
-              <strong>Délai de réponse</strong>
-              <span>Sous 48h (jours ouvrés)</span>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fa-solid fa-calendar-check"></i></div>
-            <div class="contact-item-body">
-              <strong>Sessions ouvertes</strong>
-              <span>Samedi & Dimanche matin — 9h00 à 13h00</span>
+
+          <div class="contact-info-block">
+            <div class="ci-icon"><i class="fa-solid fa-clock"></i></div>
+            <div class="ci-content">
+              <h4>Horaires</h4>
+              <p>Sessions terrain : Samedi &amp; Dimanche 9h – 17h<br>Permanence bureau sur rendez-vous</p>
             </div>
           </div>
         </div>
 
-        <h4 style="margin-bottom:12px;">Suivez-nous</h4>
-        <div class="social-links">
-          <a href="#" class="social-link" title="Facebook TCA73" aria-label="Facebook">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="#" class="social-link" title="Instagram TCA73" aria-label="Instagram">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="#" class="social-link" title="YouTube TCA73" aria-label="YouTube">
-            <i class="fa-brands fa-youtube"></i>
-          </a>
+        <!-- Réseaux sociaux -->
+        <div class="fade-up" style="margin-top:24px;">
+          <h3 style="font-size:1.1rem; margin-bottom:4px; color:var(--deep);">Suivez-nous</h3>
+          <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0;">Actualités, photos et résultats en direct sur nos réseaux.</p>
+          <div class="social-row">
+            <a href="#" class="btn-social facebook" aria-label="Facebook TCA73"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+            <a href="#" class="btn-social instagram" aria-label="Instagram TCA73"><i class="fa-brands fa-instagram"></i> Instagram</a>
+            <a href="#" class="btn-social youtube" aria-label="YouTube TCA73"><i class="fa-brands fa-youtube"></i> YouTube</a>
+          </div>
         </div>
 
-        <!-- Carte -->
-        <div class="map-container">
+        <!-- Carte OpenStreetMap -->
+        <div class="fade-up" style="margin-top:24px;">
+          <h3 style="font-size:1.1rem; margin-bottom:12px; color:var(--deep);">Nous trouver</h3>
           <iframe
-            title="Carte Albertville"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=6.3200%2C45.6700%2C6.4000%2C45.7000&layer=mapnik&marker=45.6750%2C6.3900"
-            allowfullscreen
+            src="https://www.openstreetmap.org/export/embed.html?bbox=6.35%2C45.65%2C6.45%2C45.75&layer=mapnik"
+            style="width:100%;height:280px;border:0;border-radius:8px;display:block;"
             loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-          <div style="padding:12px 16px; background:var(--color-off-white); font-size:0.85rem; color:var(--color-text-muted);">
-            <i class="fa-solid fa-location-dot" style="color:var(--color-accent);"></i>
-            Les coordonnées GPS précises du terrain sont communiquées aux membres lors de l'adhésion.
-          </div>
+            title="Localisation TCA73 — Albertville, Savoie"
+          ></iframe>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">
+            <i class="fa-solid fa-circle-info" style="margin-right:4px;"></i>
+            Les coordonnées GPS précises du terrain sont communiquées aux membres après validation de l'adhésion.
+          </p>
         </div>
       </div>
 
-      <!-- Formulaire -->
+      <!-- ===== COLONNE DROITE : FORMULAIRE ===== -->
       <div class="fade-up">
-        <div class="form-card">
-          <h3 style="margin-bottom:8px;">Envoyez-nous un message</h3>
-          <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:28px;">Complétez le formulaire ci-dessous. Tous les champs marqués <span style="color:var(--color-red);">*</span> sont obligatoires.</p>
-          <form data-ajax>
+        <div class="card" style="padding:32px; border-radius:var(--radius-md); box-shadow:var(--shadow-md); background:var(--white);">
+          <h2 style="font-size:1.5rem; margin-bottom:6px;">Envoyer un message</h2>
+          <p style="color:var(--text-muted); font-size:0.92rem; margin-bottom:28px;">Remplissez ce formulaire et nous vous répondrons dans les plus brefs délais.</p>
+
+          <form data-ajax class="form-stack">
             <div class="form-row">
               <div class="form-group">
-                <label>Prénom <span class="required">*</span></label>
-                <input type="text" class="form-control" placeholder="Jean" required>
+                <label for="prenom">Prénom<span class="required-mark">*</span></label>
+                <input type="text" id="prenom" name="prenom" class="form-control" placeholder="Votre prénom" required>
               </div>
               <div class="form-group">
-                <label>Nom <span class="required">*</span></label>
-                <input type="text" class="form-control" placeholder="Dupont" required>
+                <label for="nom">Nom<span class="required-mark">*</span></label>
+                <input type="text" id="nom" name="nom" class="form-control" placeholder="Votre nom" required>
               </div>
             </div>
+
             <div class="form-group">
-              <label>Email <span class="required">*</span></label>
-              <input type="email" class="form-control" placeholder="jean.dupont@email.fr" required>
+              <label for="email">Adresse e-mail<span class="required-mark">*</span></label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="votre@email.fr" required>
             </div>
+
             <div class="form-group">
-              <label>Téléphone</label>
-              <input type="tel" class="form-control" placeholder="06 12 34 56 78">
+              <label for="telephone">Téléphone <span style="font-weight:400; opacity:0.6;">(optionnel)</span></label>
+              <input type="tel" id="telephone" name="telephone" class="form-control" placeholder="06 XX XX XX XX">
             </div>
+
             <div class="form-group">
-              <label>Sujet <span class="required">*</span></label>
-              <select class="form-control form-select" required>
-                <option value="">Sélectionner un sujet…</option>
+              <label for="sujet">Sujet<span class="required-mark">*</span></label>
+              <select id="sujet" name="sujet" class="form-control" required>
+                <option value="" disabled selected>Choisissez un sujet…</option>
                 <option value="adhesion">Adhésion au club</option>
-                <option value="ecole">École de trial — jeunes</option>
-                <option value="loisir">Section loisir adulte</option>
-                <option value="competition">Section compétition</option>
-                <option value="evenement">Événement / compétition</option>
-                <option value="partenariat">Partenariat / sponsor</option>
-                <option value="terrain">Accès au terrain</option>
-                <option value="presse">Presse / média</option>
-                <option value="autre">Autre demande</option>
+                <option value="partenariat">Partenariat</option>
+                <option value="information">Information générale</option>
+                <option value="ecole">École trial</option>
+                <option value="autre">Autre</option>
               </select>
             </div>
+
             <div class="form-group">
-              <label>Votre message <span class="required">*</span></label>
-              <textarea class="form-control" placeholder="Décrivez votre demande ici…" required style="min-height:150px;"></textarea>
+              <label for="message">Message<span class="required-mark">*</span></label>
+              <textarea id="message" name="message" class="form-control" rows="5" placeholder="Votre message…" required></textarea>
             </div>
-            <div class="form-group" style="display:flex; gap:10px; align-items:flex-start;">
-              <input type="checkbox" id="consent" style="margin-top:4px; flex-shrink:0;" required>
-              <label for="consent" style="font-size:0.88rem; color:var(--color-text-muted); cursor:pointer;">J'accepte que mes données soient utilisées pour traiter ma demande. Elles ne seront pas transmises à des tiers. <span style="color:var(--color-red);">*</span></label>
-            </div>
-            <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center;" data-label="Envoyer le message">
+
+            <button type="submit" class="btn btn--primary btn--lg" data-label="Envoyer" style="align-self:flex-start;">
               <i class="fa-solid fa-paper-plane"></i> Envoyer le message
             </button>
           </form>
+
           <div class="form-success">
-            <i class="fa-solid fa-circle-check" style="font-size:1.3rem;"></i>
-            <span>Message envoyé ! Nous vous répondrons dans les 48h.</span>
+            <i class="fa-solid fa-circle-check"></i>
+            <strong>Message envoyé !</strong> Merci, nous vous répondrons dans les meilleurs délais.
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<!-- ===== ACCÈS AU TERRAIN ===== -->
-<section class="section section--light">
-  <div class="container">
-    <div class="section-header fade-up">
-      <div class="tag">Comment venir</div>
-      <h2>Accès au terrain TCA73</h2>
-      <p>Albertville se situe en Savoie, à 1h de Grenoble et 45 min de Chambéry</p>
-      <div class="section-line"></div>
-    </div>
-    <div class="grid-3">
-      <div class="value-card fade-up">
-        <div class="value-icon">🚗</div>
-        <h3>En voiture</h3>
-        <p style="color:var(--color-text-muted);">Depuis Grenoble : A41 direction Chambéry puis A43 direction Albertville. Depuis Lyon : A43 jusqu'à Albertville. Les coordonnées GPS précises sont communiquées aux membres.</p>
-      </div>
-      <div class="value-card fade-up">
-        <div class="value-icon">🚆</div>
-        <h3>En train</h3>
-        <p style="color:var(--color-text-muted);">Gare SNCF d'Albertville, desservie depuis Chambéry (30 min) et Grenoble (1h). Depuis la gare, le terrain est accessible en taxi ou voiture partagée avec un membre.</p>
-      </div>
-      <div class="value-card fade-up">
-        <div class="value-icon">📍</div>
-        <h3>Sur site</h3>
-        <p style="color:var(--color-text-muted);">Parking gratuit sur place. Les premières visites se font accompagnées lors des sessions du week-end (samedi ou dimanche matin). Contactez-nous pour être accueilli !</p>
-      </div>
     </div>
   </div>
 </section>
@@ -225,54 +443,94 @@
 <section class="section">
   <div class="container">
     <div class="section-header fade-up">
-      <div class="tag">Informations pratiques</div>
-      <h2>Avant de venir</h2>
+      <div class="tag">FAQ</div>
+      <h2>Questions fréquentes</h2>
+      <p>Les réponses aux questions les plus courantes — pour aller plus vite !</p>
       <div class="section-line"></div>
     </div>
-    <div class="grid-2" style="gap:16px; max-width:900px; margin:0 auto;">
-      <div style="background:var(--color-off-white); border-radius:var(--radius-md); padding:24px;" class="fade-up">
-        <h4 style="display:flex; align-items:center; gap:10px; margin-bottom:8px;"><span style="font-size:1.3rem;">📋</span> Pour une première visite</h4>
-        <p style="color:var(--color-text-muted); font-size:0.92rem;">Contactez-nous à l'avance. Nous vous accueillerons lors d'une session encadrée du week-end pour vous présenter le club et le terrain en toute sécurité.</p>
+    <div class="faq-list">
+
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          Comment accéder au terrain du TCA73 ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Le terrain est situé à Albertville (73200). Les <strong>coordonnées GPS précises</strong> et le code d'accès sont transmis aux membres après validation de l'adhésion. Pour une première visite, nous vous invitons à venir lors d'une session encadrée du week-end — écrivez-nous pour organiser votre venue.</p>
+        </div>
       </div>
-      <div style="background:var(--color-off-white); border-radius:var(--radius-md); padding:24px;" class="fade-up">
-        <h4 style="display:flex; align-items:center; gap:10px; margin-bottom:8px;"><span style="font-size:1.3rem;">🪖</span> Équipements obligatoires</h4>
-        <p style="color:var(--color-text-muted); font-size:0.92rem;">Casque homologué + bottes moto requis sur le terrain. Pour les débutants lors des journées découverte, nous pouvons en prêter sur demande.</p>
+
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          Quels sont les tarifs d'adhésion ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Les cotisations 2025 varient de <strong>50 € à 130 € par an</strong> selon l'âge et la formule (loisir ou compétition). Consultez notre <a href="adhesion.html" style="color:var(--mountain); font-weight:500;">page Adhésion</a> pour le détail complet des tarifs et des avantages de chaque formule. Des réductions familiales sont disponibles pour les familles de 3 adhérents ou plus.</p>
+        </div>
       </div>
-      <div style="background:var(--color-off-white); border-radius:var(--radius-md); padding:24px;" class="fade-up">
-        <h4 style="display:flex; align-items:center; gap:10px; margin-bottom:8px;"><span style="font-size:1.3rem;">🌦️</span> Météo et conditions</h4>
-        <p style="color:var(--color-text-muted); font-size:0.92rem;">Les sessions peuvent être annulées en cas de conditions extrêmes. Suivez notre page Facebook pour les annonces de dernière minute avant de vous déplacer.</p>
+
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          Puis-je faire un essai gratuit avant de m'inscrire ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Oui ! Nous organisons régulièrement des <strong>journées portes ouvertes</strong> où vous pouvez découvrir le trial gratuitement, avec du matériel mis à disposition. Consultez la <a href="evenements.html" style="color:var(--mountain); font-weight:500;">page Événements</a> pour les prochaines dates, ou contactez-nous pour organiser une visite.</p>
+        </div>
       </div>
-      <div style="background:var(--color-off-white); border-radius:var(--radius-md); padding:24px;" class="fade-up">
-        <h4 style="display:flex; align-items:center; gap:10px; margin-bottom:8px;"><span style="font-size:1.3rem;">👶</span> Avec des enfants</h4>
-        <p style="color:var(--color-text-muted); font-size:0.92rem;">Les enfants sont les bienvenus ! L'école de trial accueille dès 5 ans. Prévenez-nous à l'avance pour que nous puissions préparer l'accueil dans les meilleures conditions.</p>
+
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          Est-il obligatoire d'avoir une licence FFM ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Oui, la <strong>licence FFM</strong> (Fédération Française de Motocyclisme) est obligatoire pour pratiquer sur notre terrain. Elle comprend une assurance responsabilité civile indispensable. Elle s'obtient en ligne sur <strong>ffmoto.org</strong> et coûte environ 50–80 € selon l'âge et le type. La cotisation club et la licence FFM sont deux démarches distinctes.</p>
+        </div>
       </div>
+
+      <div class="faq-item fade-up">
+        <button class="faq-question">
+          Quels sont les jours et horaires des sessions ?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>Les sessions terrain ont lieu les <strong>samedis et dimanches de 9h à 17h</strong>. L'école de trial pour les jeunes est encadrée par des moniteurs lors de ces créneaux. Des sessions thématiques (compétition, technique) peuvent être planifiées en semaine sur rendez-vous. Nous publions les éventuelles annulations sur notre page Facebook.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="text-center fade-up" style="margin-top:40px;">
+      <p style="color:var(--text-muted);">Vous avez d'autres questions ? <a href="adhesion.html#faq" style="color:var(--deep); font-weight:500;">Consultez la FAQ complète →</a></p>
     </div>
   </div>
 </section>
 
-<!-- ===== RÉSEAUX SOCIAUX ===== -->
-<section class="section section--dark">
-  <div class="container text-center fade-up">
-    <div class="tag" style="background:rgba(255,255,255,0.1); color:var(--color-sky);">Communauté</div>
-    <h2 style="color:white; margin:16px auto; max-width:500px;">Rejoignez notre communauté en ligne</h2>
-    <p style="color:rgba(255,255,255,0.7); max-width:480px; margin:0 auto 36px;">Actualités, résultats, photos de sessions, annonces d'événements… Suivez le TCA73 sur les réseaux sociaux pour ne rien manquer !</p>
-    <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
-      <a href="#" style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:white; padding:16px 28px; border-radius:var(--radius-sm); transition:all 0.3s ease; text-decoration:none;"
-         onmouseover="this.style.background='#1877F2'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
-        <i class="fa-brands fa-facebook-f" style="font-size:1.3rem;"></i>
-        <div style="text-align:left;">
-          <strong style="display:block; font-family:var(--font-heading); font-size:1rem; letter-spacing:0.04em;">Facebook</strong>
-          <span style="font-size:0.82rem; color:rgba(255,255,255,0.65);">TCA73 — Trial Club Albertvillois</span>
+<!-- ===== CHATBOT PUBLIC ===== -->
+<section class="section section--light">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Assistant virtuel</div>
+      <h2>Une question rapide ?</h2>
+      <p>Notre assistant répond instantanément à vos questions sur le club, les inscriptions, le trial en Savoie…</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="fade-up">
+      <div class="chatbot-wrap" id="public-chatbot">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div>
+            <strong>Assistant TCA73</strong>
+            <span>Répond à vos questions</span>
+          </div>
         </div>
-      </a>
-      <a href="#" style="display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:white; padding:16px 28px; border-radius:var(--radius-sm); transition:all 0.3s ease; text-decoration:none;"
-         onmouseover="this.style.background='#E1306C'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
-        <i class="fa-brands fa-instagram" style="font-size:1.3rem;"></i>
-        <div style="text-align:left;">
-          <strong style="display:block; font-family:var(--font-heading); font-size:1rem; letter-spacing:0.04em;">Instagram</strong>
-          <span style="font-size:0.82rem; color:rgba(255,255,255,0.65);">@tca73_trial</span>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-wrap">
+          <input type="text" id="chat-input" placeholder="Posez votre question…" autocomplete="off" />
+          <button id="chat-send" class="btn btn--primary">Envoyer</button>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </section>
@@ -281,47 +539,21 @@
 <footer id="footer">
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <div class="logo-badge">TCA</div>
-          <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
-        </a>
-        <p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        </div>
-      </div>
-      <div class="footer-col"><h4>Navigation</h4><ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="club.html">Le Club</a></li>
-        <li><a href="adhesion.html">Adhésion</a></li>
-        <li><a href="evenements.html">Événements</a></li>
-        <li><a href="galerie.html">Galerie</a></li>
-        <li><a href="partenaires.html">Partenaires</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="#">contact@tca73.fr</a></li>
-        <li><a href="#">Albertville, Savoie (73)</a></li>
-        <li><a href="#">Facebook TCA73</a></li>
-        <li><a href="#">Instagram @tca73_trial</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Liens utiles</h4><ul>
-        <li><a href="#">HelloAsso — Adhésion</a></li>
-        <li><a href="#">FFM — Licence</a></li>
-        <li><a href="partenaires.html">Devenir partenaire</a></li>
-        <li><a href="#">Mentions légales</a></li>
-      </ul></div>
+      <div class="footer-brand"><a href="index.html" class="logo"><div class="logo-badge">TCA</div><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a><p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie.</p><div class="footer-social"><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="club.html">Le Club</a></li><li><a href="adhesion.html">Adhésion</a></li><li><a href="evenements.html">Événements</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="partenaires.html">Partenaires</a></li></ul></div>
+      <div class="footer-col"><h4>Liens</h4><ul><li><a href="espace-membre.html">Espace Membre</a></li><li><a href="#">HelloAsso</a></li><li><a href="#">Licence FFM</a></li><li><a href="partenaires.html">Devenir partenaire</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">Nous contacter</a></li><li><a href="#">contact@tca73.fr</a></li><li><a href="#">Albertville (73)</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span>
-      <span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span>
-    </div>
+    <div class="footer-bottom"><span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span><span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span></div>
   </div>
 </footer>
-
 <button class="back-to-top" title="Retour en haut"><i class="fa-solid fa-chevron-up"></i></button>
 <script src="js/main.js"></script>
+<script src="js/ia.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.initPublicChatbot) window.initPublicChatbot();
+  });
+</script>
 </body>
 </html>

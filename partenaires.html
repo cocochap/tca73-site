@@ -3,29 +3,255 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Partenaires — TCA73 | Nos sponsors et partenaires</title>
-  <meta name="description" content="Découvrez les partenaires du Trial Club Albertvillois 73. Partenaires Or, Argent, Bronze. Soutenez le trial en Savoie.">
+  <title>Partenaires — TCA73 | Trial Club Albertvillois 73</title>
+  <meta name="description" content="Découvrez les partenaires et sponsors du Trial Club Albertvillois 73. Entreprises locales, institutionnels, rejoignez l'aventure TCA73 en devenant partenaire.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Partner cards ---- */
+    .partner-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .partner-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .partner-logo-wrap {
+      padding: 32px 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+    }
+    .partner-card.gold   .partner-logo-wrap { background: linear-gradient(135deg, #7B5800 0%, #D4A017 50%, #F5C842 100%); }
+    .partner-card.silver .partner-logo-wrap { background: linear-gradient(135deg, #4A5568 0%, #7B8FA6 50%, #A0B4C8 100%); }
+    .partner-card.bronze .partner-logo-wrap { background: linear-gradient(135deg, #5C3211 0%, #A0522D 50%, #C47A50 100%); }
+
+    .partner-logo-placeholder {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 3px solid rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.08em;
+    }
+    .partner-card.gold .partner-logo-placeholder { width: 110px; height: 110px; font-size: 1.7rem; }
+
+    .partner-body {
+      padding: 20px 24px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .partner-body h3 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--deep);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+    .partner-card.gold .partner-body h3 { font-size: 1.35rem; }
+
+    .partner-category {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+    }
+    .partner-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin: 0;
+      flex: 1;
+    }
+    .partner-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-family: var(--font-heading);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+    .partner-badge.gold   { background: linear-gradient(90deg, #D4A017, #F5C842); color: #3D2800; }
+    .partner-badge.silver { background: linear-gradient(90deg, #7B8FA6, #A0B4C8); color: #1A2636; }
+    .partner-badge.bronze { background: linear-gradient(90deg, #A0522D, #C47A50); color: #2A1200; }
+
+    /* ---- Institutionnels ---- */
+    .instit-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .instit-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+    .instit-logo {
+      width: 110px;
+      height: 110px;
+      border-radius: var(--radius-md);
+      background: var(--light-bg);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--deep);
+      text-align: center;
+      letter-spacing: 0.05em;
+      padding: 8px;
+      line-height: 1.25;
+    }
+    .instit-item span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      max-width: 120px;
+      line-height: 1.3;
+    }
+
+    /* ---- Ticker ---- */
+    .ticker-section {
+      background: var(--deep);
+      padding: 22px 0;
+      overflow: hidden;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      white-space: nowrap;
+      animation: ticker-scroll 32s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 32px;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .ticker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--glacier);
+      flex-shrink: 0;
+    }
+
+    /* ---- Cards glass (devenir partenaire) ---- */
+    .card-glass {
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.20);
+      border-radius: var(--radius-md);
+      padding: 36px 28px;
+      text-align: center;
+      transition: transform var(--transition), background var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .card-glass:hover {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.16);
+    }
+    .card-glass .cg-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .card-glass.gold-card   .cg-icon { background: linear-gradient(135deg, #D4A017, #F5C842); color: #3D2800; }
+    .card-glass.silver-card .cg-icon { background: linear-gradient(135deg, #7B8FA6, #A0B4C8); color: #1A2636; }
+    .card-glass.bronze-card .cg-icon { background: linear-gradient(135deg, #A0522D, #C47A50); color: #2A1200; }
+
+    .card-glass h3 { color: white; margin: 0; font-size: 1.4rem; }
+    .card-glass .cg-price {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+    }
+    .card-glass .cg-price span { font-size: 1rem; opacity: 0.65; font-weight: 400; }
+    .card-glass ul {
+      text-align: left;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 0;
+    }
+    .card-glass ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .card-glass ul li i { color: var(--glacier); flex-shrink: 0; margin-top: 3px; }
+  </style>
 </head>
 <body>
 
+<!-- ===== HEADER ===== -->
 <header id="header">
   <div class="header-inner">
-    <a href="index.html" class="logo">
-      <div class="logo-badge">TCA</div>
-      <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
-    </a>
+    <a href="index.html" class="logo"><div class="logo-badge">TCA</div><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a>
     <nav class="nav-links">
-      <a href="index.html">Accueil</a>
-      <a href="club.html">Le Club</a>
-      <a href="adhesion.html">Adhésion</a>
-      <a href="evenements.html">Événements</a>
-      <a href="galerie.html">Galerie</a>
-      <a href="partenaires.html" class="active">Partenaires</a>
+      <a href="index.html">Accueil</a><a href="club.html">Le Club</a>
+      <a href="adhesion.html">Adhésion</a><a href="evenements.html">Événements</a>
+      <a href="galerie.html">Galerie</a><a href="partenaires.html" class="active">Partenaires</a>
+      <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
       <a href="contact.html" class="nav-cta">Contact</a>
     </nav>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -38,9 +264,11 @@
   <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
   <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
   <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
-  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
 </nav>
 
+<!-- ===== PAGE HERO ===== -->
 <section class="page-hero">
   <div style="position:absolute;inset:0;overflow:hidden;z-index:0;">
     <svg style="position:absolute;bottom:0;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">
@@ -50,235 +278,328 @@
   <div class="page-hero-content">
     <div class="breadcrumb"><a href="index.html">Accueil</a><span>Partenaires</span></div>
     <h1>Nos Partenaires</h1>
-    <p>Ils soutiennent le trial en Savoie et font vivre le TCA73</p>
+    <p>Ensemble, nous faisons vivre le trial en Savoie</p>
+    <div class="tag" style="margin-top:16px; display:inline-block;">Partenaires &amp; sponsors</div>
   </div>
 </section>
 
 <!-- ===== INTRO ===== -->
-<section class="section section--light" style="padding-bottom:40px;">
-  <div class="container text-center fade-up" style="max-width:720px; margin:0 auto;">
-    <div class="tag">Remerciements</div>
-    <h2>Nos soutiens de la première heure</h2>
-    <p style="color:var(--color-text-muted); font-size:1.05rem; margin-top:12px;">Le TCA73 ne serait pas ce qu'il est sans le soutien fidèle de ses partenaires. Que ce soit par un soutien financier, en matériel ou en visibilité, chaque partenaire contribue concrètement au développement du trial en Savoie. Un grand merci à eux.</p>
+<section class="section section--light">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Notre réseau</div>
+      <h2>Des partenaires engagés à nos côtés</h2>
+      <p>Le TCA73 ne serait pas ce qu'il est sans le soutien fidèle d'entreprises et d'institutions qui partagent nos valeurs : passion, territoire, et sport pour tous. Grâce à eux, nous pouvons organiser des compétitions, entretenir notre terrain, former nos jeunes pilotes et rayonner en Savoie et au-delà.</p>
+      <div class="section-line"></div>
+    </div>
+    <div style="display:flex; justify-content:center; align-items:center; gap:48px; flex-wrap:wrap; margin-top:16px;" class="fade-up">
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-heading); font-size:2.8rem; font-weight:700; color:var(--deep); line-height:1;">15</div>
+        <div style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-top:4px;">Partenaires actifs</div>
+      </div>
+      <div style="width:2px; height:60px; background:var(--border); border-radius:2px;"></div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-heading); font-size:2.8rem; font-weight:700; color:var(--mountain); line-height:1;">3</div>
+        <div style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-top:4px;">Niveaux de partenariat</div>
+      </div>
+      <div style="width:2px; height:60px; background:var(--border); border-radius:2px;"></div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-heading); font-size:2.8rem; font-weight:700; color:var(--tca-red); line-height:1;">2019</div>
+        <div style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-top:4px;">Depuis</div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ===== PARTENAIRES OR ===== -->
-<section class="section" style="padding-top:40px;">
+<section class="section">
   <div class="container">
-
-    <div class="partners-tier fade-up">
-      <div class="tier-header">
-        <span class="tier-badge gold"><i class="fa-solid fa-star"></i> Partenaires Or</span>
-        <div style="flex:1; height:1px; background:var(--color-border);"></div>
-      </div>
-      <div class="partners-logos tier-gold">
-        <div class="partner-logo" style="height:130px; min-width:220px; flex:1; flex-direction:column; gap:8px;">
-          <div style="font-size:2.5rem;">🏍️</div>
-          <span style="font-size:1.2rem; font-family:var(--font-heading); color:var(--color-primary);">Alpes Motos</span>
-          <span style="font-size:0.8rem; color:var(--color-text-muted);">Concessionnaire moto — Albertville</span>
-        </div>
-        <div class="partner-logo" style="height:130px; min-width:220px; flex:1; flex-direction:column; gap:8px;">
-          <div style="font-size:2.5rem;">🏛️</div>
-          <span style="font-size:1.2rem; font-family:var(--font-heading); color:var(--color-primary);">Mairie d'Albertville</span>
-          <span style="font-size:0.8rem; color:var(--color-text-muted);">Collectivité — Albertville</span>
-        </div>
-        <div class="partner-logo" style="height:130px; min-width:220px; flex:1; flex-direction:column; gap:8px;">
-          <div style="font-size:2.5rem;">🏔️</div>
-          <span style="font-size:1.2rem; font-family:var(--font-heading); color:var(--color-primary);">Savoie Équipement</span>
-          <span style="font-size:0.8rem; color:var(--color-text-muted);">Équipement moto & outdoor</span>
-        </div>
-      </div>
+    <div class="section-header fade-up">
+      <div class="tag" style="background:linear-gradient(90deg,#D4A017,#F5C842); color:#3D2800;">Partenaires Or</div>
+      <h2>Nos grands partenaires</h2>
+      <p>Les partenaires or sont au cœur du projet TCA73. Leur soutien majeur nous permet d'agir à grande échelle et d'offrir les meilleures conditions à nos membres et à nos compétiteurs.</p>
+      <div class="section-line" style="background:linear-gradient(90deg,#D4A017,#F5C842);"></div>
     </div>
+    <div class="grid-3">
 
-    <!-- Partenaires Argent -->
-    <div class="partners-tier fade-up">
-      <div class="tier-header">
-        <span class="tier-badge silver"><i class="fa-solid fa-medal"></i> Partenaires Argent</span>
-        <div style="flex:1; height:1px; background:var(--color-border);"></div>
-      </div>
-      <div class="partners-logos tier-silver">
-        <div class="partner-logo" style="height:110px; min-width:180px; flex:1; flex-direction:column; gap:6px;">
-          <div style="font-size:2rem;">🔧</div>
-          <span style="font-size:1rem; font-family:var(--font-heading); color:var(--color-primary);">Garage Savoyard</span>
-          <span style="font-size:0.78rem; color:var(--color-text-muted);">Mécanique moto — Moûtiers</span>
+      <div class="partner-card gold fade-up">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">S2K</div>
         </div>
-        <div class="partner-logo" style="height:110px; min-width:180px; flex:1; flex-direction:column; gap:6px;">
-          <div style="font-size:2rem;">🏪</div>
-          <span style="font-size:1rem; font-family:var(--font-heading); color:var(--color-primary);">Sport 73</span>
-          <span style="font-size:0.78rem; color:var(--color-text-muted);">Articles de sport — Albertville</span>
-        </div>
-        <div class="partner-logo" style="height:110px; min-width:180px; flex:1; flex-direction:column; gap:6px;">
-          <div style="font-size:2rem;">🍕</div>
-          <span style="font-size:1rem; font-family:var(--font-heading); color:var(--color-primary);">Pizzeria des Alpes</span>
-          <span style="font-size:0.78rem; color:var(--color-text-muted);">Restauration — Albertville</span>
-        </div>
-        <div class="partner-logo" style="height:110px; min-width:180px; flex:1; flex-direction:column; gap:6px;">
-          <div style="font-size:2rem;">🚛</div>
-          <span style="font-size:1rem; font-family:var(--font-heading); color:var(--color-primary);">Transports Martin</span>
-          <span style="font-size:0.78rem; color:var(--color-text-muted);">Logistique — Savoie</span>
+        <div class="partner-body">
+          <div class="partner-category">Équipementier sportif</div>
+          <h3>Sport2000 Albertville</h3>
+          <p class="partner-desc">Spécialiste de l'équipement sportif de montagne et de loisir, Sport2000 Albertville soutient nos pilotes en leur proposant des tarifs préférentiels sur les équipements de protection et la tenue de sport.</p>
+          <div class="partner-badge gold"><i class="fa-solid fa-star"></i> Or</div>
         </div>
       </div>
+
+      <div class="partner-card gold fade-up">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">MS73</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Mécanique moto</div>
+          <h3>Moto Service 73</h3>
+          <p class="partner-desc">Partenaire technique et sponsor maillot officiel du TCA73. Moto Service 73 assure l'entretien et la préparation des motos du club, et accompagne nos compétiteurs tout au long de la saison.</p>
+          <div class="partner-badge gold"><i class="fa-solid fa-star"></i> Or</div>
+        </div>
+      </div>
+
+      <div class="partner-card gold fade-up">
+        <div class="partner-logo-wrap">
+          <div class="partner-logo-placeholder">CV</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Partenaire montagne</div>
+          <h3>Station Crest-Voland</h3>
+          <p class="partner-desc">Fidèle partenaire montagne du club, la Station Crest-Voland incarne les mêmes valeurs de sport et de nature que le TCA73. Un partenariat privilégié pour des sorties et événements hors du commun.</p>
+          <div class="partner-badge gold"><i class="fa-solid fa-star"></i> Or</div>
+        </div>
+      </div>
+
     </div>
+  </div>
+</section>
 
-    <!-- Partenaires Bronze -->
-    <div class="partners-tier fade-up">
-      <div class="tier-header">
-        <span class="tier-badge bronze"><i class="fa-solid fa-award"></i> Partenaires Bronze</span>
-        <div style="flex:1; height:1px; background:var(--color-border);"></div>
-      </div>
-      <div class="partners-logos tier-bronze">
-        <div class="partner-logo" style="height:90px; min-width:150px; flex:1; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">Alpi Pneus</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Pneumatiques</span>
-        </div>
-        <div class="partner-logo" style="height:90px; min-width:150px; flex:1; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">BTP Savoie</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Travaux publics</span>
-        </div>
-        <div class="partner-logo" style="height:90px; min-width:150px; flex:1; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">Hôtel Beaulieu</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Hôtellerie</span>
-        </div>
-        <div class="partner-logo" style="height:90px; min-width:150px; flex:1; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">Photo Lumière 73</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Photographie</span>
-        </div>
-        <div class="partner-logo" style="height:90px; min-width:150px; flex:1; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">Imprimerie Savoyard</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Communication imprimée</span>
-        </div>
-        <div class="partner-logo" style="height:90px; min-width:150px; flex:1; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">Pharmacie du Sport</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Santé sportive</span>
-        </div>
-      </div>
+<!-- ===== PARTENAIRES ARGENT ===== -->
+<section class="section section--light">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag" style="background:linear-gradient(90deg,#7B8FA6,#A0B4C8); color:#1A2636;">Partenaires Argent</div>
+      <h2>Nos partenaires argent</h2>
+      <p>Acteurs incontournables du territoire, nos partenaires argent contribuent activement à la vie du club et à l'organisation de nos événements tout au long de l'année.</p>
+      <div class="section-line" style="background:linear-gradient(90deg,#7B8FA6,#A0B4C8);"></div>
     </div>
+    <div class="grid-4">
 
-    <!-- Institutionnels -->
-    <div class="fade-up" style="margin-top:16px;">
-      <h3 style="margin-bottom:20px; font-size:1.1rem; color:var(--color-text-muted); text-align:center; text-transform:uppercase; letter-spacing:0.08em; font-family:var(--font-heading);">Soutiens institutionnels</h3>
-      <div style="display:flex; flex-wrap:wrap; gap:16px; justify-content:center;">
-        <div class="partner-logo" style="height:80px; min-width:140px; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">Conseil Savoie Mont-Blanc</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Soutien sport</span>
+      <div class="partner-card silver fade-up">
+        <div class="partner-logo-wrap" style="min-height:110px;">
+          <div class="partner-logo-placeholder">GA</div>
         </div>
-        <div class="partner-logo" style="height:80px; min-width:140px; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">FFM Ligue AuRA</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Fédération</span>
+        <div class="partner-body">
+          <div class="partner-category">Automobile & Moto</div>
+          <h3>Garage des Alpes</h3>
+          <p class="partner-desc">Concessionnaire et atelier automobile et moto, le Garage des Alpes soutient la logistique terrain du TCA73 et entretient les véhicules du club.</p>
+          <div class="partner-badge silver"><i class="fa-solid fa-medal"></i> Argent</div>
         </div>
-        <div class="partner-logo" style="height:80px; min-width:140px; flex-direction:column; gap:4px;">
-          <span style="font-size:0.95rem; font-family:var(--font-heading); color:var(--color-primary);">CTOS Savoie</span>
-          <span style="font-size:0.75rem; color:var(--color-text-muted);">Comité olympique</span>
+      </div>
+
+      <div class="partner-card silver fade-up">
+        <div class="partner-logo-wrap" style="min-height:110px;">
+          <div class="partner-logo-placeholder">IBIS</div>
         </div>
+        <div class="partner-body">
+          <div class="partner-category">Hôtellerie</div>
+          <h3>Hôtel Ibis Albertville</h3>
+          <p class="partner-desc">Partenaire hébergement officiel lors des compétitions et déplacements, l'Ibis Albertville accueille pilotes et visiteurs dans les meilleures conditions.</p>
+          <div class="partner-badge silver"><i class="fa-solid fa-medal"></i> Argent</div>
+        </div>
+      </div>
+
+      <div class="partner-card silver fade-up">
+        <div class="partner-logo-wrap" style="min-height:110px;">
+          <div class="partner-logo-placeholder">QUA</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Sport & Outdoor</div>
+          <h3>Quechua Decathlon</h3>
+          <p class="partner-desc">Leader du sport accessible, Quechua Decathlon fournit équipements et matériels outdoor pour les sorties et activités du club en montagne savoyard.</p>
+          <div class="partner-badge silver"><i class="fa-solid fa-medal"></i> Argent</div>
+        </div>
+      </div>
+
+      <div class="partner-card silver fade-up">
+        <div class="partner-logo-wrap" style="min-height:110px;">
+          <div class="partner-logo-placeholder">AK</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Loisirs motorisés</div>
+          <h3>Alpes Karting</h3>
+          <p class="partner-desc">Passionnés de sports motorisés comme nous, Alpes Karting est un partenaire naturel du TCA73 pour les événements, animations et journées conviviales.</p>
+          <div class="partner-badge silver"><i class="fa-solid fa-medal"></i> Argent</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARTENAIRES BRONZE ===== -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag" style="background:linear-gradient(90deg,#A0522D,#C47A50); color:#fff;">Partenaires Bronze</div>
+      <h2>Nos partenaires bronze</h2>
+      <p>Entreprises et organismes qui font confiance au TCA73 et participent, à leur niveau, au développement du trial et de la pratique moto en Savoie.</p>
+      <div class="section-line" style="background:linear-gradient(90deg,#A0522D,#C47A50);"></div>
+    </div>
+    <div class="grid-4">
+
+      <div class="partner-card bronze fade-up">
+        <div class="partner-logo-wrap" style="min-height:100px;">
+          <div class="partner-logo-placeholder" style="width:72px;height:72px;font-size:1rem;">FFM</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Fédération sportive</div>
+          <h3>FFM Savoie</h3>
+          <p class="partner-desc">La délégation Savoie de la FFM soutient la structuration et le développement du trial dans le département avec le TCA73.</p>
+          <div class="partner-badge bronze"><i class="fa-solid fa-award"></i> Bronze</div>
+        </div>
+      </div>
+
+      <div class="partner-card bronze fade-up">
+        <div class="partner-logo-wrap" style="min-height:100px;">
+          <div class="partner-logo-placeholder" style="width:72px;height:72px;font-size:0.85rem;">MAIRIE</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Collectivité locale</div>
+          <h3>Mairie d'Albertville</h3>
+          <p class="partner-desc">La ville d'Albertville, fidèle à son ADN de cité olympique et sportive, soutient les clubs locaux dont le TCA73 dans leur développement.</p>
+          <div class="partner-badge bronze"><i class="fa-solid fa-award"></i> Bronze</div>
+        </div>
+      </div>
+
+      <div class="partner-card bronze fade-up">
+        <div class="partner-logo-wrap" style="min-height:100px;">
+          <div class="partner-logo-placeholder" style="width:72px;height:72px;font-size:0.85rem;">CLIN.</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Santé du sportif</div>
+          <h3>Clinique du Sport</h3>
+          <p class="partner-desc">La Clinique du Sport Albertville assure le suivi médical de nos pilotes et intervient lors de nos événements pour garantir la sécurité de tous.</p>
+          <div class="partner-badge bronze"><i class="fa-solid fa-award"></i> Bronze</div>
+        </div>
+      </div>
+
+      <div class="partner-card bronze fade-up">
+        <div class="partner-logo-wrap" style="min-height:100px;">
+          <div class="partner-logo-placeholder" style="width:72px;height:72px;font-size:1rem;">TCA+</div>
+        </div>
+        <div class="partner-body">
+          <div class="partner-category">Partenaire local</div>
+          <h3>Votre entreprise ?</h3>
+          <p class="partner-desc">Rejoignez nos partenaires bronze et associez votre image à un club dynamique, ancré dans son territoire, porteur de valeurs sportives fortes.</p>
+          <div class="partner-badge bronze"><i class="fa-solid fa-award"></i> Bronze</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PARTENAIRES INSTITUTIONNELS ===== -->
+<section class="section section--light">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="tag">Institutionnels</div>
+      <h2>Nos soutiens institutionnels</h2>
+      <p>Collectivités et organismes publics qui accompagnent le TCA73 dans sa mission de développement du sport et de la pratique moto en Savoie.</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="instit-row fade-up">
+      <div class="instit-item">
+        <div class="instit-logo">MAIRIE<br>Albertville</div>
+        <span>Mairie d'Albertville</span>
+      </div>
+      <div class="instit-item">
+        <div class="instit-logo">DEPT.<br>73</div>
+        <span>Département de la Savoie</span>
+      </div>
+      <div class="instit-item">
+        <div class="instit-logo">FFM</div>
+        <span>Fédération Française<br>de Motocyclisme</span>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker-section">
+  <div class="ticker-track">
+    <!-- Série 1 -->
+    <span class="ticker-item"><span class="ticker-dot"></span>Sport2000 Albertville</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Moto Service 73</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Station Crest-Voland</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Garage des Alpes</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Hôtel Ibis Albertville</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Quechua Decathlon</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Alpes Karting</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FFM Savoie</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Mairie d'Albertville</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Clinique du Sport</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Département de la Savoie</span>
+    <!-- Série 2 — doublon pour l'effet infini -->
+    <span class="ticker-item"><span class="ticker-dot"></span>Sport2000 Albertville</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Moto Service 73</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Station Crest-Voland</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Garage des Alpes</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Hôtel Ibis Albertville</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Quechua Decathlon</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Alpes Karting</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>FFM Savoie</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Mairie d'Albertville</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Clinique du Sport</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Département de la Savoie</span>
+  </div>
+</div>
 
 <!-- ===== DEVENIR PARTENAIRE ===== -->
-<section class="section section--light" id="devenir-partenaire">
+<section class="section section--dark">
   <div class="container">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start;">
-      <div class="fade-up">
-        <div class="tag">Rejoignez-nous</div>
-        <h2>Devenir partenaire TCA73</h2>
-        <p style="color:var(--color-text-muted); margin-top:12px; font-size:1.05rem;">Soutenir le TCA73, c'est soutenir un club de sport local, dynamique et engagé dans sa communauté. C'est aussi une belle visibilité pour votre marque ou votre entreprise auprès d'une audience passionnée.</p>
-        <h3 style="margin:28px 0 16px; font-size:1.2rem;">Ce que nous offrons à nos partenaires</h3>
-        <div style="display:flex; flex-direction:column; gap:14px;">
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:var(--color-primary); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-eye" style="font-size:0.8rem;"></i></div>
-            <div><strong>Visibilité sur le site web</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:2px 0 0;">Logo sur la page partenaires, mention dans les actualités et les comptes-rendus d'événements.</p></div>
-          </div>
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:var(--color-primary); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-shirt" style="font-size:0.8rem;"></i></div>
-            <div><strong>Logo sur les tenues des pilotes</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:2px 0 0;">Présence sur les maillots et combinaisons lors des compétitions.</p></div>
-          </div>
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:var(--color-primary); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-brands fa-instagram" style="font-size:0.8rem;"></i></div>
-            <div><strong>Mise en avant sur les réseaux sociaux</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:2px 0 0;">Mentions, stories et publications dédiées sur Facebook et Instagram.</p></div>
-          </div>
-          <div style="display:flex; gap:12px; align-items:flex-start;">
-            <div style="width:32px; height:32px; background:var(--color-primary); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i class="fa-solid fa-ticket" style="font-size:0.8rem;"></i></div>
-            <div><strong>Invitations aux événements</strong><p style="color:var(--color-text-muted); font-size:0.9rem; margin:2px 0 0;">Accès VIP aux journées partenaires, démonstrations privées et événements club.</p></div>
-          </div>
-        </div>
+    <div class="section-header fade-up">
+      <div class="tag">Partenariat</div>
+      <h2>Devenez partenaire du TCA73</h2>
+      <p style="color:rgba(255,255,255,0.72);">Associez votre image à un club dynamique, visible et ancré dans le territoire savoyard. Trois niveaux d'engagement pour tous les budgets, avec des formules sur mesure possibles.</p>
+      <div class="section-line"></div>
+    </div>
+    <div class="grid-3" style="gap:24px;">
 
-        <div style="display:flex; flex-direction:column; gap:12px; margin-top:28px;">
-          <div style="background:white; border-radius:var(--radius-sm); padding:16px 20px; border:2px solid var(--color-gold); display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="color:var(--color-gold); font-family:var(--font-heading); font-size:1rem; letter-spacing:0.04em;"><i class="fa-solid fa-star"></i> OR</strong>
-              <p style="color:var(--color-text-muted); font-size:0.85rem; margin:2px 0 0;">Visibilité maximale, toutes prestations incluses</p>
-            </div>
-            <span style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-gold);">500€+/an</span>
-          </div>
-          <div style="background:white; border-radius:var(--radius-sm); padding:16px 20px; border:2px solid var(--color-silver); display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="color:var(--color-silver); font-family:var(--font-heading); font-size:1rem; letter-spacing:0.04em;"><i class="fa-solid fa-medal"></i> ARGENT</strong>
-              <p style="color:var(--color-text-muted); font-size:0.85rem; margin:2px 0 0;">Bonne visibilité, logo tenues + web + réseaux</p>
-            </div>
-            <span style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-silver);">250€/an</span>
-          </div>
-          <div style="background:white; border-radius:var(--radius-sm); padding:16px 20px; border:2px solid var(--color-bronze); display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong style="color:var(--color-bronze); font-family:var(--font-heading); font-size:1rem; letter-spacing:0.04em;"><i class="fa-solid fa-award"></i> BRONZE</strong>
-              <p style="color:var(--color-text-muted); font-size:0.85rem; margin:2px 0 0;">Logo site web + mention événements</p>
-            </div>
-            <span style="font-family:var(--font-heading); font-size:1.3rem; color:var(--color-bronze);">100€/an</span>
-          </div>
-        </div>
+      <div class="card-glass gold-card fade-up">
+        <div class="cg-icon"><i class="fa-solid fa-star"></i></div>
+        <h3>Partenaire Or</h3>
+        <div class="cg-price">1 500 € <span>/ an</span></div>
+        <ul>
+          <li><i class="fa-solid fa-circle-check"></i> Logo XL sur le maillot officiel</li>
+          <li><i class="fa-solid fa-circle-check"></i> Présence sur toutes les communications</li>
+          <li><i class="fa-solid fa-circle-check"></i> Accès VIP à tous les événements</li>
+          <li><i class="fa-solid fa-circle-check"></i> Logo sur site, réseaux et affiches</li>
+          <li><i class="fa-solid fa-circle-check"></i> Mentions presse et communiqués</li>
+        </ul>
+        <a href="contact.html" class="btn btn--primary" style="margin-top:8px; width:100%; justify-content:center;"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
       </div>
 
-      <!-- Formulaire partenaire -->
-      <div class="fade-up">
-        <div class="form-card">
-          <h3 style="margin-bottom:8px;">Nous contacter pour un partenariat</h3>
-          <p style="color:var(--color-text-muted); font-size:0.9rem; margin-bottom:24px;">Remplissez ce formulaire et nous reviendrons vers vous dans les 48h pour discuter des modalités.</p>
-          <form data-ajax>
-            <div class="form-row">
-              <div class="form-group">
-                <label>Votre prénom <span class="required">*</span></label>
-                <input type="text" class="form-control" placeholder="Jean" required>
-              </div>
-              <div class="form-group">
-                <label>Votre nom <span class="required">*</span></label>
-                <input type="text" class="form-control" placeholder="Dupont" required>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Nom de l'entreprise <span class="required">*</span></label>
-              <input type="text" class="form-control" placeholder="Alpes Motos" required>
-            </div>
-            <div class="form-group">
-              <label>Email professionnel <span class="required">*</span></label>
-              <input type="email" class="form-control" placeholder="jean@entreprise.fr" required>
-            </div>
-            <div class="form-group">
-              <label>Téléphone</label>
-              <input type="tel" class="form-control" placeholder="06 12 34 56 78">
-            </div>
-            <div class="form-group">
-              <label>Niveau de partenariat souhaité</label>
-              <select class="form-control form-select">
-                <option value="">Sélectionner un niveau…</option>
-                <option value="or">⭐ Partenaire Or — 500€+/an</option>
-                <option value="argent">🥈 Partenaire Argent — 250€/an</option>
-                <option value="bronze">🥉 Partenaire Bronze — 100€/an</option>
-                <option value="autre">Autre — à discuter</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Votre message</label>
-              <textarea class="form-control" placeholder="Décrivez votre activité et ce qui vous attire dans un partenariat avec le TCA73…" style="min-height:110px;"></textarea>
-            </div>
-            <button type="submit" class="btn btn--primary" style="width:100%; justify-content:center;" data-label="Envoyer la demande"><i class="fa-solid fa-paper-plane"></i> Envoyer la demande</button>
-          </form>
-          <div class="form-success">
-            <i class="fa-solid fa-circle-check" style="font-size:1.3rem;"></i>
-            <span>Votre demande a bien été envoyée ! Nous vous répondrons dans les 48h.</span>
-          </div>
-        </div>
+      <div class="card-glass silver-card fade-up">
+        <div class="cg-icon"><i class="fa-solid fa-medal"></i></div>
+        <h3>Partenaire Argent</h3>
+        <div class="cg-price">800 € <span>/ an</span></div>
+        <ul>
+          <li><i class="fa-solid fa-circle-check"></i> Logo sur le maillot officiel</li>
+          <li><i class="fa-solid fa-circle-check"></i> Présence sur les réseaux sociaux</li>
+          <li><i class="fa-solid fa-circle-check"></i> 2 invitations aux événements du club</li>
+          <li><i class="fa-solid fa-circle-check"></i> Logo sur le site web</li>
+          <li><i class="fa-solid fa-circle-check"></i> Mentions dans la newsletter</li>
+        </ul>
+        <a href="contact.html" class="btn btn--outline" style="margin-top:8px; width:100%; justify-content:center;"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
       </div>
+
+      <div class="card-glass bronze-card fade-up">
+        <div class="cg-icon"><i class="fa-solid fa-award"></i></div>
+        <h3>Partenaire Bronze</h3>
+        <div class="cg-price">300 € <span>/ an</span></div>
+        <ul>
+          <li><i class="fa-solid fa-circle-check"></i> Logo sur le site web du club</li>
+          <li><i class="fa-solid fa-circle-check"></i> Mentions dans la newsletter</li>
+          <li><i class="fa-solid fa-circle-check"></i> 1 invitation à un événement</li>
+          <li><i class="fa-solid fa-circle-check"></i> Certificat partenaire officiel</li>
+        </ul>
+        <a href="contact.html" class="btn btn--outline" style="margin-top:8px; width:100%; justify-content:center;"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+      </div>
+
+    </div>
+    <div class="text-center fade-up" style="margin-top:48px;">
+      <p style="color:rgba(255,255,255,0.65); margin-bottom:24px;">Des formules sur mesure sont également possibles. Contactez-nous pour étudier ensemble le partenariat qui vous correspond.</p>
+      <a href="contact.html" class="btn btn--primary btn--lg"><i class="fa-solid fa-paper-plane" style="margin-right:8px;"></i>Nous contacter</a>
     </div>
   </div>
 </section>
@@ -287,45 +608,14 @@
 <footer id="footer">
   <div class="container">
     <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <div class="logo-badge">TCA</div>
-          <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
-        </a>
-        <p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        </div>
-      </div>
-      <div class="footer-col"><h4>Navigation</h4><ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="club.html">Le Club</a></li>
-        <li><a href="adhesion.html">Adhésion</a></li>
-        <li><a href="evenements.html">Événements</a></li>
-        <li><a href="galerie.html">Galerie</a></li>
-        <li><a href="partenaires.html">Partenaires</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Partenaires</h4><ul>
-        <li><a href="#">Partenaires Or</a></li>
-        <li><a href="#">Partenaires Argent</a></li>
-        <li><a href="#">Partenaires Bronze</a></li>
-        <li><a href="#devenir-partenaire">Devenir partenaire</a></li>
-      </ul></div>
-      <div class="footer-col"><h4>Contact</h4><ul>
-        <li><a href="contact.html">Formulaire de contact</a></li>
-        <li><a href="#">contact@tca73.fr</a></li>
-        <li><a href="#">Albertville, Savoie (73)</a></li>
-      </ul></div>
+      <div class="footer-brand"><a href="index.html" class="logo"><div class="logo-badge">TCA</div><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a><p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie.</p><div class="footer-social"><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a><a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a><a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a></div></div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="club.html">Le Club</a></li><li><a href="adhesion.html">Adhésion</a></li><li><a href="evenements.html">Événements</a></li><li><a href="galerie.html">Galerie</a></li><li><a href="partenaires.html">Partenaires</a></li></ul></div>
+      <div class="footer-col"><h4>Liens</h4><ul><li><a href="espace-membre.html">Espace Membre</a></li><li><a href="#">HelloAsso</a></li><li><a href="#">Licence FFM</a></li><li><a href="partenaires.html">Devenir partenaire</a></li></ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul><li><a href="contact.html">Nous contacter</a></li><li><a href="#">contact@tca73.fr</a></li><li><a href="#">Albertville (73)</a></li></ul></div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span>
-      <span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span>
-    </div>
+    <div class="footer-bottom"><span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span><span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span></div>
   </div>
 </footer>
-
 <button class="back-to-top" title="Retour en haut"><i class="fa-solid fa-chevron-up"></i></button>
 <script src="js/main.js"></script>
 </body>

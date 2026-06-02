@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Membre — TCA73 | Trial Club Albertvillois</title>
+  <meta name="description" content="Accédez à votre espace membre TCA73 : carte adhérent, documents, accès terrain et boutique.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://tca73.fr/espace-membre.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+
+  <style>
+    /* ---- Espace Membre — styles spécifiques ---- */
+
+    /* === PAGE LOGIN === */
+    .membre-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient-hero);
+      padding: calc(var(--header-height) + 32px) 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .membre-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(87,212,230,0.08) 0%, transparent 55%),
+        radial-gradient(circle at 80% 20%, rgba(26,107,200,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .login-card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius-xl);
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--glass-shadow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .login-logo-badge {
+      width: 52px;
+      height: 52px;
+      background: var(--tca-red);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .login-logo-text strong {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      color: white;
+      letter-spacing: 0.05em;
+    }
+
+    .login-logo-text span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.04em;
+    }
+
+    .login-title {
+      text-align: center;
+      font-family: var(--font-heading);
+      font-size: 1.65rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.88rem;
+      margin-bottom: 28px;
+    }
+
+    /* Tabs login */
+    .login-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .login-tab {
+      flex: 1;
+      padding: 9px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      color: rgba(255,255,255,0.55);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .login-tab.active {
+      background: rgba(255,255,255,0.14);
+      color: white;
+    }
+
+    .login-tab:hover:not(.active) {
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    .form-control::placeholder {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .form-control:focus {
+      border-color: var(--glacier);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 3px rgba(87,212,230,0.15);
+    }
+
+    .login-card .btn--primary {
+      width: 100%;
+      justify-content: center;
+      margin-top: 8px;
+      font-size: 1rem;
+      padding: 14px 24px;
+    }
+
+    .login-admin-link {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.82rem;
+      transition: var(--transition);
+    }
+
+    .login-admin-link:hover {
+      color: var(--glacier);
+    }
+
+    .login-demo {
+      margin-top: 20px;
+      padding: 12px 14px;
+      background: rgba(87,212,230,0.08);
+      border: 1px solid rgba(87,212,230,0.25);
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.6);
+      font-size: 0.8rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .login-demo strong {
+      color: var(--glacier);
+    }
+
+    /* === PAGE DASHBOARD === */
+    .membre-dashboard-page {
+      min-height: 100vh;
+      background: var(--light-bg);
+      padding-top: var(--header-height);
+    }
+
+    .dashboard-header {
+      background: var(--gradient-card);
+      color: white;
+      padding: 36px 40px 32px;
+    }
+
+    .dashboard-header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .dashboard-welcome {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .dashboard-avatar {
+      width: 56px;
+      height: 56px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .dashboard-welcome-text p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+      margin-bottom: 3px;
+    }
+
+    .dashboard-welcome-text h2 {
+      font-family: var(--font-heading);
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: white;
+    }
+
+    .btn-logout {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.8);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-logout:hover {
+      background: rgba(230,42,42,0.25);
+      border-color: rgba(230,42,42,0.5);
+      color: white;
+    }
+
+    /* Dashboard nav */
+    .dashboard-nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: var(--header-height);
+      z-index: 90;
+    }
+
+    .dashboard-nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      gap: 2px;
+      padding: 0 16px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .dashboard-nav-inner::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dash-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .dash-tab:hover {
+      color: var(--mountain);
+      background: var(--light-bg);
+    }
+
+    .dash-tab.active {
+      color: var(--deep);
+      border-bottom-color: var(--deep);
+      font-weight: 600;
+    }
+
+    /* Dashboard content */
+    .dashboard-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 36px 24px 80px;
+    }
+
+    .dash-panel {
+      display: none;
+    }
+
+    .dash-panel.active {
+      display: block;
+    }
+
+    /* Carte membre */
+    .membre-card {
+      background: var(--gradient-card);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .membre-card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .membre-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px;
+      left: 20px;
+      width: 250px;
+      height: 250px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+
+    .membre-card-logo {
+      margin-bottom: 20px;
+    }
+
+    .membre-card-name {
+      font-family: var(--font-heading);
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .membre-card-cat {
+      color: var(--glacier);
+      font-size: 0.85rem;
+      margin-bottom: 18px;
+    }
+
+    .membre-card-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .membre-card-field {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .membre-card-field small {
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .membre-card-field span {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .membre-card-qr {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .membre-card-qr img,
+    .membre-card-qr canvas {
+      border-radius: 6px;
+    }
+
+    .membre-card-num {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+    }
+
+    /* Documents */
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      transition: var(--transition);
+    }
+
+    .doc-item:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .doc-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .doc-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .doc-info strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .doc-info span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Accès terrain */
+    .acces-badge {
+      background: var(--gradient-card);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      color: white;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: 16px;
+    }
+
+    .acces-badge .code {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--glacier);
+      text-shadow: 0 0 20px rgba(87,212,230,0.4);
+      margin: 8px 0;
+    }
+
+    /* Historique */
+    .historique-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+    }
+
+    .hist-date {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--deep);
+      min-width: 100px;
+    }
+
+    .hist-detail {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .badge-green {
+      background: rgba(74,222,128,0.12);
+      color: #16a34a;
+    }
+
+    /* Boutique */
+    .boutique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .boutique-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .boutique-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+
+    .boutique-img {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .boutique-body {
+      padding: 16px;
+    }
+
+    .boutique-body h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .boutique-body .price {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      color: var(--deep);
+      margin-bottom: 10px;
+    }
+
+    /* Alerts */
+    .alert {
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .alert-info {
+      background: rgba(14,61,145,0.06);
+      border: 1px solid rgba(14,61,145,0.15);
+      color: var(--deep);
+    }
+
+    /* Grids utilitaires */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+    /* Back to top */
+    .back-to-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      background: var(--deep);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      box-shadow: var(--shadow-md);
+      z-index: 200;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .back-to-top:hover {
+      background: var(--mountain);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .login-card {
+        padding: 36px 28px;
+      }
+
+      .dashboard-header {
+        padding: 28px 20px 24px;
+      }
+
+      .dashboard-content {
+        padding: 24px 16px 60px;
+      }
+
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .dash-tab {
+        padding: 14px 14px;
+        font-size: 0.82rem;
+      }
+
+      .boutique-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .doc-item {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 28px 20px;
+      }
+
+      .boutique-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-badge">TCA</div>
+      <div class="logo-text">
+        <strong>TCA73</strong>
+        <span>Trial Club Albertvillois</span>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="club.html">Le Club</a>
+      <a href="adhesion.html">Adhésion</a>
+      <a href="evenements.html">Événements</a>
+      <a href="galerie.html">Galerie</a>
+      <a href="partenaires.html">Partenaires</a>
+      <a href="espace-membre.html" class="active nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+  <a href="club.html"><i class="fa-solid fa-shield-halved"></i> Le Club</a>
+  <a href="adhesion.html"><i class="fa-solid fa-id-card"></i> Adhésion</a>
+  <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
+  <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
+  <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
+</nav>
+
+<!-- ===== SECTION LOGIN ===== -->
+<div id="login-section" class="membre-page">
+  <div class="login-card">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <div class="login-logo-badge">TCA</div>
+      <div class="login-logo-text">
+        <strong>TCA73</strong>
+        <span>Trial Club Albertvillois</span>
+      </div>
+    </div>
+
+    <!-- Titre -->
+    <h1 class="login-title">Espace Membre</h1>
+    <p class="login-subtitle">Connectez-vous à votre espace personnel</p>
+
+    <!-- Tabs -->
+    <div class="login-tabs" role="tablist">
+      <button class="login-tab active" data-type="membre" role="tab" aria-selected="true">
+        <i class="fa-solid fa-user"></i> Adhérent
+      </button>
+      <button class="login-tab" data-type="admin" role="tab" aria-selected="false">
+        <i class="fa-solid fa-shield-halved"></i> Administration
+      </button>
+    </div>
+
+    <!-- Formulaire -->
+    <form id="login-form" novalidate>
+      <div class="form-group">
+        <label for="login-email">Adresse email</label>
+        <input
+          type="email"
+          id="login-email"
+          name="email"
+          class="form-control"
+          placeholder="votre@email.fr"
+          autocomplete="email"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="login-password">Mot de passe</label>
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          class="form-control"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+      <button type="submit" class="btn btn--primary">
+        <i class="fa-solid fa-right-to-bracket"></i> Se connecter
+      </button>
+    </form>
+
+    <!-- Lien admin -->
+    <a href="admin.html" class="login-admin-link">
+      <i class="fa-solid fa-lock"></i> Accès administrateur
+    </a>
+
+    <!-- Info démo -->
+    <div class="login-demo">
+      <strong>Démo :</strong> pierre@tca73.fr / trial73
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== SECTION DASHBOARD ===== -->
+<div id="dashboard-section" class="membre-dashboard-page" style="display:none">
+
+  <!-- Header dashboard -->
+  <div class="dashboard-header">
+    <div class="dashboard-header-inner">
+      <div class="dashboard-welcome">
+        <div class="dashboard-avatar">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="dashboard-welcome-text">
+          <p>Bienvenue sur votre espace,</p>
+          <h2>Bonjour <span id="welcome-name">Membre</span> !</h2>
+        </div>
+      </div>
+      <button class="btn-logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+      </button>
+    </div>
+  </div>
+
+  <!-- Navigation onglets -->
+  <nav class="dashboard-nav" aria-label="Navigation espace membre">
+    <div class="dashboard-nav-inner">
+      <button class="dash-tab active" data-panel="accueil">
+        🏠 Accueil
+      </button>
+      <button class="dash-tab" data-panel="carte">
+        🪪 Ma Carte
+      </button>
+      <button class="dash-tab" data-panel="documents">
+        📄 Documents
+      </button>
+      <button class="dash-tab" data-panel="acces">
+        🔑 Accès Terrain
+      </button>
+      <button class="dash-tab" data-panel="boutique">
+        🛍️ Boutique
+      </button>
+    </div>
+  </nav>
+
+  <!-- Contenu des panels -->
+  <div class="dashboard-content">
+
+    <!-- Panel Accueil -->
+    <section id="panel-accueil" class="dash-panel active" role="tabpanel">
+      <!-- Rempli par membre.js — renderAccueil() -->
+    </section>
+
+    <!-- Panel Ma Carte -->
+    <section id="panel-carte" class="dash-panel" role="tabpanel">
+      <!-- Rempli par membre.js — renderCarte() -->
+    </section>
+
+    <!-- Panel Documents -->
+    <section id="panel-documents" class="dash-panel" role="tabpanel">
+      <!-- Rempli par membre.js — renderDocuments() -->
+    </section>
+
+    <!-- Panel Accès Terrain -->
+    <section id="panel-acces" class="dash-panel" role="tabpanel">
+      <!-- Rempli par membre.js — renderAcces() -->
+    </section>
+
+    <!-- Panel Boutique -->
+    <section id="panel-boutique" class="dash-panel" role="tabpanel">
+      <!-- Rempli par membre.js — renderBoutique() -->
+    </section>
+
+  </div>
+
+  <!-- Bouton déconnexion secondaire (bas de page) -->
+  <div style="text-align:center; padding: 0 24px 48px;">
+    <button class="btn-logout btn btn--outline-dark btn--sm">
+      <i class="fa-solid fa-right-from-bracket"></i> Se déconnecter
+    </button>
+  </div>
+
+</div>
+
+<!-- Back to top -->
+<button class="back-to-top" id="back-to-top" aria-label="Retour en haut">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<!-- Scripts -->
+<script src="js/main.js"></script>
+<script src="js/membre.js"></script>
+
+</body>
+</html>

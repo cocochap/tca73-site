@@ -1,253 +1,240 @@
-/* ============================================================
-   TCA73 — Trial Club Albertvillois 73
-   main.js — Fonctionnalités globales
-   ============================================================ */
-
+/* TCA73 — main.js v2.0 */
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ---- Navigation ---- */
-  const header      = document.getElementById('header');
-  const hamburger   = document.getElementById('hamburger');
-  const mobileNav   = document.getElementById('mobile-nav');
-  const mobileLinks = mobileNav ? mobileNav.querySelectorAll('a') : [];
+  /* ---- Header scroll ---- */
+  const header    = document.getElementById('header');
+  const backToTop = document.querySelector('.back-to-top');
+  const onScroll  = () => {
+    if (header)    header.classList.toggle('scrolled', window.scrollY > 40);
+    if (backToTop) backToTop.classList.toggle('visible', window.scrollY > 400);
+    doParallax();
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-  // Scroll → header opaque
-  if (header) {
-    const onScroll = () => {
-      header.classList.toggle('scrolled', window.scrollY > 40);
-      backToTop.classList.toggle('visible', window.scrollY > 400);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-
-  // Menu hamburger
+  /* ---- Menu hamburger ---- */
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
   if (hamburger && mobileNav) {
     hamburger.addEventListener('click', () => {
-      const isOpen = hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
+      const open = hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
     });
-
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileNav.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+    }));
   }
 
-  // Active link courant
-  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  /* Active link */
+  const cur = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
     const href = a.getAttribute('href');
-    if (href === currentPath || (currentPath === '' && href === 'index.html')) {
-      a.classList.add('active');
-    }
+    if (href === cur || (cur === '' && href === 'index.html')) a.classList.add('active');
   });
 
   /* ---- Back to top ---- */
-  const backToTop = document.querySelector('.back-to-top');
-  if (backToTop) {
-    backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ---- Parallaxe montagnes ---- */
+  const parallaxLayers = document.querySelectorAll('.parallax-layer');
+  function doParallax() {
+    const sy = window.scrollY;
+    parallaxLayers.forEach(el => {
+      const speed = parseFloat(el.dataset.speed || 0.3);
+      el.style.transform = `translateY(${sy * speed}px)`;
+    });
   }
 
-  /* ---- Scroll animations (Intersection Observer) ---- */
+  /* ---- Scroll fade-up ---- */
   const fadeEls = document.querySelectorAll('.fade-up');
   if (fadeEls.length) {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-    fadeEls.forEach(el => observer.observe(el));
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(el => obs.observe(el));
   }
 
-  /* ---- Compteur animé (chiffres clés) ---- */
+  /* ---- Compteurs animés ---- */
   const counters = document.querySelectorAll('[data-count]');
   if (counters.length) {
-    const countObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCount(entry.target);
-          countObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(el => countObserver.observe(el));
+    const co = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { animateCount(e.target); co.unobserve(e.target); }
+    }), { threshold: 0.5 });
+    counters.forEach(el => co.observe(el));
   }
-
   function animateCount(el) {
-    const target  = parseInt(el.dataset.count, 10);
-    const suffix  = el.dataset.suffix || '';
-    const duration = 1800;
-    const start   = performance.now();
-
-    const tick = (now) => {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
-      el.textContent = Math.floor(eased * target) + suffix;
-      if (progress < 1) requestAnimationFrame(tick);
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    const start  = performance.now();
+    const dur    = 2000;
+    const tick   = now => {
+      const t = Math.min((now - start) / dur, 1);
+      const e = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.floor(e * target) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   }
 
-  /* ---- FAQ accordion ---- */
+  /* ---- FAQ ---- */
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
-      const answer    = btn.nextElementSibling;
-      const isOpen    = btn.classList.contains('open');
-      const container = btn.closest('.faq-list') || document;
-
-      // Fermer toutes les autres
-      container.querySelectorAll('.faq-question.open').forEach(q => {
-        if (q !== btn) {
-          q.classList.remove('open');
-          q.nextElementSibling.classList.remove('open');
-        }
+      const answer  = btn.nextElementSibling;
+      const isOpen  = btn.classList.contains('open');
+      const group   = btn.closest('.faq-list') || document;
+      group.querySelectorAll('.faq-question.open').forEach(q => {
+        if (q !== btn) { q.classList.remove('open'); q.nextElementSibling.classList.remove('open'); }
       });
-
       btn.classList.toggle('open', !isOpen);
       answer.classList.toggle('open', !isOpen);
     });
   });
 
-  /* ---- Filtres événements / galerie ---- */
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group  = btn.closest('[data-filter-group]');
-      const filter = btn.dataset.filter;
-      const items  = group ? group.querySelectorAll('[data-category]') : document.querySelectorAll('[data-category]');
-
-      (group || document).querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      items.forEach(item => {
-        if (filter === 'all' || item.dataset.category === filter) {
-          item.style.display = '';
-          item.style.opacity = '0';
-          item.style.transform = 'scale(0.96)';
-          setTimeout(() => {
-            item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            item.style.opacity = '1';
-            item.style.transform = 'scale(1)';
-          }, 20);
-        } else {
-          item.style.display = 'none';
-        }
+  /* ---- Filtres (events + galerie) ---- */
+  document.querySelectorAll('[data-filter-group]').forEach(group => {
+    group.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        group.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        group.querySelectorAll('[data-category]').forEach(item => {
+          if (f === 'all' || item.dataset.category === f) {
+            item.style.display = '';
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+              item.style.transition = 'opacity .35s, transform .35s';
+              item.style.opacity = '1'; item.style.transform = 'scale(1)';
+            }, 20);
+          } else { item.style.display = 'none'; }
+        });
       });
     });
   });
 
-  /* ---- Lightbox galerie ---- */
-  const lightbox    = document.getElementById('lightbox');
-  const lbImg       = document.getElementById('lb-img');
-  const lbCaption   = document.getElementById('lb-caption');
-  const lbClose     = document.getElementById('lb-close');
-  const lbPrev      = document.getElementById('lb-prev');
-  const lbNext      = document.getElementById('lb-next');
-  let lbItems       = [];
-  let lbCurrent     = 0;
-
-  function openLightbox(index) {
-    lbCurrent = index;
-    updateLightbox();
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  function updateLightbox() {
-    const item = lbItems[lbCurrent];
-    if (!item) return;
-    lbImg.src     = item.dataset.src || item.querySelector('img')?.src || '';
-    lbImg.alt     = item.dataset.caption || '';
-    if (lbCaption) lbCaption.textContent = item.dataset.caption || '';
-  }
-
+  /* ---- Lightbox ---- */
+  const lightbox = document.getElementById('lightbox');
   if (lightbox) {
-    lbItems = Array.from(document.querySelectorAll('.gallery-item'));
+    const lbClose = document.getElementById('lb-close');
+    const lbPrev  = document.getElementById('lb-prev');
+    const lbNext  = document.getElementById('lb-next');
+    const lbCap   = document.getElementById('lb-caption');
+    let items = [], cur = 0;
 
-    lbItems.forEach((item, i) => {
-      item.addEventListener('click', () => openLightbox(i));
-    });
+    const open = i => {
+      cur = i; items = Array.from(document.querySelectorAll('.gallery-item'));
+      const item = items[cur];
+      const ph   = document.getElementById('lb-placeholder');
+      if (ph) { ph.innerHTML = item.querySelector('.gi-inner')?.textContent?.trim().slice(0,2) || '📷'; }
+      if (lbCap) lbCap.textContent = item.dataset.caption || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+    const close = () => { lightbox.classList.remove('open'); document.body.style.overflow = ''; };
 
-    lbClose?.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-    lbPrev?.addEventListener('click', () => { lbCurrent = (lbCurrent - 1 + lbItems.length) % lbItems.length; updateLightbox(); });
-    lbNext?.addEventListener('click', () => { lbCurrent = (lbCurrent + 1) % lbItems.length; updateLightbox(); });
-
+    document.querySelectorAll('.gallery-item').forEach((el, i) => el.addEventListener('click', () => open(i)));
+    lbClose?.addEventListener('click', close);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+    lbPrev?.addEventListener('click', () => { items = Array.from(document.querySelectorAll('.gallery-item')); open((cur - 1 + items.length) % items.length); });
+    lbNext?.addEventListener('click', () => { items = Array.from(document.querySelectorAll('.gallery-item')); open((cur + 1) % items.length); });
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('open')) return;
-      if (e.key === 'Escape')      closeLightbox();
-      if (e.key === 'ArrowLeft')   { lbCurrent = (lbCurrent - 1 + lbItems.length) % lbItems.length; updateLightbox(); }
-      if (e.key === 'ArrowRight')  { lbCurrent = (lbCurrent + 1) % lbItems.length; updateLightbox(); }
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft')  { items = Array.from(document.querySelectorAll('.gallery-item')); open((cur - 1 + items.length) % items.length); }
+      if (e.key === 'ArrowRight') { items = Array.from(document.querySelectorAll('.gallery-item')); open((cur + 1) % items.length); }
     });
   }
 
-  /* ---- Formulaires de contact / partenaires ---- */
+  /* ---- Formulaires AJAX simulés ---- */
   document.querySelectorAll('form[data-ajax]').forEach(form => {
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const btn     = form.querySelector('[type=submit]');
       const success = form.nextElementSibling;
-
       if (!validateForm(form)) return;
-
-      btn.disabled  = true;
-      btn.textContent = 'Envoi en cours…';
-
-      // Simulation d'envoi (à remplacer par un vrai endpoint)
-      await new Promise(r => setTimeout(r, 1200));
-
+      btn.disabled = true; btn.textContent = 'Envoi…';
+      await new Promise(r => setTimeout(r, 1400));
       form.reset();
-      btn.disabled    = false;
-      btn.textContent = btn.dataset.label || 'Envoyer';
+      btn.disabled = false; btn.textContent = btn.dataset.label || 'Envoyer';
       if (success) success.classList.add('show');
     });
   });
-
   function validateForm(form) {
-    let valid = true;
-    form.querySelectorAll('[required]').forEach(field => {
-      field.classList.remove('error');
-      if (!field.value.trim()) {
-        field.classList.add('error');
-        field.style.borderColor = 'var(--color-red)';
-        valid = false;
-      } else {
-        field.style.borderColor = '';
-      }
+    let ok = true;
+    form.querySelectorAll('[required]').forEach(f => {
+      f.style.borderColor = '';
+      if (!f.value.trim()) { f.style.borderColor = 'var(--tca-red)'; ok = false; }
     });
-    const emailField = form.querySelector('[type=email]');
-    if (emailField && emailField.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField.value)) {
-      emailField.style.borderColor = 'var(--color-red)';
-      valid = false;
-    }
-    return valid;
+    const email = form.querySelector('[type=email]');
+    if (email?.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) { email.style.borderColor = 'var(--tca-red)'; ok = false; }
+    return ok;
   }
 
-  /* ---- Smooth scroll pour les ancres internes ---- */
+  /* ---- Ancres smooth ---- */
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       const id = a.getAttribute('href').slice(1);
-      const target = document.getElementById(id);
-      if (!target) return;
+      const el = document.getElementById(id);
+      if (!el) return;
       e.preventDefault();
-      const offset = 80;
-      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
     });
   });
 
+  /* ---- Calendrier ---- */
+  initCalendar();
 });
+
+/* ---- Mini calendrier ---- */
+function initCalendar() {
+  const cal = document.getElementById('cal-grid');
+  if (!cal) return;
+  const monthLabel = document.getElementById('cal-month');
+  const prevBtn    = document.getElementById('cal-prev');
+  const nextBtn    = document.getElementById('cal-next');
+  let   now = new Date();
+
+  const events = {
+    '2025-06-14': 'Championnat Savoie — Manche 4',
+    '2025-06-28': 'Journée Portes Ouvertes',
+    '2025-07-12': 'Journée Partenaires',
+    '2025-07-20': 'Démonstration Fête Nationale',
+    '2025-09-07': 'Inter-régional Rhône-Alpes',
+    '2025-09-21': 'Stage rentrée École Trial',
+    '2025-10-11': 'Journée Mécanique',
+    '2025-10-19': 'Championnat Savoie — Finale',
+    '2025-11-29': 'Journée Découverte Hiver',
+  };
+
+  const months = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  const days   = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+
+  function render() {
+    const y = now.getFullYear(), m = now.getMonth();
+    if (monthLabel) monthLabel.textContent = `${months[m]} ${y}`;
+    cal.innerHTML = days.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+    const first = new Date(y, m, 1);
+    let dow = first.getDay(); if (dow === 0) dow = 7;
+    for (let i = 1; i < dow; i++) {
+      const prev = new Date(y, m, 1 - dow + i);
+      cal.innerHTML += `<div class="cal-day other-month">${prev.getDate()}</div>`;
+    }
+    const days_in = new Date(y, m + 1, 0).getDate();
+    const today = new Date();
+    for (let d = 1; d <= days_in; d++) {
+      const date = new Date(y, m, d);
+      const key  = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isToday = date.toDateString() === today.toDateString();
+      const hasEvent = !!events[key];
+      const title = hasEvent ? ` title="${events[key]}"` : '';
+      cal.innerHTML += `<div class="cal-day${isToday?' today':''}${hasEvent?' has-event':''}"${title}>${d}</div>`;
+    }
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => { now = new Date(now.getFullYear(), now.getMonth() - 1, 1); render(); });
+  if (nextBtn) nextBtn.addEventListener('click', () => { now = new Date(now.getFullYear(), now.getMonth() + 1, 1); render(); });
+  render();
+}
