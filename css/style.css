@@ -579,8 +579,10 @@ textarea.form-control { resize:vertical; min-height:130px; }
 .chatbot-input input:focus { outline:none; border-color:var(--mountain); }
 
 /* ---- Scroll animations ---- */
-.fade-up { opacity:0; transform:translateY(28px); transition:opacity 0.65s ease, transform 0.65s ease; }
-.fade-up.visible { opacity:1; transform:translateY(0); }
+/* Content visible by default (no JS / slow JS); animation only when JS adds js-ready */
+.fade-up { transition:opacity 0.65s ease, transform 0.65s ease; }
+body.js-ready .fade-up { opacity:0; transform:translateY(28px); }
+body.js-ready .fade-up.visible { opacity:1; transform:translateY(0); }
 .fade-up:nth-child(2) { transition-delay:.1s; }
 .fade-up:nth-child(3) { transition-delay:.2s; }
 .fade-up:nth-child(4) { transition-delay:.3s; }

@@ -1,5 +1,6 @@
 /* TCA73 — main.js v2.0 */
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('js-ready');
 
   /* ---- Header scroll ---- */
   const header    = document.getElementById('header');
