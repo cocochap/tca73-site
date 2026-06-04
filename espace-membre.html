@@ -12,7 +12,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css?v=4">
-  <link rel="stylesheet" href="css/bureau.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 
   <style>
@@ -705,6 +704,127 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+
+    /* ===== BUREAU PANELS ===== */
+    .bureau-panel { display: none; }
+    .bureau-panel.active { display: block; }
+
+    .bureau-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--deep);
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 28px; }
+    .stat-card { background: white; border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); border-left: 4px solid var(--glacier); }
+    .stat-card.green { border-left-color: #22c55e; }
+    .stat-card.red   { border-left-color: var(--tca-red); }
+    .stat-card.orange { border-left-color: #f59e0b; }
+    .stat-card-label { font-size: 0.75rem; font-weight: 500; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .stat-card-value { font-family: var(--font-heading); font-size: 1.9rem; font-weight: 700; color: var(--deep); line-height: 1; }
+    .stat-card-sub   { font-size: 0.75rem; color: #94a3b8; margin-top: 4px; }
+
+    /* Toolbar */
+    .bureau-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .bureau-search  { flex: 1; min-width: 200px; padding: 9px 12px 9px 36px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.9rem; color: var(--text); outline: none; }
+    .bureau-search:focus { border-color: var(--mountain); box-shadow: 0 0 0 3px rgba(26,107,200,0.1); }
+    .bureau-select  { padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.88rem; color: var(--text); outline: none; cursor: pointer; background: white; }
+    .search-wrap    { position: relative; flex: 1; min-width: 200px; }
+    .search-wrap i  { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.82rem; }
+
+    /* Table */
+    .bureau-table-wrap { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .bureau-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+    .bureau-table thead { background: var(--deep); color: white; }
+    .bureau-table th { padding: 12px 14px; text-align: left; font-family: var(--font-heading); font-size: 0.78rem; letter-spacing: 0.05em; font-weight: 500; white-space: nowrap; }
+    .bureau-table td { padding: 11px 14px; border-bottom: 1px solid #f1f5f9; color: var(--text); vertical-align: middle; }
+    .bureau-table tbody tr:hover { background: #f8fafc; }
+    .bureau-table tbody tr:last-child td { border-bottom: none; }
+
+    /* Badges */
+    .statut-badge   { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.75rem; font-weight: 500; }
+    .statut-active  { background: #dcfce7; color: #166534; }
+    .statut-attente { background: #fef9c3; color: #713f12; }
+    .type-badge     { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.75rem; font-weight: 500; }
+    .type-badge.type-compétition, .type-badge.type-competition { background: #fef3c7; color: #92400e; }
+    .type-badge.type-loisir { background: #e0f2fe; color: #0369a1; }
+    .cat-badge      { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 0.75rem; font-weight: 500; background: #e0f2fe; color: #0369a1; }
+
+    /* Trésorerie */
+    .tresorerie-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .treso-card { background: white; border-radius: var(--radius-lg); padding: 18px; text-align: center; box-shadow: var(--shadow-sm); }
+    .treso-card-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .treso-card-amount { font-family: var(--font-heading); font-size: 1.4rem; font-weight: 700; }
+    .treso-card-amount.recette { color: #16a34a; }
+    .treso-card-amount.depense { color: var(--tca-red); }
+    .treso-card-amount.solde   { color: var(--deep); }
+    .montant-recette { color: #16a34a; font-weight: 600; }
+    .montant-depense { color: var(--tca-red); font-weight: 600; }
+
+    /* Commandes */
+    .commandes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .commande-card  { background: white; border-radius: var(--radius-lg); padding: 16px 18px; box-shadow: var(--shadow-sm); }
+    .commande-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .commande-id    { font-family: var(--font-heading); font-size: 0.82rem; color: #94a3b8; }
+    .cmd-badge      { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+    .cmd-livre   { background: #dcfce7; color: #166534; }
+    .cmd-prepare { background: #fef9c3; color: #713f12; }
+    .cmd-attente { background: #fee2e2; color: #991b1b; }
+    .commande-membre   { font-weight: 600; color: var(--deep); margin-bottom: 3px; font-size: 0.9rem; }
+    .commande-articles { font-size: 0.82rem; color: #64748b; margin-bottom: 10px; line-height: 1.4; }
+    .commande-footer   { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #f1f5f9; }
+    .commande-date  { font-size: 0.75rem; color: #94a3b8; }
+    .commande-total { font-family: var(--font-heading); color: var(--deep); font-size: 0.95rem; }
+
+    /* Documents */
+    .docs-list { display: flex; flex-direction: column; gap: 8px; }
+    .doc-card   { background: white; border-radius: var(--radius-lg); padding: 14px 18px; box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 14px; }
+    .doc-icon   { font-size: 1.4rem; flex-shrink: 0; }
+    .doc-info   { flex: 1; }
+    .doc-nom    { font-weight: 500; color: var(--deep); margin-bottom: 2px; font-size: 0.9rem; }
+    .doc-meta   { font-size: 0.75rem; color: #94a3b8; }
+    .doc-type   { background: #e0f2fe; color: #0369a1; padding: 1px 7px; border-radius: 7px; font-size: 0.7rem; font-weight: 500; }
+    .doc-btn    { padding: 7px 13px; background: var(--deep); border: none; border-radius: var(--radius-sm); color: white; font-size: 0.8rem; cursor: pointer; flex-shrink: 0; }
+    .doc-btn:hover { background: var(--mountain); }
+
+    /* Contact */
+    .contact-toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+    .contact-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; padding: 12px 14px; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); }
+    .contact-count  { flex: 1; font-size: 0.87rem; color: #64748b; font-weight: 500; min-width: 140px; }
+    .btn-contact    { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border: none; border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: var(--transition); }
+    .btn-contact:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-contact-copy { background: var(--deep); color: white; }
+    .btn-contact-copy:hover:not(:disabled) { background: var(--mountain); }
+    .btn-contact-mail { background: var(--tca-red); color: white; }
+    .btn-contact-mail:hover:not(:disabled) { background: #b91c1c; }
+    .btn-contact-sel  { background: #f1f5f9; color: #475569; border: 1px solid var(--border); }
+    .btn-contact-sel:hover { background: #e2e8f0; }
+    .contact-members-list { background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; }
+    .contact-member-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: background 0.12s; }
+    .contact-member-row:last-child { border-bottom: none; }
+    .contact-member-row:hover { background: #f8fafc; }
+    .contact-member-row input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; accent-color: var(--deep); }
+    .contact-member-info  { flex: 1; }
+    .contact-member-nom   { display: block; font-weight: 500; color: var(--deep); font-size: 0.9rem; }
+    .contact-member-email { display: block; font-size: 0.78rem; color: #64748b; margin-top: 1px; }
+    .contact-member-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+
+    /* Notes */
+    .notes-wrap { background: white; border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); }
+    .notes-textarea { width: 100%; min-height: 180px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.9rem; color: var(--text); resize: vertical; outline: none; box-sizing: border-box; }
+    .notes-textarea:focus { border-color: var(--mountain); box-shadow: 0 0 0 3px rgba(26,107,200,0.1); }
+    .btn-save-notes { display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; padding: 9px 18px; background: var(--deep); border: none; border-radius: var(--radius-sm); color: white; font-family: var(--font-body); font-size: 0.85rem; font-weight: 500; cursor: pointer; }
+    .btn-save-notes:hover { background: var(--mountain); }
+    .notes-saved-msg { display: none; margin-left: 10px; color: #16a34a; font-size: 0.82rem; }
   </style>
 </head>
 <body>
@@ -895,49 +1015,50 @@
 </div>
 
 <!-- ===== ESPACE BUREAU (visible uniquement après auth bureau) ===== -->
-<div id="bureau-loader" class="bureau-loader">
-  <div class="bureau-loader-spinner"></div>
-  Chargement des données Airtable…
+
+<!-- Loader Airtable -->
+<div id="bureau-loader" style="display:none;position:fixed;inset:0;background:rgba(4,14,42,0.55);z-index:9999;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:white;font-family:'Oswald',sans-serif;font-size:1rem;letter-spacing:0.06em;">
+  <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.2);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+  Chargement des données…
 </div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
-<div id="bureau-dashboard-section" class="bureau-dashboard-page" style="display:none;">
+<div id="bureau-dashboard-section" class="membre-dashboard-page" style="display:none;">
 
-  <div class="bureau-dash-header">
-    <div class="bureau-dash-header-inner">
-      <div class="bureau-dash-left">
-        <div class="bureau-avatar" id="bureau-initiales">CC</div>
-        <div class="bureau-welcome-text">
-          <p>Bienvenue dans l'espace bureau</p>
-          <h2>TCA73 — Bureau</h2>
-          <div class="bureau-role-chip">
-            <i class="fa-solid fa-shield-halved" style="font-size:0.7rem;"></i>
-            <span id="bureau-role-display">Bureau</span>
-          </div>
+  <!-- Header même style que le dashboard membre -->
+  <div class="dashboard-header">
+    <div class="dashboard-header-inner">
+      <div class="dashboard-welcome">
+        <div class="dashboard-avatar" style="background:rgba(230,42,42,0.25);border:2px solid rgba(230,42,42,0.5);">
+          <span id="bureau-initiales" style="font-family:'Oswald',sans-serif;font-weight:700;">CC</span>
+        </div>
+        <div class="dashboard-welcome-text">
+          <p>Espace Bureau TCA73</p>
+          <h2>Bonjour, <span id="bureau-role-display">Bureau</span> !</h2>
         </div>
       </div>
-      <div class="bureau-dash-actions">
-        <button id="bureau-logout-btn" class="btn-bureau-logout">
-          <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
-        </button>
-      </div>
+      <button id="bureau-logout-btn" class="btn-logout">
+        <i class="fa-solid fa-right-from-bracket"></i> Déconnexion
+      </button>
     </div>
   </div>
 
-  <div class="bureau-dash-nav">
-    <div class="bureau-dash-nav-inner">
-      <button class="bureau-tab active" data-tab="overview"><i class="fa-solid fa-gauge-high"></i> Vue d'ensemble</button>
-      <button class="bureau-tab" data-tab="adherents"><i class="fa-solid fa-users"></i> Adhérents</button>
-      <button class="bureau-tab" data-tab="tresorerie"><i class="fa-solid fa-coins"></i> Trésorerie</button>
-      <button class="bureau-tab" data-tab="commandes"><i class="fa-solid fa-box"></i> Commandes</button>
-      <button class="bureau-tab" data-tab="documents"><i class="fa-solid fa-folder-open"></i> Documents</button>
-      <button class="bureau-tab" data-tab="contact"><i class="fa-solid fa-envelope"></i> Contacter</button>
-      <button class="bureau-tab" data-tab="notes"><i class="fa-solid fa-pen-to-square"></i> Notes</button>
+  <!-- Navigation onglets même style que membre -->
+  <div class="dashboard-nav">
+    <div class="dashboard-nav-inner">
+      <button class="bureau-tab dash-tab active" data-tab="overview"><i class="fa-solid fa-gauge-high"></i> Vue d'ensemble</button>
+      <button class="bureau-tab dash-tab" data-tab="adherents"><i class="fa-solid fa-users"></i> Adhérents</button>
+      <button class="bureau-tab dash-tab" data-tab="tresorerie"><i class="fa-solid fa-coins"></i> Trésorerie</button>
+      <button class="bureau-tab dash-tab" data-tab="commandes"><i class="fa-solid fa-box"></i> Commandes</button>
+      <button class="bureau-tab dash-tab" data-tab="documents"><i class="fa-solid fa-folder-open"></i> Documents</button>
+      <button class="bureau-tab dash-tab" data-tab="contact"><i class="fa-solid fa-envelope"></i> Contacter</button>
+      <button class="bureau-tab dash-tab" data-tab="notes"><i class="fa-solid fa-pen-to-square"></i> Notes</button>
     </div>
   </div>
 
-  <div id="airtable-error" class="airtable-error"></div>
+  <div id="airtable-error" style="display:none;padding:12px 24px;background:#fee2e2;color:#991b1b;font-size:0.87rem;"></div>
 
-  <div class="bureau-dash-content">
+  <div class="dashboard-content">
 
     <!-- Overview -->
     <div class="bureau-panel active" id="bureau-panel-overview">

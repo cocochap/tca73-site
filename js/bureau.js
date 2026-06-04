@@ -147,6 +147,7 @@ function showLoader(on) {
   if (el) el.style.display = on ? 'flex' : 'none';
 }
 
+
 function showAirtableError(msg) {
   const el = document.getElementById('airtable-error');
   if (el) { el.textContent = 'Erreur de connexion Airtable : ' + msg; el.style.display = 'block'; }
