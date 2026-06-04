@@ -1,4 +1,4 @@
-/* TCA73 — main.js v2.0 */
+/* TCA73 — main.js v2.1 */
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('js-ready');
 
@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
     }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
     fadeEls.forEach(el => obs.observe(el));
+    /* Sécurité : force visible après 800ms si l'observer n'a pas déclenché */
+    setTimeout(() => { fadeEls.forEach(el => { if (!el.classList.contains('visible')) el.classList.add('visible'); }); }, 800);
   }
 
   /* ---- Compteurs animés ---- */
