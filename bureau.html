@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espace Bureau — TCA73 | Accès Restreint</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css?v=4">
+
+  <style>
+    /* ===== ESPACE BUREAU — Styles spécifiques ===== */
+
+    /* LOGIN */
+    .bureau-login-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient-hero);
+      padding: calc(var(--header-height) + 32px) 20px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bureau-login-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 60%, rgba(230,42,42,0.10) 0%, transparent 50%),
+        radial-gradient(circle at 85% 20%, rgba(26,107,200,0.14) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(87,212,230,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Watermark subtil */
+    .bureau-login-page::after {
+      content: 'BUREAU';
+      position: absolute;
+      bottom: 80px;
+      right: -10px;
+      font-family: var(--font-heading);
+      font-size: 9rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.025);
+      letter-spacing: 0.2em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .bureau-login-card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius-xl);
+      padding: 52px 44px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--glass-shadow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .bureau-badge-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .bureau-badge-icon {
+      width: 58px;
+      height: 58px;
+      background: linear-gradient(135deg, var(--tca-red) 0%, #b91c1c 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(230,42,42,0.4);
+    }
+
+    .bureau-badge-text strong {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      color: white;
+      letter-spacing: 0.06em;
+    }
+
+    .bureau-badge-text span {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.04em;
+    }
+
+    .bureau-login-title {
+      text-align: center;
+      font-family: var(--font-heading);
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .bureau-login-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.50);
+      font-size: 0.87rem;
+      margin-bottom: 30px;
+    }
+
+    .bureau-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .bureau-divider::before, .bureau-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.12);
+    }
+
+    .bureau-divider span {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .form-control::placeholder { color: rgba(255,255,255,0.35); }
+
+    .form-control:focus {
+      border-color: var(--tca-red);
+      background: rgba(255,255,255,0.12);
+      box-shadow: 0 0 0 3px rgba(230,42,42,0.18);
+    }
+
+    .btn-bureau-login {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 24px;
+      margin-top: 8px;
+      background: linear-gradient(135deg, var(--tca-red) 0%, #b91c1c 100%);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 16px rgba(230,42,42,0.35);
+    }
+
+    .btn-bureau-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(230,42,42,0.5);
+    }
+
+    .bureau-login-error {
+      display: none;
+      margin-top: 14px;
+      padding: 11px 14px;
+      background: rgba(230,42,42,0.14);
+      border: 1px solid rgba(230,42,42,0.4);
+      border-radius: var(--radius-sm);
+      color: #fca5a5;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .bureau-back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: rgba(255,255,255,0.38);
+      font-size: 0.82rem;
+      transition: var(--transition);
+    }
+
+    .bureau-back-link:hover { color: rgba(255,255,255,0.65); }
+
+    /* ===== DASHBOARD ===== */
+    .bureau-dashboard-page {
+      min-height: 100vh;
+      background: #f0f4f9;
+      padding-top: var(--header-height);
+    }
+
+    /* Header dashboard */
+    .bureau-dash-header {
+      background: linear-gradient(135deg, #040E2A 0%, var(--deep) 50%, var(--mountain) 100%);
+      color: white;
+      padding: 28px 40px 24px;
+      border-bottom: 3px solid var(--tca-red);
+    }
+
+    .bureau-dash-header-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .bureau-dash-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bureau-avatar {
+      width: 52px;
+      height: 52px;
+      background: rgba(230,42,42,0.3);
+      border: 2px solid rgba(230,42,42,0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .bureau-welcome-text p {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.82rem;
+      margin-bottom: 2px;
+    }
+
+    .bureau-welcome-text h2 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.03em;
+    }
+
+    .bureau-role-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(230,42,42,0.25);
+      border: 1px solid rgba(230,42,42,0.5);
+      border-radius: 20px;
+      color: #fca5a5;
+      font-size: 0.78rem;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .bureau-dash-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-bureau-logout {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: var(--radius-sm);
+      color: rgba(255,255,255,0.8);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-bureau-logout:hover {
+      background: rgba(230,42,42,0.25);
+      border-color: rgba(230,42,42,0.5);
+      color: white;
+    }
+
+    /* Nav tabs */
+    .bureau-dash-nav {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      position: sticky;
+      top: var(--header-height);
+      z-index: 90;
+    }
+
+    .bureau-dash-nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      gap: 2px;
+      padding: 0 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .bureau-dash-nav-inner::-webkit-scrollbar { display: none; }
+
+    .bureau-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      border: none;
+      background: transparent;
+      color: #64748b;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .bureau-tab:hover {
+      color: var(--mountain);
+      background: #f8fafc;
+    }
+
+    .bureau-tab.active {
+      color: var(--deep);
+      border-bottom-color: var(--tca-red);
+      font-weight: 600;
+    }
+
+    /* Content */
+    .bureau-dash-content {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    .bureau-panel { display: none; }
+    .bureau-panel.active { display: block; }
+
+    /* Section title */
+    .bureau-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--deep);
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bureau-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+      margin-left: 6px;
+    }
+
+    /* ---- Stats cards ---- */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      border-left: 4px solid var(--glacier);
+      transition: var(--transition);
+    }
+
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    .stat-card.red   { border-left-color: var(--tca-red); }
+    .stat-card.green { border-left-color: #22c55e; }
+    .stat-card.orange { border-left-color: #f59e0b; }
+
+    .stat-card-label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .stat-card-value {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--deep);
+      line-height: 1;
+    }
+
+    .stat-card-sub {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    /* Alert info */
+    .bureau-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(230,42,42,0.07);
+      border: 1px solid rgba(230,42,42,0.2);
+      border-radius: var(--radius-sm);
+      color: #7f1d1d;
+      font-size: 0.87rem;
+      margin-bottom: 24px;
+    }
+
+    .bureau-alert i { color: var(--tca-red); margin-top: 1px; flex-shrink: 0; }
+
+    /* ---- Table adherents ---- */
+    .bureau-toolbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .bureau-search {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px 10px 38px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .bureau-search:focus {
+      border-color: var(--mountain);
+      box-shadow: 0 0 0 3px rgba(26,107,200,0.12);
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .search-wrap i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .bureau-select {
+      padding: 10px 14px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .bureau-table-wrap {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+
+    .bureau-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .bureau-table thead {
+      background: var(--deep);
+      color: white;
+    }
+
+    .bureau-table th {
+      padding: 13px 14px;
+      text-align: left;
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .bureau-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    .bureau-table tbody tr:hover { background: #f8fafc; }
+    .bureau-table tbody tr:last-child td { border-bottom: none; }
+
+    /* Badges */
+    .statut-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.78rem;
+      font-weight: 500;
+    }
+
+    .statut-valide  { background: #dcfce7; color: #166534; }
+    .statut-expire  { background: #fee2e2; color: #991b1b; }
+
+    .cat-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    /* ---- Trésorerie ---- */
+    .tresorerie-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .treso-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+    .treso-card-label {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .treso-card-amount {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    .treso-card-amount.recette { color: #16a34a; }
+    .treso-card-amount.depense { color: var(--tca-red); }
+    .treso-card-amount.solde   { color: var(--deep); }
+
+    .montant-recette { color: #16a34a; font-weight: 600; }
+    .montant-depense { color: var(--tca-red); font-weight: 600; }
+
+    /* ---- Commandes ---- */
+    .commandes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .commande-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      transition: var(--transition);
+    }
+
+    .commande-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    .commande-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .commande-id {
+      font-family: var(--font-heading);
+      font-size: 0.85rem;
+      color: #94a3b8;
+      letter-spacing: 0.06em;
+    }
+
+    .cmd-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .cmd-livre  { background: #dcfce7; color: #166534; }
+    .cmd-prepare { background: #fef9c3; color: #713f12; }
+    .cmd-attente { background: #fee2e2; color: #991b1b; }
+
+    .commande-membre {
+      font-weight: 600;
+      color: var(--deep);
+      margin-bottom: 4px;
+    }
+
+    .commande-articles {
+      font-size: 0.83rem;
+      color: #64748b;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .commande-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 10px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .commande-date { font-size: 0.78rem; color: #94a3b8; }
+    .commande-total { font-family: var(--font-heading); color: var(--deep); }
+
+    /* ---- Documents ---- */
+    .docs-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .doc-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition);
+    }
+
+    .doc-card:hover { background: #f8fafc; }
+
+    .doc-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .doc-info { flex: 1; }
+
+    .doc-nom {
+      font-weight: 500;
+      color: var(--deep);
+      margin-bottom: 3px;
+    }
+
+    .doc-meta {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    .doc-type {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 8px;
+      font-size: 0.72rem;
+      font-weight: 500;
+    }
+
+    .doc-btn {
+      padding: 8px 14px;
+      background: var(--deep);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+
+    .doc-btn:hover { background: var(--mountain); }
+
+    /* ---- Notes bureau ---- */
+    .notes-wrap {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      margin-bottom: 20px;
+    }
+
+    .notes-textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--text);
+      resize: vertical;
+      outline: none;
+      transition: var(--transition);
+      box-sizing: border-box;
+    }
+
+    .notes-textarea:focus {
+      border-color: var(--mountain);
+      box-shadow: 0 0 0 3px rgba(26,107,200,0.1);
+    }
+
+    .btn-save-notes {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: var(--deep);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-save-notes:hover { background: var(--mountain); }
+
+    .notes-saved-msg {
+      display: none;
+      margin-left: 12px;
+      color: #16a34a;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .bureau-login-card { padding: 36px 24px; }
+      .bureau-dash-header { padding: 20px 20px 18px; }
+      .bureau-dash-content { padding: 20px 16px 60px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .tresorerie-summary { grid-template-columns: 1fr; }
+      .bureau-table th, .bureau-table td { padding: 10px; }
+      .bureau-tab { padding: 14px 14px; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="site-header" id="site-header">
+    <nav class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-badge">TCA<span>73</span></div>
+        <div class="logo-text">
+          <strong>Trial Club</strong>
+          <span>Albertvillois</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Accueil</a>
+        <a href="club.html">Le Club</a>
+        <a href="evenements.html">Événements</a>
+        <a href="galerie.html">Galerie</a>
+        <a href="boutique.html">Boutique</a>
+        <a href="adhesion.html">Adhésion</a>
+        <a href="partenaires.html">Partenaires</a>
+        <a href="contact.html">Contact</a>
+        <a href="espace-membre.html" class="btn btn--sm btn--outline">Espace Membre</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ===== PAGE LOGIN ===== -->
+  <div id="bureau-login-section" class="bureau-login-page">
+    <div class="bureau-login-card">
+
+      <div class="bureau-badge-top">
+        <div class="bureau-badge-icon">
+          <i class="fa-solid fa-shield-halved" style="color:white;"></i>
+        </div>
+        <div class="bureau-badge-text">
+          <strong>TCA73</strong>
+          <span>Accès Bureau</span>
+        </div>
+      </div>
+
+      <h1 class="bureau-login-title">Espace Bureau</h1>
+      <p class="bureau-login-subtitle">Zone réservée aux membres du bureau de l'association</p>
+
+      <div class="bureau-divider"><span>Authentification requise</span></div>
+
+      <form id="bureau-login-form">
+        <div class="form-group">
+          <label for="bureau-email">Adresse e-mail bureau</label>
+          <input type="email" id="bureau-email" class="form-control" placeholder="role@tca73.fr" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label for="bureau-password">Mot de passe</label>
+          <input type="password" id="bureau-password" class="form-control" placeholder="••••••••••••" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn-bureau-login">
+          <i class="fa-solid fa-lock-open"></i>
+          Accéder au bureau
+        </button>
+        <div id="bureau-login-error" class="bureau-login-error"></div>
+      </form>
+
+      <a href="index.html" class="bureau-back-link">
+        <i class="fa-solid fa-arrow-left"></i> Retour au site
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div id="bureau-dashboard-section" class="bureau-dashboard-page" style="display:none;">
+
+    <!-- Header -->
+    <div class="bureau-dash-header">
+      <div class="bureau-dash-header-inner">
+        <div class="bureau-dash-left">
+          <div class="bureau-avatar" id="bureau-initiales">MB</div>
+          <div class="bureau-welcome-text">
+            <p>Bienvenue dans l'espace bureau</p>
+            <h2>TCA73 — Bureau</h2>
+            <div class="bureau-role-chip">
+              <i class="fa-solid fa-shield-halved" style="font-size:0.7rem;"></i>
+              <span id="bureau-role-display">Membre Bureau</span>
+            </div>
+          </div>
+        </div>
+        <div class="bureau-dash-actions">
+          <button id="bureau-logout-btn" class="btn-bureau-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Déconnexion
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nav tabs -->
+    <div class="bureau-dash-nav">
+      <div class="bureau-dash-nav-inner">
+        <button class="bureau-tab active" data-tab="overview">
+          <i class="fa-solid fa-gauge-high"></i> Vue d'ensemble
+        </button>
+        <button class="bureau-tab" data-tab="adherents">
+          <i class="fa-solid fa-users"></i> Adhérents
+        </button>
+        <button class="bureau-tab" data-tab="tresorerie">
+          <i class="fa-solid fa-coins"></i> Trésorerie
+        </button>
+        <button class="bureau-tab" data-tab="commandes">
+          <i class="fa-solid fa-box"></i> Commandes boutique
+        </button>
+        <button class="bureau-tab" data-tab="documents">
+          <i class="fa-solid fa-folder-open"></i> Documents
+        </button>
+        <button class="bureau-tab" data-tab="notes">
+          <i class="fa-solid fa-pen-to-square"></i> Notes bureau
+        </button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="bureau-dash-content">
+
+      <!-- ---- Overview ---- -->
+      <div class="bureau-panel active" id="bureau-panel-overview">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-gauge-high" style="color:var(--tca-red)"></i> Vue d'ensemble</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-label">Total adhérents</div>
+            <div class="stat-card-value" id="stat-adherents">—</div>
+            <div class="stat-card-sub">Saison 2025</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-label">Licences valides</div>
+            <div class="stat-card-value" id="stat-valides">—</div>
+            <div class="stat-card-sub">À jour</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-card-label">Licences expirées</div>
+            <div class="stat-card-value" id="stat-expires">—</div>
+            <div class="stat-card-sub">À relancer</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-card-label">Recettes totales</div>
+            <div class="stat-card-value" id="stat-recettes" style="font-size:1.3rem">—</div>
+            <div class="stat-card-sub">Depuis nov. 2024</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-card-label">Dépenses totales</div>
+            <div class="stat-card-value" id="stat-depenses" style="font-size:1.3rem">—</div>
+            <div class="stat-card-sub">Depuis nov. 2024</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Solde trésorerie</div>
+            <div class="stat-card-value" id="stat-solde" style="font-size:1.3rem">—</div>
+            <div class="stat-card-sub">Estimé</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-label">Commandes en attente</div>
+            <div class="stat-card-value" id="stat-commandes">—</div>
+            <div class="stat-card-sub">À traiter</div>
+          </div>
+        </div>
+
+        <div class="bureau-alert">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            Ces données sont des données de démonstration. Pour les vraies données, intégrez votre système de gestion ou exportez depuis HelloAsso/SportEasy.
+          </div>
+        </div>
+      </div>
+
+      <!-- ---- Adhérents ---- -->
+      <div class="bureau-panel" id="bureau-panel-adherents">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-users" style="color:var(--tca-red)"></i> Gestion des adhérents</h2>
+
+        <div class="bureau-toolbar">
+          <div class="search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-adherents" class="bureau-search" placeholder="Rechercher un adhérent…">
+          </div>
+          <select id="filter-statut" class="bureau-select">
+            <option value="all">Tous les statuts</option>
+            <option value="Valide">Valide</option>
+            <option value="Expiré">Expiré</option>
+          </select>
+        </div>
+
+        <div class="bureau-table-wrap">
+          <table class="bureau-table">
+            <thead>
+              <tr>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Catégorie</th>
+                <th>Licence</th>
+                <th>Statut</th>
+                <th>Cotisation</th>
+                <th>Adhésion</th>
+              </tr>
+            </thead>
+            <tbody id="adherents-tbody">
+              <tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8;">Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ---- Trésorerie ---- -->
+      <div class="bureau-panel" id="bureau-panel-tresorerie">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-coins" style="color:var(--tca-red)"></i> Trésorerie simplifiée</h2>
+
+        <div class="tresorerie-summary">
+          <div class="treso-card">
+            <div class="treso-card-label">Recettes</div>
+            <div class="treso-card-amount recette" id="treso-recettes">—</div>
+          </div>
+          <div class="treso-card">
+            <div class="treso-card-label">Dépenses</div>
+            <div class="treso-card-amount depense" id="treso-depenses">—</div>
+          </div>
+          <div class="treso-card">
+            <div class="treso-card-label">Solde estimé</div>
+            <div class="treso-card-amount solde" id="treso-solde">—</div>
+          </div>
+        </div>
+
+        <div class="bureau-toolbar">
+          <select id="filter-tresorerie" class="bureau-select">
+            <option value="all">Toutes les opérations</option>
+            <option value="recette">Recettes seulement</option>
+            <option value="depense">Dépenses seulement</option>
+          </select>
+        </div>
+
+        <div class="bureau-table-wrap">
+          <table class="bureau-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Libellé</th>
+                <th>Catégorie</th>
+                <th>Montant</th>
+              </tr>
+            </thead>
+            <tbody id="tresorerie-tbody">
+              <tr><td colspan="4" style="text-align:center;padding:30px;color:#94a3b8;">Chargement…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ---- Commandes ---- -->
+      <div class="bureau-panel" id="bureau-panel-commandes">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-box" style="color:var(--tca-red)"></i> Commandes boutique</h2>
+        <div class="commandes-grid" id="commandes-list"></div>
+      </div>
+
+      <!-- ---- Documents ---- -->
+      <div class="bureau-panel" id="bureau-panel-documents">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-folder-open" style="color:var(--tca-red)"></i> Documents du bureau</h2>
+        <div class="docs-list" id="docs-grid"></div>
+        <div class="bureau-alert" style="margin-top:20px;">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div>Le téléchargement de fichiers nécessite un hébergement avec stockage serveur. Ces boutons seront fonctionnels après déploiement.</div>
+        </div>
+      </div>
+
+      <!-- ---- Notes bureau ---- -->
+      <div class="bureau-panel" id="bureau-panel-notes">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-pen-to-square" style="color:var(--tca-red)"></i> Notes & compte-rendus</h2>
+
+        <div class="notes-wrap">
+          <p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;">
+            <i class="fa-solid fa-info-circle"></i> Notes enregistrées localement dans votre navigateur (localStorage). Partagez via email pour coordination.
+          </p>
+          <textarea id="bureau-notes" class="notes-textarea" placeholder="Compte-rendu réunion bureau, points à l'ordre du jour, décisions prises…"></textarea>
+          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;">
+            <button class="btn-save-notes" onclick="saveNotes()">
+              <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+            </button>
+            <button class="btn-save-notes" style="background:#64748b;" onclick="copyNotes()">
+              <i class="fa-solid fa-copy"></i> Copier le texte
+            </button>
+            <span class="notes-saved-msg" id="notes-saved-msg">
+              <i class="fa-solid fa-check"></i> Enregistré
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /bureau-dash-content -->
+  </div><!-- /bureau-dashboard-section -->
+
+  <!-- Footer minimal -->
+  <footer style="background:#040E2A;color:rgba(255,255,255,0.4);text-align:center;padding:20px;font-size:0.78rem;display:none;" id="bureau-footer">
+    TCA73 — Espace Bureau · Accès restreint
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/bureau.js"></script>
+  <script>
+    /* Notes locales */
+    const NOTES_KEY = 'tca73_bureau_notes';
+
+    function saveNotes() {
+      const val = document.getElementById('bureau-notes')?.value || '';
+      localStorage.setItem(NOTES_KEY, val);
+      const msg = document.getElementById('notes-saved-msg');
+      msg.style.display = 'inline';
+      setTimeout(() => msg.style.display = 'none', 2500);
+    }
+
+    function copyNotes() {
+      const val = document.getElementById('bureau-notes')?.value || '';
+      navigator.clipboard.writeText(val).then(() => {
+        const msg = document.getElementById('notes-saved-msg');
+        msg.innerHTML = '<i class="fa-solid fa-check"></i> Copié !';
+        msg.style.display = 'inline';
+        setTimeout(() => { msg.style.display = 'none'; msg.innerHTML = '<i class="fa-solid fa-check"></i> Enregistré'; }, 2500);
+      });
+    }
+
+    /* Charger notes sauvegardées */
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('tca73_bureau_notes');
+      if (saved) {
+        const ta = document.getElementById('bureau-notes');
+        if (ta) ta.value = saved;
+      }
+
+      /* Calculs trésorerie dans l'onglet tréso */
+      const origShowDashboard = window.showBureauDashboard;
+    });
+
+    /* Recalcul résumé trésorerie quand on ouvre l'onglet */
+    document.querySelectorAll('.bureau-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        if (tab.dataset.tab === 'tresorerie') updateTresoSummary();
+      });
+    });
+
+    function updateTresoSummary() {
+      if (typeof BUREAU_TRESORERIE === 'undefined') return;
+      const recettes = BUREAU_TRESORERIE.filter(t => t.type === 'recette').reduce((s,t) => s + t.montant, 0);
+      const depenses = BUREAU_TRESORERIE.filter(t => t.type === 'depense').reduce((s,t) => s + t.montant, 0);
+      const solde = recettes - depenses;
+      const el = id => document.getElementById(id);
+      if (el('treso-recettes')) el('treso-recettes').textContent = recettes.toLocaleString('fr-FR') + ' €';
+      if (el('treso-depenses')) el('treso-depenses').textContent = depenses.toLocaleString('fr-FR') + ' €';
+      if (el('treso-solde'))    el('treso-solde').textContent    = solde.toLocaleString('fr-FR') + ' €';
+    }
+
+    /* Afficher footer après connexion */
+    const origShow = window.showBureauDashboard;
+    if (typeof showBureauDashboard === 'function') {
+      const _orig = showBureauDashboard;
+      window.showBureauDashboard = function(m) {
+        _orig(m);
+        document.getElementById('bureau-footer').style.display = 'block';
+        updateTresoSummary();
+      };
+    }
+  </script>
+</body>
+</html>
