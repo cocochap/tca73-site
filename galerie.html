@@ -48,17 +48,21 @@
       font-size: 0.9rem; letter-spacing: 0.04em; line-height: 1.3;
     }
 
-    /* Gradient backgrounds for items */
-    .gb-1  { background: linear-gradient(135deg, var(--mountain), var(--glacier)); }
-    .gb-2  { background: linear-gradient(135deg, var(--deep), var(--mountain)); }
-    .gb-3  { background: linear-gradient(135deg, #0a2a5e, var(--glacier)); }
-    .gb-4  { background: linear-gradient(135deg, var(--tca-red), #e67e22); }
-    .gb-5  { background: linear-gradient(135deg, #1a3a6b, #2ecc71); }
-    .gb-6  { background: linear-gradient(135deg, #2c3e50, var(--mountain)); }
-    .gb-7  { background: linear-gradient(135deg, var(--deep), #8e44ad); }
-    .gb-8  { background: linear-gradient(135deg, #16a085, var(--glacier)); }
-    .gb-9  { background: linear-gradient(135deg, var(--tca-red), var(--deep)); }
-    .gb-10 { background: linear-gradient(135deg, #2d3436, #636e72); }
+    /* Photo backgrounds */
+    .gi-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    }
+    .gallery-item:hover .gi-img { transform: scale(1.07); }
+    /* Gradient permanent en bas pour lisibilité */
+    .gallery-item .gallery-overlay {
+      background: linear-gradient(to top, rgba(4,14,42,0.80) 0%, rgba(4,14,42,0.18) 45%, transparent 100%);
+      opacity: 1;
+      align-items: flex-end;
+    }
+    .gallery-overlay-text { font-size: 0.88rem; }
 
     /* ---- Lightbox ---- */
     #lightbox {
@@ -154,6 +158,7 @@
       <a href="evenements.html">Événements</a>
       <a href="galerie.html" class="active">Galerie</a>
       <a href="partenaires.html">Partenaires</a>
+      <a href="boutique.html"><i class="fa-solid fa-store"></i> Boutique</a>
       <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
       <a href="adhesion.html" class="btn nav-cta">S'inscrire</a>
     </nav>
@@ -167,18 +172,21 @@
   <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
   <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
   <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
+  <a href="boutique.html"><i class="fa-solid fa-store"></i> Boutique</a>
   <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
   <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
 </nav>
 
 <!-- ===== PAGE HERO ===== -->
-<section class="page-hero">
-  <div style="position:absolute;inset:0;overflow:hidden;z-index:0;">
+<section class="page-hero" style="background:transparent;">
+  <img src="https://images.pexels.com/photos/36685341/pexels-photo-36685341.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" loading="eager">
+  <div style="position:absolute;inset:0;background:var(--gradient-hero);opacity:0.88;z-index:1;"></div>
+  <div style="position:absolute;inset:0;overflow:hidden;z-index:1;">
     <svg style="position:absolute;bottom:0;width:100%;height:auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 180" preserveAspectRatio="none">
       <path fill="rgba(255,255,255,0.04)" d="M0,180 L0,100 C200,60 400,120 600,70 C800,20 1000,90 1200,50 C1300,30 1380,60 1440,45 L1440,180 Z"/>
     </svg>
   </div>
-  <div class="page-hero-content">
+  <div class="page-hero-content" style="position:relative;z-index:2;">
     <div class="breadcrumb"><a href="index.html">Accueil</a><span>Galerie</span></div>
     <h1>Galerie</h1>
     <p>Les meilleurs moments du TCA73 en images</p>
@@ -203,217 +211,145 @@
 
       <!-- 1 — compétition, span-2 -->
       <div class="gallery-item span-2 fade-up" data-category="competition" data-caption="Championnat Savoie — Manche 3">
-        <div class="gi-inner gb-1">
-          <span class="gi-emoji">🏆</span>
-          <span class="gi-label">Championnat Savoie</span>
-        </div>
+        <img src="https://images.pexels.com/photos/17955888/pexels-photo-17955888.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Championnat Savoie" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Championnat Savoie — Manche 3</span></div>
       </div>
 
       <!-- 2 — terrain -->
       <div class="gallery-item fade-up" data-category="terrain" data-caption="Section pierre — Terrain TCA73">
-        <div class="gi-inner gb-2">
-          <span class="gi-emoji">🪨</span>
-          <span class="gi-label">Section pierre</span>
-        </div>
+        <img src="https://images.pexels.com/photos/5366889/pexels-photo-5366889.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Section pierre" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Section pierre — Terrain TCA73</span></div>
       </div>
 
       <!-- 3 — evenement -->
       <div class="gallery-item fade-up" data-category="evenement" data-caption="Journée Portes Ouvertes 2025">
-        <div class="gi-inner gb-4">
-          <span class="gi-emoji">🎉</span>
-          <span class="gi-label">Portes Ouvertes 2025</span>
-        </div>
+        <img src="https://images.pexels.com/photos/5803464/pexels-photo-5803464.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Portes Ouvertes" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Journée Portes Ouvertes 2025</span></div>
       </div>
 
       <!-- 4 — ecole -->
       <div class="gallery-item fade-up" data-category="ecole" data-caption="École trial — Jeunes pilotes">
-        <div class="gi-inner gb-5">
-          <span class="gi-emoji">👶</span>
-          <span class="gi-label">École trial — Jeunes</span>
-        </div>
+        <img src="https://images.pexels.com/photos/4224299/pexels-photo-4224299.jpeg?auto=compress&cs=tinysrgb&w=800" alt="École trial" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">École trial — Jeunes pilotes</span></div>
       </div>
 
       <!-- 5 — competition -->
       <div class="gallery-item fade-up" data-category="competition" data-caption="Podium Championnat Régional AURA 2024">
-        <div class="gi-inner gb-9">
-          <span class="gi-emoji">🥇</span>
-          <span class="gi-label">Podium régional AURA</span>
-        </div>
+        <img src="https://images.pexels.com/photos/14429330/pexels-photo-14429330.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Podium AURA" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Podium Championnat Régional AURA 2024</span></div>
       </div>
 
       <!-- 6 — terrain, span-2 -->
       <div class="gallery-item span-2 fade-up" data-category="terrain" data-caption="Session billes en bois — dimanche matin">
-        <div class="gi-inner gb-6">
-          <span class="gi-emoji">🌲</span>
-          <span class="gi-label">Session billes en bois</span>
-        </div>
+        <img src="https://images.pexels.com/photos/358079/pexels-photo-358079.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Session billes" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Session billes en bois — dimanche matin</span></div>
       </div>
 
       <!-- 7 — evenement -->
       <div class="gallery-item fade-up" data-category="evenement" data-caption="Repas de fin de saison 2024">
-        <div class="gi-inner gb-7">
-          <span class="gi-emoji">🍖</span>
-          <span class="gi-label">Repas fin de saison</span>
-        </div>
+        <img src="https://images.pexels.com/photos/5803401/pexels-photo-5803401.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Repas fin de saison" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Repas de fin de saison 2024</span></div>
       </div>
 
       <!-- 8 — ecole -->
       <div class="gallery-item fade-up" data-category="ecole" data-caption="Moniteur et élève — première section">
-        <div class="gi-inner gb-3">
-          <span class="gi-emoji">🎓</span>
-          <span class="gi-label">Moniteur & élève</span>
-        </div>
+        <img src="https://images.pexels.com/photos/7557287/pexels-photo-7557287.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Moniteur et élève" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Moniteur et élève — première section</span></div>
       </div>
 
       <!-- 9 — terrain -->
       <div class="gallery-item fade-up" data-category="terrain" data-caption="Passage de rocher — zone expert">
-        <div class="gi-inner gb-8">
-          <span class="gi-emoji">⛰️</span>
-          <span class="gi-label">Zone expert</span>
-        </div>
+        <img src="https://images.pexels.com/photos/30706050/pexels-photo-30706050.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Zone expert" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Passage de rocher — zone expert</span></div>
       </div>
 
       <!-- 10 — competition, span-2 -->
       <div class="gallery-item span-2 fade-up" data-category="competition" data-caption="Manche de Savoie — Secteur eau vive">
-        <div class="gi-inner gb-1">
-          <span class="gi-emoji">💧</span>
-          <span class="gi-label">Secteur eau vive</span>
-        </div>
+        <img src="https://images.pexels.com/photos/36685341/pexels-photo-36685341.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Secteur eau vive" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Manche de Savoie — Secteur eau vive</span></div>
       </div>
 
       <!-- 11 — ecole -->
       <div class="gallery-item fade-up" data-category="ecole" data-caption="Mini-trial — catégorie Minime">
-        <div class="gi-inner gb-4">
-          <span class="gi-emoji">🏍️</span>
-          <span class="gi-label">Mini-trial Minime</span>
-        </div>
+        <img src="https://images.pexels.com/photos/4224299/pexels-photo-4224299.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop&crop=top" alt="Mini-trial" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Mini-trial — catégorie Minime</span></div>
       </div>
 
       <!-- 12 — evenement -->
       <div class="gallery-item fade-up" data-category="evenement" data-caption="Démonstration publique — Fête du Sport Albertville">
-        <div class="gi-inner gb-2">
-          <span class="gi-emoji">🎪</span>
-          <span class="gi-label">Fête du Sport</span>
-        </div>
+        <img src="https://images.pexels.com/photos/14429057/pexels-photo-14429057.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fête du Sport" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Démonstration — Fête du Sport Albertville</span></div>
       </div>
 
       <!-- 13 — terrain -->
       <div class="gallery-item fade-up" data-category="terrain" data-caption="Aménagement du terrain — corvée bénévoles">
-        <div class="gi-inner gb-10">
-          <span class="gi-emoji">🔧</span>
-          <span class="gi-label">Corvée bénévoles</span>
-        </div>
+        <img src="https://images.pexels.com/photos/31935749/pexels-photo-31935749.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Corvée bénévoles" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Aménagement du terrain — corvée bénévoles</span></div>
       </div>
 
       <!-- 14 — competition -->
       <div class="gallery-item fade-up" data-category="competition" data-caption="Interrégional AURA — section buttes">
-        <div class="gi-inner gb-9">
-          <span class="gi-emoji">🏅</span>
-          <span class="gi-label">Interrégional AURA</span>
-        </div>
+        <img src="https://images.pexels.com/photos/108292/pexels-photo-108292.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Interrégional AURA" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Interrégional AURA — section buttes</span></div>
       </div>
 
       <!-- 15 — ecole, span-2 -->
       <div class="gallery-item span-2 fade-up" data-category="ecole" data-caption="Stage vacances — École trial été 2024">
-        <div class="gi-inner gb-5">
-          <span class="gi-emoji">☀️</span>
-          <span class="gi-label">Stage vacances été 2024</span>
-        </div>
+        <img src="https://images.pexels.com/photos/16470256/pexels-photo-16470256.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Stage été" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Stage vacances — École trial été 2024</span></div>
       </div>
 
       <!-- 16 — terrain -->
       <div class="gallery-item fade-up" data-category="terrain" data-caption="Session palettes — zone intermédiaire">
-        <div class="gi-inner gb-3">
-          <span class="gi-emoji">🪵</span>
-          <span class="gi-label">Zone intermédiaire</span>
-        </div>
+        <img src="https://images.pexels.com/photos/14737004/pexels-photo-14737004.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Zone intermédiaire" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Session palettes — zone intermédiaire</span></div>
       </div>
 
       <!-- 17 — evenement -->
       <div class="gallery-item fade-up" data-category="evenement" data-caption="Sortie montagne — Groupe loisir juin 2024">
-        <div class="gi-inner gb-8">
-          <span class="gi-emoji">🗻</span>
-          <span class="gi-label">Sortie montagne</span>
-        </div>
+        <img src="https://images.pexels.com/photos/5803401/pexels-photo-5803401.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop&crop=bottom" alt="Sortie montagne" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Sortie montagne — Groupe loisir juin 2024</span></div>
       </div>
 
       <!-- 18 — competition -->
       <div class="gallery-item fade-up" data-category="competition" data-caption="Championnat Savoie — Remise des prix">
-        <div class="gi-inner gb-4">
-          <span class="gi-emoji">🎖️</span>
-          <span class="gi-label">Remise des prix</span>
-        </div>
+        <img src="https://images.pexels.com/photos/14429057/pexels-photo-14429057.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop&crop=right" alt="Remise des prix" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Championnat Savoie — Remise des prix</span></div>
       </div>
 
       <!-- 19 — ecole -->
       <div class="gallery-item fade-up" data-category="ecole" data-caption="Passage de passerelle — section débutant">
-        <div class="gi-inner gb-1">
-          <span class="gi-emoji">🚸</span>
-          <span class="gi-label">Section débutant</span>
-        </div>
+        <img src="https://images.pexels.com/photos/7557287/pexels-photo-7557287.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop&crop=bottom" alt="Section débutant" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Passage de passerelle — section débutant</span></div>
       </div>
 
       <!-- 20 — terrain, span-2 -->
       <div class="gallery-item span-2 fade-up" data-category="terrain" data-caption="Vue panoramique — Terrain TCA73 en hiver">
-        <div class="gi-inner gb-7">
-          <span class="gi-emoji">❄️</span>
-          <span class="gi-label">Terrain en hiver</span>
-        </div>
+        <img src="https://images.pexels.com/photos/11127670/pexels-photo-11127670.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Terrain en hiver" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Vue panoramique — Terrain TCA73 en hiver</span></div>
       </div>
 
       <!-- 21 — evenement -->
       <div class="gallery-item fade-up" data-category="evenement" data-caption="Journée famille — barbecue du club">
-        <div class="gi-inner gb-6">
-          <span class="gi-emoji">🔥</span>
-          <span class="gi-label">Barbecue du club</span>
-        </div>
+        <img src="https://images.pexels.com/photos/5803464/pexels-photo-5803464.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop&crop=top" alt="Barbecue du club" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Journée famille — barbecue du club</span></div>
       </div>
 
       <!-- 22 — competition -->
       <div class="gallery-item fade-up" data-category="competition" data-caption="Entraînement compétition — samedi matin">
-        <div class="gi-inner gb-2">
-          <span class="gi-emoji">⚡</span>
-          <span class="gi-label">Entraînement compétition</span>
-        </div>
+        <img src="https://images.pexels.com/photos/36685341/pexels-photo-36685341.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop" alt="Entraînement compétition" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Entraînement compétition — samedi matin</span></div>
       </div>
 
       <!-- 23 — terrain -->
       <div class="gallery-item fade-up" data-category="terrain" data-caption="Obstacle tremplin — zone avancée">
-        <div class="gi-inner gb-10">
-          <span class="gi-emoji">🎿</span>
-          <span class="gi-label">Zone avancée — tremplin</span>
-        </div>
+        <img src="https://images.pexels.com/photos/16470256/pexels-photo-16470256.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Zone avancée" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Obstacle tremplin — zone avancée</span></div>
       </div>
 
       <!-- 24 — ecole -->
       <div class="gallery-item fade-up" data-category="ecole" data-caption="Équilibre statique — atelier débutant">
-        <div class="gi-inner gb-5">
-          <span class="gi-emoji">⚖️</span>
-          <span class="gi-label">Atelier équilibre</span>
-        </div>
+        <img src="https://images.pexels.com/photos/358079/pexels-photo-358079.jpeg?auto=compress&cs=tinysrgb&w=800&h=700&fit=crop&crop=right" alt="Atelier équilibre" class="gi-img" loading="lazy">
         <div class="gallery-overlay"><span class="gallery-overlay-text">Équilibre statique — atelier débutant</span></div>
       </div>
 

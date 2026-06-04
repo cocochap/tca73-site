@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique — TCA73 | Trial Club Albertvillois</title>
+  <meta name="description" content="Boutique officielle du Trial Club Albertvillois 73. Maillots, sweats, casquettes et accessoires aux couleurs du TCA73.">
+  <link rel="canonical" href="https://tca73.fr/boutique.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css?v=4">
+
+  <style>
+    /* ===== PAGE HERO ===== */
+    .page-hero {
+      background: var(--gradient-card);
+      padding: calc(var(--header-height) + 64px) 0 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 60%, rgba(87,212,230,0.12) 0%, transparent 55%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .page-hero h1 { color: white; margin-bottom: 12px; }
+    .page-hero p  { color: rgba(255,255,255,0.72); font-size: 1.1rem; max-width: 520px; margin: 0 auto; }
+
+    /* ===== BARRE FILTRES ===== */
+    .shop-toolbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: var(--header-height);
+      z-index: 80;
+      box-shadow: var(--shadow-sm);
+    }
+    .shop-toolbar-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 2px;
+      padding: 12px 0;
+    }
+    .filter-tab {
+      padding: 8px 20px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-tab:hover { background: var(--light-bg); color: var(--mountain); }
+    .filter-tab.active { background: var(--deep); color: white; }
+
+    .shop-sort {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+    }
+    .shop-sort label { font-size: 0.88rem; color: var(--text-muted); white-space: nowrap; }
+    .shop-sort select {
+      padding: 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      color: var(--text);
+      background: white;
+      cursor: pointer;
+    }
+
+    /* ===== GRILLE PRODUITS ===== */
+    .shop-section {
+      background: var(--off-white);
+      padding: 56px 0 80px;
+      min-height: 60vh;
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    /* ===== CARD PRODUIT ===== */
+    .product-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    .product-card[data-hidden="true"] { display: none; }
+
+    .product-img {
+      height: 200px;
+      position: relative;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .product-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
+    }
+    .product-card:hover .product-img img { transform: scale(1.06); }
+    .product-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .badge-new   { background: var(--tca-red); color: white; }
+    .badge-best  { background: var(--glacier); color: var(--deep); }
+    .badge-indispo { background: #e2e8f0; color: #64748b; }
+    .product-card[data-indispo="true"] .btn-add-cart { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; pointer-events: none; }
+    .product-card[data-indispo="true"] { opacity: 0.78; }
+
+    .product-body {
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .product-cat {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--mountain);
+      margin-bottom: 6px;
+    }
+    .product-name {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--deep);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .product-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .product-price {
+      font-family: var(--font-heading);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--deep);
+      margin-bottom: 16px;
+    }
+    .product-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    /* Sélecteur taille */
+    .product-size-row {
+      margin-bottom: 16px;
+    }
+    .product-size-row label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .size-options {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .size-btn {
+      padding: 5px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: white;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .size-btn:hover { border-color: var(--mountain); color: var(--mountain); }
+    .size-btn.selected { border-color: var(--deep); background: var(--deep); color: white; }
+
+    /* Quantité */
+    .product-qty-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .product-qty-row label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .qty-btn {
+      width: 34px;
+      height: 34px;
+      border: none;
+      background: var(--light-bg);
+      color: var(--deep);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-btn:hover { background: var(--border); }
+    .qty-val {
+      width: 40px;
+      text-align: center;
+      border: none;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      color: var(--deep);
+      background: white;
+    }
+
+    .btn-add-cart {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 20px;
+      background: var(--deep);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-add-cart:hover { background: var(--mountain); transform: translateY(-1px); }
+    .btn-add-cart.added {
+      background: #16a34a;
+      pointer-events: none;
+    }
+
+    /* ===== PANIER FLOTTANT ===== */
+    .cart-fab {
+      position: fixed;
+      bottom: 36px;
+      right: 36px;
+      width: 58px;
+      height: 58px;
+      background: var(--tca-red);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(230,42,42,0.45);
+      transition: var(--transition);
+      z-index: 300;
+    }
+    .cart-fab:hover { background: var(--red-hover); transform: scale(1.08); }
+    .cart-fab-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: white;
+      color: var(--tca-red);
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      font-family: var(--font-heading);
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+    .cart-fab-count.visible { display: flex; }
+
+    /* ===== DRAWER PANIER ===== */
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,30,61,0.55);
+      z-index: 400;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .cart-overlay.open { opacity: 1; pointer-events: all; }
+
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 420px;
+      max-width: 100vw;
+      background: white;
+      z-index: 500;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-xl);
+    }
+    .cart-drawer.open { transform: translateX(0); }
+
+    .cart-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 24px;
+      background: var(--gradient-card);
+      color: white;
+      flex-shrink: 0;
+    }
+    .cart-drawer-header h3 {
+      color: white;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cart-close {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .cart-close:hover { background: rgba(255,255,255,0.28); }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 24px;
+    }
+    .cart-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 12px;
+      color: var(--text-muted);
+      padding: 40px 0;
+    }
+    .cart-empty i { font-size: 3rem; opacity: 0.3; }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-emoji {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; min-width: 0; }
+    .cart-item-info strong {
+      display: block;
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .cart-item-info small {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .cart-item-price {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: var(--deep);
+      flex-shrink: 0;
+    }
+    .cart-item-remove {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    .cart-item-remove:hover { color: var(--tca-red); }
+
+    .cart-footer {
+      padding: 20px 24px;
+      border-top: 2px solid var(--border);
+      flex-shrink: 0;
+      background: var(--off-white);
+    }
+    .cart-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .cart-total-row span { color: var(--text-muted); font-size: 0.9rem; }
+    .cart-total-amount {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      color: var(--deep);
+    }
+    .cart-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-checkout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 24px;
+      background: var(--tca-red);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-checkout:hover { background: var(--red-hover); }
+    .btn-checkout:disabled { opacity: 0.45; pointer-events: none; }
+
+    /* ===== MODALE COMMANDE ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,30,61,0.6);
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--transition);
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal-box {
+      background: white;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+      transform: translateY(20px);
+      transition: transform var(--transition);
+    }
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+
+    .modal-header {
+      padding: 28px 32px 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .modal-header h3 { font-size: 1.4rem; color: var(--deep); }
+    .modal-header p { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+    .modal-close {
+      background: var(--light-bg);
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--border); color: var(--text); }
+
+    .modal-body { padding: 24px 32px 32px; }
+
+    .modal-order-recap {
+      background: var(--off-white);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+    .modal-order-recap h4 {
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .recap-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text);
+      padding: 4px 0;
+    }
+    .recap-total {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      color: var(--deep);
+      padding-top: 10px;
+      margin-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .form-group .form-control {
+      width: 100%;
+      padding: 11px 15px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text);
+      background: white;
+      transition: var(--transition);
+      outline: none;
+    }
+    .form-group .form-control:focus {
+      border-color: var(--mountain);
+      box-shadow: 0 0 0 3px rgba(26,107,200,0.12);
+    }
+    .form-group textarea.form-control {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .btn-submit-order {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 24px;
+      background: var(--tca-red);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 4px;
+    }
+    .btn-submit-order:hover { background: var(--red-hover); }
+
+    /* État succès */
+    .order-success {
+      text-align: center;
+      padding: 48px 32px;
+    }
+    .order-success .success-icon {
+      width: 72px;
+      height: 72px;
+      background: rgba(22,163,74,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #16a34a;
+      margin: 0 auto 20px;
+    }
+    .order-success h3 { color: var(--deep); margin-bottom: 10px; font-size: 1.5rem; }
+    .order-success p { color: var(--text-muted); margin-bottom: 24px; }
+
+    /* ===== INFO LIVRAISON ===== */
+    .livraison-banner {
+      background: var(--gradient-card);
+      color: white;
+      padding: 32px 0;
+    }
+    .livraison-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      text-align: center;
+    }
+    .livraison-item i {
+      font-size: 1.8rem;
+      color: var(--glacier);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .livraison-item strong {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      color: white;
+    }
+    .livraison-item span { font-size: 0.85rem; color: rgba(255,255,255,0.65); }
+
+    /* ===== CTA REJOINDRE ===== */
+    .boutique-cta {
+      background: var(--off-white);
+      text-align: center;
+      padding: 72px 0;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 960px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .livraison-grid { grid-template-columns: 1fr; gap: 20px; }
+      .cart-drawer { width: 360px; }
+    }
+    @media (max-width: 640px) {
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .product-img { height: 150px; }
+      .product-body { padding: 16px 14px; }
+      .product-name { font-size: 1rem; }
+      .product-price { font-size: 1.4rem; }
+      .shop-toolbar-inner { flex-direction: column; align-items: flex-start; gap: 0; }
+      .filter-tabs { padding: 8px 0; overflow-x: auto; }
+      .shop-sort { padding: 8px 0; }
+      .cart-drawer { width: 100vw; }
+      .form-row { grid-template-columns: 1fr; }
+      .cart-fab { bottom: 20px; right: 20px; }
+      .modal-header, .modal-body { padding-left: 20px; padding-right: 20px; }
+    }
+    @media (max-width: 400px) {
+      .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img src="assets/images/logo-tca73.png" alt="TCA73" class="logo-img">
+      <div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
+      <a href="club.html">Le Club</a>
+      <a href="adhesion.html">Adhésion</a>
+      <a href="evenements.html">Événements</a>
+      <a href="galerie.html">Galerie</a>
+      <a href="partenaires.html">Partenaires</a>
+      <a href="boutique.html" class="active"><i class="fa-solid fa-store"></i> Boutique</a>
+      <a href="espace-membre.html" class="nav-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+      <a href="contact.html" class="nav-cta">Contact</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<nav class="mobile-nav" id="mobile-nav">
+  <a href="index.html"><i class="fa-solid fa-house"></i> Accueil</a>
+  <a href="club.html"><i class="fa-solid fa-shield-halved"></i> Le Club</a>
+  <a href="adhesion.html"><i class="fa-solid fa-id-card"></i> Adhésion</a>
+  <a href="evenements.html"><i class="fa-solid fa-calendar-days"></i> Événements</a>
+  <a href="galerie.html"><i class="fa-solid fa-images"></i> Galerie</a>
+  <a href="partenaires.html"><i class="fa-solid fa-handshake"></i> Partenaires</a>
+  <a href="boutique.html"><i class="fa-solid fa-store"></i> Boutique</a>
+  <a href="espace-membre.html" class="mobile-membre"><i class="fa-solid fa-user"></i> Espace Membre</a>
+  <a href="contact.html" class="mobile-cta"><i class="fa-solid fa-paper-plane"></i> Contact</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="tag" style="background:rgba(255,255,255,0.12);color:var(--glacier);border-color:rgba(255,255,255,0.2);margin:0 auto 16px;">Boutique officielle</div>
+    <h1>Boutique TCA73</h1>
+    <p>Maillots, sweats, accessoires — arborez fièrement les couleurs du Trial Club Albertvillois 73.</p>
+  </div>
+</section>
+
+<!-- ===== INFOS LIVRAISON ===== -->
+<div class="livraison-banner">
+  <div class="container">
+    <div class="livraison-grid">
+      <div class="livraison-item">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <strong>Retrait sur le terrain</strong>
+        <span>Récupérez votre commande lors d'une session</span>
+      </div>
+      <div class="livraison-item">
+        <i class="fa-solid fa-tag"></i>
+        <strong>Tarifs adhérents</strong>
+        <span>Réductions réservées aux membres TCA73</span>
+      </div>
+      <div class="livraison-item">
+        <i class="fa-solid fa-shield-halved"></i>
+        <strong>Qualité garantie</strong>
+        <span>Produits officiels aux couleurs du club</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BARRE DE FILTRES ===== -->
+<div class="shop-toolbar">
+  <div class="shop-toolbar-inner">
+    <div class="filter-tabs" role="tablist" aria-label="Filtrer les produits">
+      <button class="filter-tab active" data-filter="tous">Tous</button>
+      <button class="filter-tab" data-filter="tca73">Collection TCA73</button>
+      <button class="filter-tab" data-filter="accessoires">Accessoires</button>
+      <button class="filter-tab" data-filter="hebo">Tenues HEBO</button>
+    </div>
+    <div class="shop-sort">
+      <label for="sort-select">Trier par :</label>
+      <select id="sort-select">
+        <option value="defaut">Par défaut</option>
+        <option value="prix-asc">Prix croissant</option>
+        <option value="prix-desc">Prix décroissant</option>
+        <option value="nom">Nom A–Z</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GRILLE PRODUITS ===== -->
+<section class="shop-section">
+  <div class="container">
+    <div class="products-grid" id="products-grid">
+
+      <!-- ===== COLLECTION TCA73 ===== -->
+
+      <!-- B01 Maillot MC -->
+      <article class="product-card fade-up" data-id="B01" data-cat="tca73" data-prix="30" data-nom="Maillot TCA73 MC">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/14429330/pexels-photo-14429330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Maillot TCA73 Manches Courtes" loading="lazy">
+          <span class="product-badge badge-best">Best-seller</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Maillot TCA73 MC</div>
+          <p class="product-desc">Maillot manches courtes officiel du club. Tissu technique respirant, broderie TCA73, coupe ajustée pour le trial.</p>
+          <div class="product-price">30 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="K12">K12</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B02 Maillot ML -->
+      <article class="product-card fade-up" data-id="B02" data-cat="tca73" data-prix="37" data-nom="Maillot TCA73 ML">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/14429330/pexels-photo-14429330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Maillot TCA73 Manches Longues" loading="lazy">
+          <span class="product-badge badge-new">Nouveau</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Maillot TCA73 ML</div>
+          <p class="product-desc">Maillot manches longues officiel, protection renforcée pour les sessions en montagne. Disponible du 6 ans au 5XL.</p>
+          <div class="product-price">37 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="6ans">6ans</button>
+              <button class="size-btn" data-size="8ans">8ans</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+              <button class="size-btn" data-size="4XL">4XL</button>
+              <button class="size-btn" data-size="5XL">5XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B03 Pantalon TCA73 -->
+      <article class="product-card fade-up" data-id="B03" data-cat="tca73" data-prix="105" data-nom="Pantalon TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/5803464/pexels-photo-5803464.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pantalon TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Pantalon TCA73</div>
+          <p class="product-desc">Pantalon de trial officiel, renforts aux genoux et hanches. Tissu robuste et confortable pour toutes les conditions terrain.</p>
+          <div class="product-price">105 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+              <button class="size-btn" data-size="4XL">4XL</button>
+              <button class="size-btn" data-size="5XL">5XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B04 Pantalon Enfant -->
+      <article class="product-card fade-up" data-id="B04" data-cat="tca73" data-prix="83" data-nom="Pantalon Enfant TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/5803464/pexels-photo-5803464.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pantalon Enfant TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Pantalon Enfant TCA73</div>
+          <p class="product-desc">Pantalon de trial spécialement adapté aux jeunes pilotes. Même qualité que la version adulte, coupe enfant de 6 à 12 ans.</p>
+          <div class="product-price">83 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="6ans">6ans</button>
+              <button class="size-btn" data-size="8ans">8ans</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B05 Pantalon Flex -->
+      <article class="product-card fade-up" data-id="B05" data-cat="tca73" data-prix="121" data-nom="Pantalon Flex TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/3771095/pexels-photo-3771095.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pantalon Flex TCA73" loading="lazy">
+          <span class="product-badge badge-new">Premium</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Pantalon Flex TCA73</div>
+          <p class="product-desc">Pantalon haute performance avec tissu stretch 4 directions. Liberté de mouvement maximale pour les pilotes exigeants.</p>
+          <div class="product-price">121 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+              <button class="size-btn" data-size="4XL">4XL</button>
+              <button class="size-btn" data-size="5XL">5XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B06 Veste Hybrid -->
+      <article class="product-card fade-up" data-id="B06" data-cat="tca73" data-prix="85" data-nom="Veste Hybrid TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/3622608/pexels-photo-3622608.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veste Hybrid TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Veste Hybrid TCA73</div>
+          <p class="product-desc">Veste hybride coupe-vent et isolante aux couleurs du club. Polyvalente pour l'avant et après-session en montagne savoyarde.</p>
+          <div class="product-price">85 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+              <button class="size-btn" data-size="4XL">4XL</button>
+              <button class="size-btn" data-size="5XL">5XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B07 Veste de Pluie -->
+      <article class="product-card fade-up" data-id="B07" data-cat="tca73" data-prix="70" data-nom="Veste de Pluie TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/3622608/pexels-photo-3622608.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veste de Pluie TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Veste de Pluie TCA73</div>
+          <p class="product-desc">Veste imperméable légère avec capuche intégrée, coutures étanches. Indispensable pour les journées de trial sous la pluie alpine.</p>
+          <div class="product-price">70 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="K6">K6</button>
+              <button class="size-btn" data-size="8ans">8ans</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+              <button class="size-btn" data-size="4XL">4XL</button>
+              <button class="size-btn" data-size="5XL">5XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- B08 Veste Thermique -->
+      <article class="product-card fade-up" data-id="B08" data-cat="tca73" data-prix="65" data-nom="Veste Thermique TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/4492184/pexels-photo-4492184.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veste Thermique TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Collection TCA73</div>
+          <div class="product-name">Veste Thermique TCA73</div>
+          <p class="product-desc">Veste thermique isolante pour les sessions hivernales. Doublure polaire légère, coupe-vent intégré, logo TCA73 brodé.</p>
+          <div class="product-price">65 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="K6">K6</button>
+              <button class="size-btn" data-size="8ans">8ans</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+              <button class="size-btn" data-size="4XL">4XL</button>
+              <button class="size-btn" data-size="5XL">5XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- ===== ACCESSOIRES TCA73 ===== -->
+
+      <!-- A01 Gants S3 Spyder -->
+      <article class="product-card fade-up" data-id="A01" data-cat="accessoires" data-prix="33" data-nom="Gants S3 Spyder TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/9826945/pexels-photo-9826945.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gants S3 Spyder TCA73" loading="lazy">
+          <span class="product-badge badge-best">Best-seller</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Gants S3 Spyder TCA73</div>
+          <p class="product-desc">Gants de trial S3 Spyder aux couleurs TCA73. Paume renforcée, doigts sensibles, protection optimale pour le trial compétition.</p>
+          <div class="product-price">33 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="KXXS">KXXS</button>
+              <button class="size-btn" data-size="KXS">KXS</button>
+              <button class="size-btn" data-size="KS">KS</button>
+              <button class="size-btn" data-size="KM">KM</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- A02 Bonnet -->
+      <article class="product-card fade-up" data-id="A02" data-cat="accessoires" data-prix="15" data-nom="Bonnet TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/11127670/pexels-photo-11127670.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bonnet TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Bonnet TCA73</div>
+          <p class="product-desc">Bonnet chaud en laine mélangée aux couleurs du club. Idéal pour les sessions hivernales sur les terrains savoyards. Taille unique.</p>
+          <div class="product-price">15 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn selected" data-size="Unique">Unique</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- A03 Casquette 10€ -->
+      <article class="product-card fade-up" data-id="A03" data-cat="accessoires" data-prix="10" data-nom="Casquette TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/7557287/pexels-photo-7557287.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Casquette TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Casquette TCA73</div>
+          <p class="product-desc">Casquette ajustable aux couleurs du club, logo TCA73 brodé. Légère et confortable pour les journées terrain. Taille unique réglable.</p>
+          <div class="product-price">10 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn selected" data-size="Unique">Unique</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- A04 Polo -->
+      <article class="product-card fade-up" data-id="A04" data-cat="accessoires" data-prix="30" data-nom="Polo TCA73">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/1687045/pexels-photo-1687045.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Polo TCA73" loading="lazy">
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Polo TCA73</div>
+          <p class="product-desc">Polo piqué officiel aux couleurs du Trial Club Albertvillois. Parfait pour représenter le club lors des événements et sorties conviviales.</p>
+          <div class="product-price">30 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- A05 Tour de cou INDISPO -->
+      <article class="product-card fade-up" data-id="A05" data-cat="accessoires" data-prix="15" data-nom="Tour de cou TCA73" data-indispo="true">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/9461878/pexels-photo-9461878.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tour de cou TCA73" loading="lazy">
+          <span class="product-badge badge-indispo">Indisponible</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Tour de cou TCA73</div>
+          <p class="product-desc">Tour de cou multifonction aux couleurs TCA73. Protection du cou et du bas du visage, tissu respirant, utilisable en bandana.</p>
+          <div class="product-price">15 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn selected" data-size="Unique">Unique</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" disabled><i class="fa-solid fa-ban"></i> Indisponible</button>
+        </div>
+      </article>
+
+      <!-- A06 Tee-Shirt INDISPO -->
+      <article class="product-card fade-up" data-id="A06" data-cat="accessoires" data-prix="15" data-nom="Tee-Shirt TCA73" data-indispo="true">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/1687045/pexels-photo-1687045.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tee-Shirt TCA73" loading="lazy">
+          <span class="product-badge badge-indispo">Indisponible</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Tee-Shirt TCA73</div>
+          <p class="product-desc">T-shirt coton officiel aux couleurs du club (15 € adulte / 12 € enfant). Logo TCA73 sérigraphié. Actuellement en rupture de stock.</p>
+          <div class="product-price">15 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn selected" data-size="Unique">Unique</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" disabled><i class="fa-solid fa-ban"></i> Indisponible</button>
+        </div>
+      </article>
+
+      <!-- A07 Casquette Pro INDISPO -->
+      <article class="product-card fade-up" data-id="A07" data-cat="accessoires" data-prix="20" data-nom="Casquette TCA73 Pro" data-indispo="true">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/7557287/pexels-photo-7557287.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Casquette TCA73 Pro" loading="lazy">
+          <span class="product-badge badge-indispo">Indisponible</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Accessoires</div>
+          <div class="product-name">Casquette TCA73 Pro</div>
+          <p class="product-desc">Casquette premium 5 panneaux brodée aux couleurs du club. Actuellement en rupture de stock, réassort prévu prochainement.</p>
+          <div class="product-price">20 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn selected" data-size="Unique">Unique</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" disabled><i class="fa-solid fa-ban"></i> Indisponible</button>
+        </div>
+      </article>
+
+      <!-- ===== TENUES HEBO ===== -->
+
+      <!-- H01 Maillot HEBO ML -->
+      <article class="product-card fade-up" data-id="H01" data-cat="hebo" data-prix="38" data-nom="Maillot HEBO ML">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/14429330/pexels-photo-14429330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Maillot HEBO ML" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Maillot HEBO ML</div>
+          <p class="product-desc">Maillot manches longues HEBO homologué compétition. Tissu haute résistance, conception spéciale trial, logos TCA73 aux couleurs du club.</p>
+          <div class="product-price">38 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H02 Maillot HEBO Kids -->
+      <article class="product-card fade-up" data-id="H02" data-cat="hebo" data-prix="33" data-nom="Maillot HEBO ML Kids">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/14429330/pexels-photo-14429330.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Maillot HEBO ML Kids" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Maillot HEBO ML Kids</div>
+          <p class="product-desc">Version enfant du maillot compétition HEBO manches longues. Même qualité et protection que l'adulte, tailles enfant de 6 à 12 ans.</p>
+          <div class="product-price">33 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="6ans">6ans</button>
+              <button class="size-btn" data-size="8ans">8ans</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H03 Pantalon HEBO -->
+      <article class="product-card fade-up" data-id="H03" data-cat="hebo" data-prix="87" data-nom="Pantalon HEBO">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/5803464/pexels-photo-5803464.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pantalon HEBO" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Pantalon HEBO</div>
+          <p class="product-desc">Pantalon de trial HEBO homologué compétition. Renforts CE aux genoux et hanches, tissu ultra-résistant, conçu pour le trial haut niveau.</p>
+          <div class="product-price">87 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H04 Pantalon HEBO Kids -->
+      <article class="product-card fade-up" data-id="H04" data-cat="hebo" data-prix="69" data-nom="Pantalon HEBO Kids">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/5803464/pexels-photo-5803464.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pantalon HEBO Kids" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Pantalon HEBO Kids</div>
+          <p class="product-desc">Pantalon HEBO compétition version enfant. Sécurité renforcée et liberté de mouvement pour les jeunes pilotes trial de 6 à 12 ans.</p>
+          <div class="product-price">69 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="6ans">6ans</button>
+              <button class="size-btn" data-size="8ans">8ans</button>
+              <button class="size-btn" data-size="10ans">10ans</button>
+              <button class="size-btn" data-size="12ans">12ans</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H05 Casque HEBO -->
+      <article class="product-card fade-up" data-id="H05" data-cat="hebo" data-prix="220" data-nom="Casque HEBO">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/2519374/pexels-photo-2519374.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Casque HEBO Trial" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Casque HEBO</div>
+          <p class="product-desc">Casque trial HEBO homologué ECE 22.06. Coque fibre, intérieur amovible et lavable, ventilation optimisée. Le choix des compétiteurs TCA73.</p>
+          <div class="product-price">220 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H06 Pantalon Tech HEBO -->
+      <article class="product-card fade-up" data-id="H06" data-cat="hebo" data-prix="102" data-nom="Pantalon Tech HEBO">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/3771095/pexels-photo-3771095.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Pantalon Tech HEBO" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Pantalon Tech HEBO</div>
+          <p class="product-desc">Pantalon technique HEBO nouvelle génération. Matière micro-perforée, articulations préformées, résistance maximale aux abrasions terrain.</p>
+          <div class="product-price">102 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H07 Veste Tech HEBO -->
+      <article class="product-card fade-up" data-id="H07" data-cat="hebo" data-prix="112" data-nom="Veste Tech HEBO">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/4492184/pexels-photo-4492184.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veste Tech HEBO" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Veste Tech HEBO</div>
+          <p class="product-desc">Veste technique HEBO imperméable et respirante. Coutures étanches, poche ventrale zippée, col montant anti-projection. Tenue compétition complète.</p>
+          <div class="product-price">112 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H08 Gilet Wind Pro HEBO -->
+      <article class="product-card fade-up" data-id="H08" data-cat="hebo" data-prix="74" data-nom="Gilet Wind Pro HEBO">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/3622608/pexels-photo-3622608.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gilet Wind Pro HEBO" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Gilet Wind Pro HEBO</div>
+          <p class="product-desc">Gilet sans manches coupe-vent HEBO. Légèreté et liberté de mouvement maximales pour les sessions de printemps et automne en montagne.</p>
+          <div class="product-price">74 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+      <!-- H09 Veste 3en1 HEBO -->
+      <article class="product-card fade-up" data-id="H09" data-cat="hebo" data-prix="109" data-nom="Veste 3en1 HEBO">
+        <div class="product-img">
+          <img src="https://images.pexels.com/photos/4492184/pexels-photo-4492184.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veste 3en1 HEBO" loading="lazy">
+          <span class="product-badge badge-new">HEBO</span>
+        </div>
+        <div class="product-body">
+          <div class="product-cat">Tenues HEBO</div>
+          <div class="product-name">Veste 3en1 HEBO</div>
+          <p class="product-desc">Veste 3 en 1 HEBO : coque imperméable + doublure polaire amovible. Solution tout temps idéale pour les pilotes cherchant la polyvalence maximale.</p>
+          <div class="product-price">109 <span>€</span></div>
+          <div class="product-size-row">
+            <label>Taille</label>
+            <div class="size-options">
+              <button class="size-btn" data-size="XS">XS</button>
+              <button class="size-btn" data-size="S">S</button>
+              <button class="size-btn" data-size="M">M</button>
+              <button class="size-btn" data-size="L">L</button>
+              <button class="size-btn" data-size="XL">XL</button>
+              <button class="size-btn" data-size="2XL">2XL</button>
+              <button class="size-btn" data-size="3XL">3XL</button>
+            </div>
+          </div>
+          <div class="product-qty-row">
+            <label>Qté</label>
+            <div class="qty-control">
+              <button class="qty-btn qty-minus">−</button>
+              <input class="qty-val" type="number" value="1" min="1" max="10" readonly>
+              <button class="qty-btn qty-plus">+</button>
+            </div>
+          </div>
+          <button class="btn-add-cart" onclick="addToCart(this)"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ADHÉSION ===== -->
+<section class="boutique-cta">
+  <div class="container fade-up">
+    <div class="tag" style="margin:0 auto 16px;">Adhérents</div>
+    <h2>Vous n'êtes pas encore membre ?</h2>
+    <p style="color:var(--text-muted);max-width:500px;margin:12px auto 32px;">Les tarifs boutique sont réservés aux adhérents TCA73. Rejoignez le club dès 50€/an !</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="adhesion.html" class="btn btn--primary btn--lg"><i class="fa-solid fa-id-card"></i> Devenir adhérent</a>
+      <a href="contact.html" class="btn btn--outline-dark btn--lg"><i class="fa-solid fa-paper-plane"></i> Nous contacter</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><img src="assets/images/logo-tca73.png" alt="TCA73" class="logo-img"><div class="logo-text"><strong>TCA73</strong><span>Trial Club Albertvillois</span></div></a>
+        <p>Fondé en 2019 à Albertville, le Trial Club Albertvillois 73 réunit les passionnés de trial moto en Savoie. Maîtrise technique, respect de la nature et esprit familial.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/p/TCA73-Trial-Club-Albertvillois-100057427091046/" aria-label="Facebook" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/trialclubalbertvillois73/" aria-label="Instagram" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul>
+        <li><a href="index.html">Accueil</a></li><li><a href="club.html">Le Club</a></li>
+        <li><a href="adhesion.html">Adhésion</a></li><li><a href="evenements.html">Événements</a></li>
+        <li><a href="galerie.html">Galerie</a></li><li><a href="partenaires.html">Partenaires</a></li>
+        <li><a href="boutique.html">Boutique</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Boutique</h4><ul>
+        <li><a href="boutique.html">Tous les articles</a></li>
+        <li><a href="boutique.html?filter=vetements">Vêtements</a></li>
+        <li><a href="boutique.html?filter=accessoires">Accessoires</a></li>
+        <li><a href="espace-membre.html">Espace Membre</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Contact</h4><ul>
+        <li><a href="contact.html">Formulaire de contact</a></li><li><a href="mailto:contacttca73@gmail.com">Nous écrire</a></li>
+        <li><a href="#">Albertville, Savoie (73)</a></li><li><a href="partenaires.html">Devenir partenaire</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Trial Club Albertvillois 73 — TCA73. Tous droits réservés.</span>
+      <span>Affilié <a href="#">FFM</a> · <a href="#">Mentions légales</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== BOUTON PANIER FLOTTANT ===== -->
+<button class="cart-fab" id="cart-fab" aria-label="Ouvrir le panier">
+  <i class="fa-solid fa-cart-shopping"></i>
+  <span class="cart-fab-count" id="cart-count">0</span>
+</button>
+
+<!-- ===== DRAWER PANIER ===== -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer" role="dialog" aria-label="Panier">
+  <div class="cart-drawer-header">
+    <h3><i class="fa-solid fa-cart-shopping"></i> Mon panier</h3>
+    <button class="cart-close" id="cart-close" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span>Total commande</span>
+      <span class="cart-total-amount" id="cart-total">0,00 €</span>
+    </div>
+    <p class="cart-note"><i class="fa-solid fa-circle-info"></i> Retrait sur le terrain lors d'une session ou d'un événement.</p>
+    <button class="btn-checkout" id="btn-checkout" disabled>
+      <i class="fa-solid fa-paper-plane"></i> Passer la commande
+    </button>
+  </div>
+</aside>
+
+<!-- ===== MODALE COMMANDE ===== -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-label="Passer commande">
+  <div class="modal-box" id="modal-box">
+
+    <!-- Formulaire commande -->
+    <div id="modal-form-view">
+      <div class="modal-header">
+        <div>
+          <h3>Finaliser la commande</h3>
+          <p>Vos coordonnées pour préparer votre commande</p>
+        </div>
+        <button class="modal-close" id="modal-close" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <!-- Récap commande -->
+        <div class="modal-order-recap">
+          <h4>Récapitulatif</h4>
+          <div id="modal-recap-items"></div>
+          <div class="recap-total">
+            <span>Total</span>
+            <span id="modal-recap-total">0,00 €</span>
+          </div>
+        </div>
+        <!-- Paiement -->
+        <div style="background:#f0f7ff;border:1px solid rgba(26,107,200,0.2);border-radius:10px;padding:14px 18px;margin-bottom:20px;">
+          <h4 style="font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--mountain);margin-bottom:10px;display:flex;align-items:center;gap:7px;"><i class="fa-solid fa-credit-card"></i> Moyens de paiement acceptés</h4>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;">
+            <li style="font-size:0.88rem;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fa-regular fa-check-circle" style="color:var(--mountain);"></i> Chèque à l'ordre de <strong>TCA73</strong></li>
+            <li style="font-size:0.88rem;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fa-regular fa-check-circle" style="color:var(--mountain);"></i> Virement bancaire (IBAN communiqué sur demande)</li>
+            <li style="font-size:0.88rem;color:var(--text);display:flex;align-items:center;gap:8px;"><i class="fa-regular fa-check-circle" style="color:var(--mountain);"></i> Espèces sur le terrain</li>
+          </ul>
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-top:10px;margin-bottom:0;"><i class="fa-solid fa-phone" style="font-size:0.75rem;"></i> Contact : Claire — <a href="tel:0603496905" style="color:var(--mountain);">06 03 49 69 05</a></p>
+        </div>
+        <!-- Formulaire -->
+        <form id="order-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="order-prenom">Prénom *</label>
+              <input type="text" id="order-prenom" class="form-control" placeholder="Jean" required>
+            </div>
+            <div class="form-group">
+              <label for="order-nom">Nom *</label>
+              <input type="text" id="order-nom" class="form-control" placeholder="Dupont" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="order-email">Email *</label>
+            <input type="email" id="order-email" class="form-control" placeholder="jean.dupont@email.fr" required>
+          </div>
+          <div class="form-group">
+            <label for="order-tel">Téléphone</label>
+            <input type="tel" id="order-tel" class="form-control" placeholder="06 12 34 56 78">
+          </div>
+          <div class="form-group">
+            <label for="order-message">Message (précisions, commentaires…)</label>
+            <textarea id="order-message" class="form-control" placeholder="Ex : je serai sur le terrain samedi 14 juin"></textarea>
+          </div>
+          <button type="submit" class="btn-submit-order">
+            <i class="fa-solid fa-paper-plane"></i> Envoyer la commande
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Succès -->
+    <div id="modal-success-view" style="display:none;">
+      <div class="order-success">
+        <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+        <h3>Commande envoyée !</h3>
+        <p>Votre demande a bien été envoyée à <strong>contacttca73@gmail.com</strong>. Claire ou un responsable du club vous recontactera rapidement pour confirmer la commande et organiser le retrait sur le terrain.</p>
+        <a href="evenements.html" class="btn btn--primary">
+          <i class="fa-solid fa-calendar-days"></i> Voir les prochains événements
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Back to top -->
+<button class="back-to-top" id="back-to-top" aria-label="Retour en haut">
+  <i class="fa-solid fa-chevron-up"></i>
+</button>
+
+<script src="js/intro.js" defer></script>
+<script src="js/main.js"></script>
+<script src="js/boutique.js"></script>
+
+<!-- Filtre URL params -->
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const filterParam = urlParams.get('filter');
+  if (filterParam) {
+    const tab = document.querySelector(`.filter-tab[data-filter="${filterParam}"]`);
+    if (tab) tab.click();
+  }
+</script>
+
+</body>
+</html>

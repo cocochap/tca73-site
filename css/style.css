@@ -165,7 +165,7 @@ p:last-child { margin-bottom: 0; }
 .logo-text span { font-size: 0.73rem; color: var(--glacier); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 300; font-family: var(--font-body); }
 
 .nav-links { display: flex; align-items: center; gap: 2px; }
-.nav-links a { color: rgba(255,255,255,0.85); font-family: var(--font-heading); font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 8px 13px; border-radius: var(--radius-sm); transition: all var(--transition); position: relative; }
+.nav-links a { color: rgba(255,255,255,0.85); font-family: var(--font-heading); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; padding: 8px 9px; border-radius: var(--radius-sm); transition: all var(--transition); position: relative; }
 .nav-links a:hover, .nav-links a.active { color: var(--white); background: rgba(255,255,255,0.1); }
 .nav-links a.active::after { content:''; position:absolute; bottom:4px; left:13px; right:13px; height:2px; background:var(--tca-red); border-radius:1px; }
 .nav-cta { background: var(--tca-red) !important; color: var(--white) !important; padding: 8px 18px !important; }
