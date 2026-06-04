@@ -49,6 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const dashboardSection = document.getElementById('dashboard-section');
   if (!loginSection) return;
 
+  /* Vérifier d'abord la session bureau */
+  const bureauSession = typeof getBureauSession === 'function' ? getBureauSession() : null;
+  if (bureauSession && typeof showBureauDashboard === 'function') {
+    showBureauDashboard(bureauSession);
+    return;
+  }
+
   currentMembre = getSession();
   if (currentMembre) {
     showDashboard(currentMembre);

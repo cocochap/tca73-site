@@ -51,7 +51,10 @@ function clearBureauSession() { sessionStorage.removeItem('tca73_bureau'); }
 /* ---- Init ---- */
 document.addEventListener('DOMContentLoaded', () => {
   currentBureau = getBureauSession();
-  if (currentBureau) showBureauDashboard(currentBureau);
+  /* Auto-show seulement sur bureau.html (qui a bureau-login-section) */
+  if (currentBureau && document.getElementById('bureau-login-section')) {
+    showBureauDashboard(currentBureau);
+  }
 
   document.getElementById('bureau-login-form')?.addEventListener('submit', e => {
     e.preventDefault();
