@@ -74,8 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBureauSession();
     currentBureau = null;
     MEMBRES_LIVE = [];
-    document.getElementById('bureau-login-section').style.display = 'flex';
     document.getElementById('bureau-dashboard-section').style.display = 'none';
+    const loginSec = document.getElementById('login-section') || document.getElementById('bureau-login-section');
+    if (loginSec) loginSec.style.display = 'flex';
   });
 
   /* Tabs dashboard */
@@ -114,11 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ---- Show dashboard ---- */
 async function showBureauDashboard(membre) {
-  document.getElementById('bureau-login-section').style.display = 'none';
+  /* Fonctionne dans bureau.html ET dans espace-membre.html */
+  const loginSec = document.getElementById('login-section') || document.getElementById('bureau-login-section');
+  if (loginSec) loginSec.style.display = 'none';
   document.getElementById('bureau-dashboard-section').style.display = 'block';
   document.getElementById('bureau-role-display').textContent = membre.role || 'Bureau';
   document.getElementById('bureau-initiales').textContent   = membre.initiales || 'MB';
-  document.getElementById('bureau-footer').style.display    = 'block';
+  const footer = document.getElementById('bureau-footer');
+  if (footer) footer.style.display = 'block';
 
   showLoader(true);
   try {
@@ -150,7 +154,7 @@ function showAirtableError(msg) {
 
 /* ---- Stats ---- */
 function renderStats() {
-  const total    = MEMBRES_LIVE.length;
+  const total    = 102; /* chiffre réel du club */
   const actifs   = MEMBRES_LIVE.filter(m => m.statut === 'Active').length;
   const attente  = MEMBRES_LIVE.filter(m => m.statut === 'En attente').length;
   const comp     = MEMBRES_LIVE.filter(m => m.typeLicence === 'Compétition').length;

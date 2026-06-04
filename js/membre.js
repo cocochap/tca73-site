@@ -65,8 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Onglet Administration → accès bureau */
     if (activeTab === 'admin') {
       if (email === 'corentin.chappelet@icloud.com' && password === 'coco') {
-        sessionStorage.setItem('tca73_bureau', JSON.stringify({ id:'BU01', prenom:'Corentin', nom:'Chappelet', role:'Bureau', initiales:'CC' }));
-        window.location.href = 'bureau.html';
+        const bureauMembre = { id:'BU01', prenom:'Corentin', nom:'Chappelet', role:'Bureau', initiales:'CC' };
+        if (typeof setBureauSession === 'function') setBureauSession(bureauMembre);
+        if (typeof showBureauDashboard === 'function') showBureauDashboard(bureauMembre);
       } else {
         showLoginError('Identifiants incorrects. Accès réservé au bureau.');
       }
