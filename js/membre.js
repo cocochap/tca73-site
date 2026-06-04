@@ -58,8 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
   loginForm?.addEventListener('submit', e => {
     e.preventDefault();
-    const email    = loginForm.querySelector('[name=email]').value.trim();
+    const email    = loginForm.querySelector('[name=email]').value.trim().toLowerCase();
     const password = loginForm.querySelector('[name=password]').value;
+    const activeTab = document.querySelector('.login-tab.active')?.dataset.type;
+
+    /* Onglet Administration → accès bureau */
+    if (activeTab === 'admin') {
+      if (email === 'corentin.chappelet@icloud.com' && password === 'coco') {
+        sessionStorage.setItem('tca73_bureau', JSON.stringify({ id:'BU01', prenom:'Corentin', nom:'Chappelet', role:'Bureau', initiales:'CC' }));
+        window.location.href = 'bureau.html';
+      } else {
+        showLoginError('Identifiants incorrects. Accès réservé au bureau.');
+      }
+      return;
+    }
+
+    /* Onglet Adhérent → espace membre */
     const m = MEMBRES_DB.find(m => m.email === email && m.password === password);
     if (m) {
       setSession(m);
@@ -70,18 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* Tabs démo */
+  /* Tabs */
   const loginTabBtns = document.querySelectorAll('.login-tab');
   loginTabBtns.forEach(btn => btn.addEventListener('click', () => {
     loginTabBtns.forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const type = btn.dataset.type;
-    const emailField = loginForm?.querySelector('[name=email]');
-    const passField  = loginForm?.querySelector('[name=password]');
-    if (emailField && passField) {
-      emailField.value = type === 'admin' ? 'admin@tca73.fr' : 'pierre@tca73.fr';
-      passField.value  = type === 'admin' ? 'admin73' : 'trial73';
-    }
   }));
 });
 
