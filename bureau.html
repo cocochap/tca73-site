@@ -801,6 +801,139 @@
       font-size: 0.85rem;
     }
 
+    /* Type licence badges */
+    .type-badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .type-badge.type-compétition, .type-badge.type-competition { background: #fef3c7; color: #92400e; }
+    .type-badge.type-loisir { background: #e0f2fe; color: #0369a1; }
+    .statut-active  { background: #dcfce7; color: #166534; }
+    .statut-attente { background: #fef9c3; color: #713f12; }
+    .statut-expire  { background: #fee2e2; color: #991b1b; }
+    td.statut-expire { color: #991b1b; font-weight: 600; }
+
+    /* Contact membres */
+    .contact-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .contact-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      padding: 14px 16px;
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+    }
+
+    .contact-count {
+      flex: 1;
+      font-size: 0.88rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .btn-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-contact:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-contact-copy  { background: var(--deep); color: white; }
+    .btn-contact-copy:hover:not(:disabled) { background: var(--mountain); }
+    .btn-contact-mail  { background: var(--tca-red); color: white; }
+    .btn-contact-mail:hover:not(:disabled) { background: #b91c1c; }
+    .btn-contact-sel   { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+    .btn-contact-sel:hover { background: #e2e8f0; }
+
+    .contact-members-list {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+
+    .contact-member-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 18px;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .contact-member-row:last-child { border-bottom: none; }
+    .contact-member-row:hover { background: #f8fafc; }
+    .contact-member-row input[type="checkbox"] {
+      width: 16px; height: 16px; cursor: pointer; accent-color: var(--deep);
+    }
+
+    .contact-member-info { flex: 1; }
+    .contact-member-nom  { display: block; font-weight: 500; color: var(--deep); font-size: 0.92rem; }
+    .contact-member-email { display: block; font-size: 0.8rem; color: #64748b; margin-top: 1px; }
+    .contact-member-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* Loader overlay */
+    .bureau-loader {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4,14,42,0.6);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      color: white;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+    }
+
+    .bureau-loader-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Airtable error */
+    .airtable-error {
+      display: none;
+      padding: 14px 18px;
+      background: rgba(230,42,42,0.1);
+      border: 1px solid rgba(230,42,42,0.35);
+      border-radius: var(--radius-sm);
+      color: #991b1b;
+      font-size: 0.87rem;
+      margin: 16px 24px;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .bureau-login-card { padding: 36px 24px; }
@@ -883,6 +1016,12 @@
     </div>
   </div>
 
+  <!-- Loader Airtable -->
+  <div id="bureau-loader" class="bureau-loader">
+    <div class="bureau-loader-spinner"></div>
+    Chargement des données Airtable…
+  </div>
+
   <!-- ===== DASHBOARD ===== -->
   <div id="bureau-dashboard-section" class="bureau-dashboard-page" style="display:none;">
 
@@ -927,78 +1066,77 @@
         <button class="bureau-tab" data-tab="documents">
           <i class="fa-solid fa-folder-open"></i> Documents
         </button>
+        <button class="bureau-tab" data-tab="contact">
+          <i class="fa-solid fa-envelope"></i> Contacter
+        </button>
         <button class="bureau-tab" data-tab="notes">
           <i class="fa-solid fa-pen-to-square"></i> Notes bureau
         </button>
       </div>
     </div>
 
+    <!-- Airtable error -->
+    <div id="airtable-error" class="airtable-error"></div>
+
     <!-- Content -->
     <div class="bureau-dash-content">
 
       <!-- ---- Overview ---- -->
       <div class="bureau-panel active" id="bureau-panel-overview">
-        <h2 class="bureau-section-title"><i class="fa-solid fa-gauge-high" style="color:var(--tca-red)"></i> Vue d'ensemble</h2>
+        <h2 class="bureau-section-title"><i class="fa-solid fa-gauge-high" style="color:var(--tca-red)"></i> Vue d'ensemble — données live Airtable</h2>
 
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-card-label">Total adhérents</div>
-            <div class="stat-card-value" id="stat-adherents">—</div>
-            <div class="stat-card-sub">Saison 2025</div>
+            <div class="stat-card-value" id="stat-total">—</div>
+            <div class="stat-card-sub">Base Airtable</div>
           </div>
           <div class="stat-card green">
-            <div class="stat-card-label">Licences valides</div>
-            <div class="stat-card-value" id="stat-valides">—</div>
-            <div class="stat-card-sub">À jour</div>
+            <div class="stat-card-label">Adhésions actives</div>
+            <div class="stat-card-value" id="stat-actifs">—</div>
+            <div class="stat-card-sub">Statut Active</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-card-label">En attente</div>
+            <div class="stat-card-value" id="stat-attente">—</div>
+            <div class="stat-card-sub">À valider</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Compétition</div>
+            <div class="stat-card-value" id="stat-competition">—</div>
+            <div class="stat-card-sub">Licences FFM</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Loisir</div>
+            <div class="stat-card-value" id="stat-loisir">—</div>
+            <div class="stat-card-sub">Licences FFM</div>
           </div>
           <div class="stat-card red">
             <div class="stat-card-label">Licences expirées</div>
             <div class="stat-card-value" id="stat-expires">—</div>
-            <div class="stat-card-sub">À relancer</div>
-          </div>
-          <div class="stat-card green">
-            <div class="stat-card-label">Recettes totales</div>
-            <div class="stat-card-value" id="stat-recettes" style="font-size:1.3rem">—</div>
-            <div class="stat-card-sub">Depuis nov. 2024</div>
-          </div>
-          <div class="stat-card red">
-            <div class="stat-card-label">Dépenses totales</div>
-            <div class="stat-card-value" id="stat-depenses" style="font-size:1.3rem">—</div>
-            <div class="stat-card-sub">Depuis nov. 2024</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-card-label">Solde trésorerie</div>
-            <div class="stat-card-value" id="stat-solde" style="font-size:1.3rem">—</div>
-            <div class="stat-card-sub">Estimé</div>
-          </div>
-          <div class="stat-card orange">
-            <div class="stat-card-label">Commandes en attente</div>
-            <div class="stat-card-value" id="stat-commandes">—</div>
-            <div class="stat-card-sub">À traiter</div>
-          </div>
-        </div>
-
-        <div class="bureau-alert">
-          <i class="fa-solid fa-circle-info"></i>
-          <div>
-            Ces données sont des données de démonstration. Pour les vraies données, intégrez votre système de gestion ou exportez depuis HelloAsso/SportEasy.
+            <div class="stat-card-sub">À renouveler</div>
           </div>
         </div>
       </div>
 
       <!-- ---- Adhérents ---- -->
       <div class="bureau-panel" id="bureau-panel-adherents">
-        <h2 class="bureau-section-title"><i class="fa-solid fa-users" style="color:var(--tca-red)"></i> Gestion des adhérents</h2>
+        <h2 class="bureau-section-title"><i class="fa-solid fa-users" style="color:var(--tca-red)"></i> Liste des adhérents <span id="adherents-count" style="font-size:0.85rem;color:#94a3b8;font-weight:400;margin-left:8px;"></span></h2>
 
         <div class="bureau-toolbar">
           <div class="search-wrap">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="search-adherents" class="bureau-search" placeholder="Rechercher un adhérent…">
+            <input type="text" id="search-adherents" class="bureau-search" placeholder="Nom, email, numéro de licence…">
           </div>
           <select id="filter-statut" class="bureau-select">
             <option value="all">Tous les statuts</option>
-            <option value="Valide">Valide</option>
-            <option value="Expiré">Expiré</option>
+            <option value="Active">Active</option>
+            <option value="En attente">En attente</option>
+          </select>
+          <select id="filter-type" class="bureau-select">
+            <option value="all">Tous types</option>
+            <option value="Compétition">Compétition</option>
+            <option value="Loisir">Loisir</option>
           </select>
         </div>
 
@@ -1006,18 +1144,18 @@
           <table class="bureau-table">
             <thead>
               <tr>
-                <th>Nom</th>
+                <th>Nom complet</th>
                 <th>Email</th>
                 <th>Téléphone</th>
-                <th>Catégorie</th>
-                <th>Licence</th>
+                <th>Type licence</th>
+                <th>N° Licence</th>
                 <th>Statut</th>
-                <th>Cotisation</th>
-                <th>Adhésion</th>
+                <th>Expiration</th>
+                <th>Ancienneté</th>
               </tr>
             </thead>
             <tbody id="adherents-tbody">
-              <tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8;">Chargement…</td></tr>
+              <tr><td colspan="8" style="text-align:center;padding:30px;color:#94a3b8;">Chargement depuis Airtable…</td></tr>
             </tbody>
           </table>
         </div>
@@ -1083,6 +1221,44 @@
         </div>
       </div>
 
+      <!-- ---- Contact membres ---- -->
+      <div class="bureau-panel" id="bureau-panel-contact">
+        <h2 class="bureau-section-title"><i class="fa-solid fa-envelope" style="color:var(--tca-red)"></i> Contacter les membres</h2>
+
+        <div class="contact-toolbar">
+          <select id="contact-filter-statut" class="bureau-select">
+            <option value="all">Tous les statuts</option>
+            <option value="Active">Active</option>
+            <option value="En attente">En attente</option>
+          </select>
+          <select id="contact-filter-type" class="bureau-select">
+            <option value="all">Tous types</option>
+            <option value="Compétition">Compétition</option>
+            <option value="Loisir">Loisir</option>
+          </select>
+        </div>
+
+        <div class="contact-actions">
+          <span class="contact-count" id="contact-count">0 membre sélectionné</span>
+          <button class="btn-contact btn-contact-sel" id="contact-select-all">
+            <i class="fa-solid fa-check-double"></i> Tout sélectionner
+          </button>
+          <button class="btn-contact btn-contact-sel" id="contact-deselect-all">
+            <i class="fa-solid fa-xmark"></i> Désélectionner
+          </button>
+          <button class="btn-contact btn-contact-copy" id="contact-copy-emails" disabled>
+            <i class="fa-solid fa-copy"></i> Copier les emails
+          </button>
+          <button class="btn-contact btn-contact-mail" id="contact-mailto" disabled>
+            <i class="fa-solid fa-paper-plane"></i> Ouvrir dans la messagerie
+          </button>
+        </div>
+
+        <div class="contact-members-list" id="contact-members-list">
+          <p style="text-align:center;color:#94a3b8;padding:30px 0;">Chargement depuis Airtable…</p>
+        </div>
+      </div>
+
       <!-- ---- Notes bureau ---- -->
       <div class="bureau-panel" id="bureau-panel-notes">
         <h2 class="bureau-section-title"><i class="fa-solid fa-pen-to-square" style="color:var(--tca-red)"></i> Notes & compte-rendus</h2>
@@ -1116,68 +1292,5 @@
 
   <script src="js/main.js"></script>
   <script src="js/bureau.js"></script>
-  <script>
-    /* Notes locales */
-    const NOTES_KEY = 'tca73_bureau_notes';
-
-    function saveNotes() {
-      const val = document.getElementById('bureau-notes')?.value || '';
-      localStorage.setItem(NOTES_KEY, val);
-      const msg = document.getElementById('notes-saved-msg');
-      msg.style.display = 'inline';
-      setTimeout(() => msg.style.display = 'none', 2500);
-    }
-
-    function copyNotes() {
-      const val = document.getElementById('bureau-notes')?.value || '';
-      navigator.clipboard.writeText(val).then(() => {
-        const msg = document.getElementById('notes-saved-msg');
-        msg.innerHTML = '<i class="fa-solid fa-check"></i> Copié !';
-        msg.style.display = 'inline';
-        setTimeout(() => { msg.style.display = 'none'; msg.innerHTML = '<i class="fa-solid fa-check"></i> Enregistré'; }, 2500);
-      });
-    }
-
-    /* Charger notes sauvegardées */
-    document.addEventListener('DOMContentLoaded', () => {
-      const saved = localStorage.getItem('tca73_bureau_notes');
-      if (saved) {
-        const ta = document.getElementById('bureau-notes');
-        if (ta) ta.value = saved;
-      }
-
-      /* Calculs trésorerie dans l'onglet tréso */
-      const origShowDashboard = window.showBureauDashboard;
-    });
-
-    /* Recalcul résumé trésorerie quand on ouvre l'onglet */
-    document.querySelectorAll('.bureau-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        if (tab.dataset.tab === 'tresorerie') updateTresoSummary();
-      });
-    });
-
-    function updateTresoSummary() {
-      if (typeof BUREAU_TRESORERIE === 'undefined') return;
-      const recettes = BUREAU_TRESORERIE.filter(t => t.type === 'recette').reduce((s,t) => s + t.montant, 0);
-      const depenses = BUREAU_TRESORERIE.filter(t => t.type === 'depense').reduce((s,t) => s + t.montant, 0);
-      const solde = recettes - depenses;
-      const el = id => document.getElementById(id);
-      if (el('treso-recettes')) el('treso-recettes').textContent = recettes.toLocaleString('fr-FR') + ' €';
-      if (el('treso-depenses')) el('treso-depenses').textContent = depenses.toLocaleString('fr-FR') + ' €';
-      if (el('treso-solde'))    el('treso-solde').textContent    = solde.toLocaleString('fr-FR') + ' €';
-    }
-
-    /* Afficher footer après connexion */
-    const origShow = window.showBureauDashboard;
-    if (typeof showBureauDashboard === 'function') {
-      const _orig = showBureauDashboard;
-      window.showBureauDashboard = function(m) {
-        _orig(m);
-        document.getElementById('bureau-footer').style.display = 'block';
-        updateTresoSummary();
-      };
-    }
-  </script>
 </body>
 </html>
